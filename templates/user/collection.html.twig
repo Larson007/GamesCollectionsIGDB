@@ -11,7 +11,8 @@
 		<h1 class="text-center text-uppercase my-5">Votre Collection de jeux</h1>
 
 		<div class="new-game-template">
-			{% for game in games %}
+			{% if games is defined %}
+						{% for game in games %}
 				<div class="game">
 					<div class="game_collection">
 						{% if game.gameStatus.platined == true %}
@@ -81,6 +82,10 @@
 					</div>
 				</div>
 			{% endfor %}
+			{% else %}
+				<p>Vous n'avez pas encore de jeux dans votre collection</p>
+			{% endif %}
+			
 		</div>
 	</div>
 {% endblock %}

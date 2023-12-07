@@ -64,6 +64,9 @@ class IgdbService
 
     private function makeRequest(string $endpoint, string $body)
     {
+        // dump($this->clientId);
+        // dump($this->apiToken);
+
         $response = $this->client->request('POST', $endpoint, [
             'headers' => [
                 'Client-ID' => $this->clientId,
