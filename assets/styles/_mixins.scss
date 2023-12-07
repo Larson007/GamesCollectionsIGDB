@@ -1,0 +1,178 @@
+// Fiches de jeux
+.game {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    // margin-bottom: 2rem;
+    color: black;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    position: relative;
+    .game_collection {
+        position: absolute;
+        top: -25px;
+        right: 0px;
+        // transform: translateX(-50%);
+        width: 10%;
+        z-index: 10;
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px 0 0 5px;
+        }
+    }
+    .game_image {
+        max-width: 30%;
+        max-height: 100%;
+        border-radius: 5px 0 0 5px;
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px 0 0 5px;
+        }
+    }
+    .game_body {
+        position: relative;
+        width: 70%;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        border-radius: 0 5px 5px 0;
+        background-color: $cards;
+        color: $text-light;
+        .category {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px solid transparent;
+        }
+        .game_body--title {
+            width: 100%;
+            h2 {
+                font-size: 1.3rem;
+                a {
+                    color: $text-light;
+                    text-decoration: none;
+                    &:hover {
+                        color: $yellow;
+                    }
+                }
+            }
+        }
+        .game_body--platforms {
+            width: 100%;
+            display: flex;
+            flex-flow: row wrap;
+            small {
+                margin: 0 0.2rem 0.2rem 0;
+            }
+        }
+        .game_body--genres {
+            width: 100%;
+            display: flex;
+            flex-flow: row wrap;
+            small {
+                margin: 0 0.2rem 0.2rem 0;
+            }
+        }
+        .game_body--footer {
+            width: 100%;
+            display: flex;
+            flex-flow: row wrap;
+            font-size: 0.9rem;
+            color: $text-light;
+            .game_body--footer--release {
+                width: 50%;
+                margin-right: auto;
+                p {
+                    margin: 0;
+                    font-weight: bold;
+                }
+            }
+            .game_body--footer--rating {
+                width: 50%;
+
+                p {
+                    margin: 0;
+                    text-align: right;
+                    font-weight: bold;
+                }
+                .score {
+                    padding: 0.25rem 0.5rem;
+                    font-size: 0.75rem;
+                    font-weight: bold;
+                    border-radius: 3px;
+                    text-shadow:
+                        2px 0 black,
+                        -2px 0 black,
+                        0 2px black,
+                        0 -2px black,
+                        1px 1px black,
+                        -1px -1px black,
+                        1px -1px black,
+                        -1px 1px black;
+                }
+                .score-green {
+                    border: 2px solid $green;
+                    color: $green;
+                }
+                .score-blue {
+                    border: 2px solid $blue;
+                    color: $blue;
+                }
+                .score-yellow {
+                    border: 2px solid $yellow;
+                    color: $yellow;
+                }
+                .score-red {
+                    border: 2px solid $red;
+                    color: $red;
+                }
+            }
+        }
+    }
+}
+
+.game:hover {
+    border-color: $yellow;
+    .category {
+        border: 1px solid $yellow !important;
+    }
+}
+
+.card {
+    color: $text-light;
+    background-color: $cards;
+}
+.card-body,
+.list-group > * {
+    background-color: $cards !important;
+    color: $text-light;
+}
+
+@media screen and (max-width: 780px) {
+    // Fiches de jeux
+    .game {
+        .game_body {
+            .game_body--title {
+                h2 {
+                    font-size: 1rem;
+                }
+            }
+            .game_body--platforms {
+                display: block;
+            }
+            .game_body--genres {
+                display: none;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 780px) and (max-width: 1200px) {
+}
+
+@media screen and (min-width: 1200px) {
+}

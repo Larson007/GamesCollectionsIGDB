@@ -1,0 +1,134 @@
+@media screen and (max-width: 768px) {
+    // New Games Template
+    .new-game-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 2em;
+    }
+
+    // Popular Games Template
+    .popular-game-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 2em;
+    }
+
+    // Friends Template
+    .friends-list {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 2rem;
+    }
+
+    //Game Detail Template
+    .expansions-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .dlcs-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .franchises-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+    // New Games Template
+    .new-game-template {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 2em;
+    }
+
+    // Popular Games Template
+    .popular-game-template {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 2em;
+    }
+
+    // Friends Template
+    .friends-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 2rem;
+    }
+
+    //Game Detail Template
+    .expansions-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .dlcs-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .franchises-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    // New Games Template
+    .new-game-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+    }
+
+    // Popular Games Template
+    .popular-game-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+    }
+
+    // Friends Template
+    .friends-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 2rem;
+    }
+
+    //Game Detail Template
+    .expansions-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .dlcs-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .franchises-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+}

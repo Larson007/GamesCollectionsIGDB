@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		{# 
+								{{ form_errors(registrationForm) }}
+						
+								{{ form_start(registrationForm) }}
+						        {{ form_row(registrationForm.pseudo) }}
+								{{ form_row(registrationForm.email) }}
+								{{ form_row(registrationForm.plainPassword, {
+						            label: 'Password'
+						        }) }}
+								{{ form_row(registrationForm.agreeTerms) }}
+						
+								<button type="submit" class="btn btn-primary">Register</button>
+								{{ form_end(registrationForm) }}
+								 #}
+
+
+		<div class="formulaire_register">
+			<div class="login_register-link">
+				<h3>Vous avez déja un compte ?</h3>
+				<p>Connecté vous a votre compte et échangé la communauté</p>
+				<a href="{{ path('app_login') }}" class="btn btn-lg">login</a>
+
+
+				<div class="login">
+					<form method="post">
+						<h2>Register</h2>
+						{{ form_start(registrationForm) }}
+						<div class="login-input">
+							{{ form_row(registrationForm.pseudo) }}
+							{{ form_row(registrationForm.email) }}
+							{{ form_row(registrationForm.plainPassword) }}
+							<div class="register_form-checkbox">
+								<label for="registration_form_agreeTerms">Accepter CGU</label>
+								{{ form_widget(registrationForm.agreeTerms) }}
+							</div>
+							<button class="btn btn-lg" type="submit">
+								Register
+							</button>
+							{{ form_errors(registrationForm) }}
+						</div>
+						{{ form_end(registrationForm) }}
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>{% endblock %}

@@ -1,0 +1,87 @@
+<div class="sidebar">
+	<ul>
+		<li class="logo">
+			<a href="#">
+				<span class="icon">
+					<ion-icon name="logo-apple-ar"></ion-icon>
+				</span>
+				<span class="text">Logo</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{path('homepage')}}">
+				<span class="icon">
+					<ion-icon name="home-outline"></ion-icon>
+				</span>
+				<span class="text">Accueil</span>
+			</a>
+		</li>
+		<li></li>
+		<li>
+			<a href="{{path('app_newgames')}}">
+				<span class="icon">
+					<ion-icon name="newspaper-outline"></ion-icon>
+				</span>
+				<span class="text">Nouveautés</span>
+			</a>
+		</li>
+		<li>
+			<a href="{{path('popular_games')}}">
+				<span class="icon">
+					<ion-icon name="bar-chart-outline"></ion-icon>
+				</span>
+				<span class="text">Populaire</span>
+			</a>
+		</li>
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<li>
+				<a href="{{ path('app_user_collection') }}">
+					<span class="icon">
+						<ion-icon name="game-controller-outline"></ion-icon>
+					</span>
+					<span class="text">Collection</span>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('app_friends') }}">
+					<span class="icon">
+						<ion-icon name="people-outline"></ion-icon>
+					</span>
+					<span class="text">Amis</span>
+				</a>
+			</li>
+		{% endif %}
+		<div class="bottom">
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<li>
+					<a href="{{ path('app_user_dashboard') }}">
+						<span class="icon">
+							<div class="imgbx">
+								<img src="{{ asset('build/images/avatar/' ~ app.user.avatar) }}" alt="">
+							</div>
+						</span>
+						<span class="text">{{ app.user.pseudo }}</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ path('app_logout') }}">
+						<span class="icon">
+							<ion-icon name="log-out-outline"></ion-icon>
+						</span>
+						<span class="text">logout</span>
+					</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="{{ path('app_login') }}">
+						<span class="icon">
+							<ion-icon name="log-in-outline"></ion-icon>
+						</span>
+						<span class="text">login</span>
+					</a>
+				</li>
+			{% endif %}
+		</div>
+	</ul>
+
+</div>

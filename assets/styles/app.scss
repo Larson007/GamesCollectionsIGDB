@@ -1,0 +1,61 @@
+// @import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Quicksand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+
+@import "colors.scss";
+@import "gridTemplate.scss";
+@import "mixins.scss";
+@import "nav.scss";
+@import "popular.scss";
+@import "friends.scss";
+@import "detail.scss";
+@import "auth.scss";
+@import "dashboard.scss";
+@import "notifications.scss";
+@import "loader.scss";
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    // font-family: "Pixelify Sans", sans-serif;
+    // font-family: "Quicksand", sans-serif;
+    font-family: "Lato", sans-serif;
+    min-height: 100vh;
+    background-color: $bg-dark !important;
+    color: $text-light;
+    margin: 0;
+    padding: 0;
+}
+
+
+//********** Margin
+//********************************************/
+@media screen and (max-width: 780px) {
+    .containers {
+        margin: 0 auto;
+        padding: 0 0.5rem;
+    }
+}
+
+@media screen and (min-width: 780px) and (max-width: 1200px) {
+    .containers {
+        margin: 0 auto ;
+        padding: 0 1rem;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .containers {
+        margin: 0 11rem;
+        padding: 0 8rem;
+    }
+}
+
+
+
+
+
+

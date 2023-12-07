@@ -1,0 +1,99 @@
+// Search Form Friends
+.recherche-amis {
+    .search-friends {
+        margin: 0 auto;
+        width: 50%;
+    }
+}
+
+// Friends Cards
+.crd-friend {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: $cards;
+    color: $text-light;
+    padding: 0.8rem;
+    .crd-avatar {
+        width: 35%;
+        img {
+            display: block;
+            width: 80px !important;
+            height: 80px !important;
+            border-radius: 50%;
+        }
+    }
+    .crd-content {
+        width: 65%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        .crd-pseudo {
+            width: 100%;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            a {
+                font-size: 20px;
+                text-decoration: none;
+                color: $text-light;
+                text-transform: uppercase;
+            }
+            a:hover {
+                color: $yellow;
+            }
+        }
+        .crd-content-bottom {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .crd-collection {
+                width: 80%;
+                padding: 0;
+                p {
+                    margin: 0;
+                }
+            }
+            .crd-btn {
+                width: 20%;
+                padding: 0;
+                margin-left: auto;
+                form {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    button {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 35px;
+                        height: 35px;
+                        border: none;
+                        color: $text-light;
+                        font-size: 2rem;
+                    }
+                    .friend-remove {
+                        background-color: red;
+                    }
+                    .friend-add {
+                        background-color: rgb(107, 107, 202);
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 780px) {
+    // Search Form Friends
+    .recherche-amis {
+        .search-friends {
+            margin: 0 auto;
+            width: 80%;
+        }
+    }
+}
+
+@media screen and (min-width: 780px) and (max-width: 1200px) {
+}

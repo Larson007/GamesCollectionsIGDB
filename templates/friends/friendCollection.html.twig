@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserPageController!
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<h1 class="text-center text-uppercase my-5">Collection de jeux de
+			{{pseudo}}</h1>
+		<div class="new-game-template">
+			{% for game in games %}
+				<div class="game">
+					{% if  game.gameStatus is defined %}
+						<div class="game_collection">
+							{% if game.gameStatus.platined == true %}
+								<img src="{{asset('build/images/icons/collection/platined.svg')}}" alt="platined icon">
+							{% elseif game.gameStatus.achieved == true %}
+								<img src="{{asset('build/images/icons/collection/achieved.svg')}}" alt="platined icon">
+							{% elseif game.gameStatus.achieved == true and game.gameStatus.platined == true %}
+								<img src="{{asset('build/images/icons/collection/platined.svg')}}" alt="platined icon">
+								{% else %}
+							{% endif %}
+						</div>
+					{% endif %}
+					<div class="game_image">
+						{% if game.cover is defined %}
+							<a href="{{ path('game', {id: game.id}) }}"><img src="{{ game.cover.url }}" alt="{{ game.name }} cover"></a>
+						{% else %}
+							<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
+						{% endif %}
+					</div>
+					<div class="game_body">
+						<div class="game_body--title">
+							<h2>
+								<a href="{{ path('game', {id: game.id}) }}">{{ game.name }}</a>
+							</h2>
+						</div>
+						<div class="game_body--platforms">
+							{% for platform in game.platforms %}
+								{% if platform.abbreviation is defined %}
+									<small class="badge bg-primary">{{ platform.abbreviation }}</small>
+								{% elseif platform.name is defined %}
+									<small class="badge bg-primary">{{ platform.name }}</small>
+								{% else %}
+									<small class="badge bg-primary">N/A</small>
+								{% endif %}
+							{% endfor %}
+						</div>
+						<div class="game_body--genres">
+							{% if game.genres is defined %}
+								{% for genre in game.genres %}
+									<small class="badge bg-success">{{ genre.name }}</small>
+								{% endfor %}
+							{% endif %}
+						</div>
+						<div class="game_body--footer">
+							<div class="game_body--footer--release">
+								{% if game.first_release_date is defined %}
+									<p>
+										<span class="badge bg-secondary">{{ game.first_release_date|date('d/m/Y') }}</span>
+									</p>
+								{% endif %}
+							</div>
+							<div class="game_body--footer--rating">
+								{% if game.rating is defined %}
+									<p>
+										{% if game.rating|round >= 75 %}
+											<span class="score score-green">{{ game.rating|round }}%</span>
+										{% elseif game.rating|round >= 50 %}
+											<span class="score score-blue">{{ game.rating|round }}%</span>
+										{% elseif game.rating|round >= 25 %}
+											<span class="score score-yellow">{{ game.rating|round }}%</span>
+										{% else %}
+											<span class="score score-red">{{ game.rating|round }}%</span>
+										{% endif %}
+									</p>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+
+	</div>
+{% endblock %}

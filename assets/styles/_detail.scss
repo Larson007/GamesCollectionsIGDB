@@ -1,0 +1,355 @@
+.game-detail {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    .top-content {
+        width: 100%;
+        // height: 100vh;
+        padding-top: 1rem;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        h3 {
+            padding: 0.5rem 0 !important;
+            border-bottom: 1px solid black;
+            margin: 0;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .top {
+            margin-bottom: 1rem;
+            width: 100%;
+            display: flex;
+            flex-flow: row wrap;
+            .top-info {
+                width: 70%;
+                display: flex;
+                flex-flow: column wrap;
+                .title {
+                    width: 100%;
+                    h1 {
+                        margin: 0;
+                    }
+                }
+                .top-detail {
+                    display: flex;
+                    flex-flow: row wrap;
+                    .category {
+                        width: auto;
+                    }
+                    .released {
+                        width: auto;
+                        margin: 0 0 0 2rem;
+                        font-style: italic;
+                    }
+                }
+            }
+            .collection {
+                width: 30%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                #toggleCollection,
+                #toggleAchieved,
+                #togglePlatined {
+                    display: flex;
+                    align-items: center;
+                    .button-icon {
+                        margin-left: 1rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        font-size: 1.5rem;
+                    }
+                }
+            }
+        }
+        .left {
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .cover {
+                width: 100%;
+                height: 80%;
+                border-radius: 5px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 5px;
+                }
+            }
+            .platforms {
+                width: 100%;
+                margin: 1rem 0;
+            }
+            .genres {
+                width: 100%;
+            }
+        }
+        .right {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            .right-top {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                flex-flow: row nowrap;
+                .rating {
+                    width: 25%;
+                    .rating-graph {
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        position: relative;
+                        p {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            margin: 0;
+                            z-index: 99;
+                            font-size: 1.6rem;
+                            font-weight: bolder;
+                            text-shadow:
+                                2px 0 black,
+                                -2px 0 black,
+                                0 2px black,
+                                0 -2px black,
+                                1px 1px black,
+                                -1px -1px black,
+                                1px -1px black,
+                                -1px 1px black;
+                        }
+                        .rating-green {
+                            color: $green;
+                        }
+                        .rating-blue {
+                            color: $blue;
+                        }
+                        .rating-yellow {
+                            color: $yellow;
+                        }
+                        .rating-red {
+                            color: $red;
+                        }
+                    }
+                }
+                .teams {
+                    width: 70%;
+                    ul {
+                        display: flex;
+                        flex-flow: row wrap;
+                        li {
+                            width: 50%;
+                            border: none;
+                        }
+                    }
+                }
+            }
+            .right-middle {
+                width: 100%;
+                .description {
+                    width: 100%;
+                    height: 290px;
+                }
+            }
+            .right-bottom {
+                width: 100%;
+                .websites {
+                    width: 100%;
+                    .websites-icons {
+                        a {
+                            margin: 0.5rem 0.25rem;
+                            text-decoration: none;
+                            color: $text-light;
+                            img {
+                                width: 35px !important;
+                                height: 35px !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .middle-content {
+        width: 100%;
+        .medias {
+            background-color: black;
+            width: 100%;
+            padding: 5rem 0;
+            margin: 5rem 0 0;
+            .carousel-image {
+                ion-icon {
+                    font-size: 3rem;
+                    color: rgba(255, 255, 255, 0.3);
+                    background-color: rgba(0, 0, 0, 0.7);
+                }
+                .slick-next:before,
+                .slick-prev:before {
+                    display: none !important;
+                }
+
+                .slick-next {
+                    z-index: 99;
+                    right: 80px;
+                }
+
+                .slick-prev {
+                    z-index: 99;
+                    left: 80px;
+                }
+            }
+        }
+    }
+    .bottom-content {
+        width: 100%;
+        h3 {
+            margin: 0 0 2rem;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+        .expansions {
+            margin-top: 4rem;
+            width: 100%;
+        }
+
+        .dlcs {
+            margin-top: 4rem;
+            width: 100%;
+        }
+        .franchises {
+            margin-top: 4rem;
+            width: 100%;
+            .franchises-name {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 2rem;
+                .franchises-card {
+                    margin: 0 1rem;
+                }
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 780px) {
+    .game-detail {
+        .top-content {
+            flex-flow: column wrap;
+            h3 {
+                font-size: 1.2rem;
+            }
+            .top {
+                margin-bottom: 1rem;
+                width: 100%;
+                flex-flow: column wrap;
+                .top-info {
+                    width: 100%;
+                    flex-flow: column wrap;
+                    .title {
+                        width: 100%;
+                        margin-bottom: 1rem;
+                        h1 {
+                            font-size: 1.4rem;
+
+                        }
+                    }
+                    .top-detail {
+                        display: flex;
+                        flex-flow: row wrap;
+                        margin-bottom: 1rem;
+                        .category {
+                            width: auto;
+                            margin-right: 1rem;
+                        }
+                        .released {
+                            width: auto;
+                            margin: 0;
+                            font-style: italic;
+                        }
+                    }
+                }
+                .collection {
+                    width: 100%;
+                    #toggleCollection,
+                    #toggleAchieved,
+                    #togglePlatined {
+                        padding: 0.2rem;
+                        .button-icon {
+                            margin-left: 1rem;
+                            font-size: 1.5rem;
+                        }
+                    }
+                }
+            }
+            .left {
+                width: 100%;
+                flex-direction: column;
+                margin-bottom: 1rem;
+            }
+            .right {
+                width: 100%;
+                flex-direction: column;
+                .right-top {
+                    width: 100%;
+                    flex-flow: column nowrap;
+                    .rating {
+                        width: 100%;
+                        margin-bottom: 1rem;
+                    }
+                    .teams {
+                        width: 100%;
+                        margin-bottom: 1rem;
+                        ul {
+                            display: flex;
+                            flex-flow: row wrap;
+                            li {
+                                width: 50%;
+                                border: none;
+                                padding: 0.3rem;
+                            }
+                        }
+                    }
+                }
+                .right-middle {
+                    width: 100%;
+                    .description {
+                        width: 100%;
+                        height: auto;
+                        margin-bottom: 1rem;
+                    }
+                }
+            }
+        }
+        .middle-content {
+            .medias {
+                .carousel-image {
+                    .slick-next {
+                        right: 40px;
+                    }
+                    .slick-prev {
+                        left: 10px;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+@media screen and (min-width: 780px) and (max-width: 1200px) {
+
+}

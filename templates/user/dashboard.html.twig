@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserPageController!
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<div class="dashboard">
+			<div class="forms">
+
+				<div class="user_info">
+					<h2 class="user_info-title">Modification de votre compte</h2>
+					<div class="user_form">
+						{{ form_start(form) }}
+						<label for="pseudo">Pseudo</label>
+						<div class="user_input user_form-pseudo">
+							{{ form_widget(form.pseudo) }}
+							<button id="changePseudo" class="btn">
+								<ion-icon name="build-outline"></ion-icon>
+							</button>
+						</div>
+						<label for="email">Email</label>
+						<div class="user_input user_form-email">
+							{{ form_widget(form.email) }}
+							<button id="changeEmail" class="btn">
+								<ion-icon name="build-outline"></ion-icon>
+							</button>
+						</div>
+						<div class="user_form-avatar">
+							<img id="avatarImage" src="{{ asset('build/images/avatar/' ~ user.avatar) }}" alt="avatar de {{user.pseudo}}">
+							<div class="user_input-avatar">
+								{{ form_widget(form.avatar, {
+							'attr': {
+								'id': 'changeAvatar',
+								'style': 'display: none;',
+							}
+						}) }}
+								<input type="file" name="avatar" id="changeAvatar">
+								<label for="user_update_avatar">
+									<ion-icon name="repeat-outline"></ion-icon>
+								</label>
+							</div>
+						</div>
+
+						<div class="user_form-submit">
+							<button type="submit">Valider</button>
+						</div>
+						{{ form_end(form) }}
+					</div>
+				</div>
+
+				<div class="user_update-password">
+					<div class="user_form">
+						<h2 class="user_password-title">Modification de votre mot de passe</h2>
+						{{ form_start(formPassword) }}
+						<label for="password">
+							<small>Old Password</small>
+							{{ form_errors(formPassword.oldPassword) }}
+						</label>
+						<div class="user_password user_form-password">
+							<div class="user_input user_input-password">
+								{{ form_widget(formPassword.oldPassword) }}
+							</div>
+							{# <button id="changePassword" class="btn">
+															<ion-icon name="build-outline"></ion-icon>
+														</button> #}
+						</div>
+						<label for="password">
+							<small>New Password (6 characters min)</small>
+							{{ form_errors(formPassword.newPassword) }}
+						</label>
+						<div class="user_password user_form-password">
+							<div class="user_input user_input-password">
+								{{ form_widget(formPassword.newPassword) }}
+							</div>
+
+						</div>
+						<label for="password">
+							<small>Confirm Password</small>
+							{{ form_errors(formPassword.confirmPassword) }}
+
+						</label>
+						<div class="user_password user_form-password">
+							<div class="user_input user_input-password">
+								{{ form_widget(formPassword.confirmPassword) }}
+							</div>
+						</div>
+
+						<div class="user_form-submit">
+							<button type="submit">Valider</button>
+						</div>
+						{{ form_end(formPassword) }}
+
+					</div>
+				</div>
+			</div>
+
+
+			<div class="user_collection">
+				<div class="user_collection-games">
+					<p>Collections de jeux :
+						<small class="badge bg-secondary">{{ collection.nbCollection }}</small>
+					</p>
+					<p>Jeux Terminer :
+						<small class="badge bg-secondary">{{ collection.nbAchieved }}</small>
+					</p>
+					<p>Jeux Platiner :
+						<small class="badge bg-secondary">{{ collection.nbPlatines }}</small>
+					</p>
+				</div>
+				<div class="user_collection-friends">
+					<p>Nombres d'amis :
+						<small class="badge bg-secondary">{{friends}}</small>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% for message in app.flashes('success') %}
+		<div class="flash-message success" style="display: none;">{{ message }}</div>
+	{% endfor %}
+
+	{% for message in app.flashes('error') %}
+		<div class="flash-message error" style="display: none;">{{ message }}</div>
+	{% endfor %}
+{% endblock %}
