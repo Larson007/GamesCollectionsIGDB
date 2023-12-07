@@ -27,12 +27,17 @@ import './slick/slick.min.js';
 // CSS
 import './styles/app.scss';
 
+// BurgerMenu
+import './js/burgerMenu.js';
+burgerMenu();
+
 // Import Js
 import { notifications } from './js/notifications.js';
 import { initGameDetails } from './js/pages/gameDetails.js';
 import { initSearchGames } from './js/pages/searchGames.js';
 import { initSearchFriends } from './js/pages/searchFriends.js';
 import { initDashboard } from './js/pages/dashboard.js';
+import burgerMenu from './js/burgerMenu.js';
 
 // Start the application
 console.log('Hello from app.js');

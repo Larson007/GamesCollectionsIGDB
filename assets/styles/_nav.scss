@@ -90,114 +90,240 @@
     width: 300px;
 }
 
-// SearchBar
-.recherche {
-    position: sticky;
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    max-width: 87px;
+    height: auto;
     width: 100%;
-    height: 80px;
-    // background-color: #fff;
-    background-color: $bg-grey;
-    z-index: 9998;
-    .search-display {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    overflow: visible;
+    z-index: 9999;
+
+    // #logo {
+    //     display: flex;
+    //     justify-content: flex-start;
+    //     align-items: center;
+    //     z-index: 9999;
+    //     max-width: 40px;
+    //     margin-top: 20px;
+    //     margin-left: 10px;
+    //     .logo--image {
+    //         width: 100%;
+    //     }
+    // }
+    #burger-menu {
+        cursor: pointer;
+        height: 27px;
+        width: 27px;
+        margin: 15px 30px;
+        overflow: visible;
         position: relative;
-        width: 100%;
-        height: 100%;
-        #search-form {
-            width: 30%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto;
-            input {
-                width: 90%;
-                height: 100%;
-                border: none;
-                border-radius: 0;
-                outline: none;
-                font-size: 1.2em;
-                font-weight: 500;
-                color: $text-light;
-                background-color: transparent;
-                padding-left: 1em;
-                &::placeholder {
-                    color: $text-light;
-                }
+        z-index: 9999;
+        span,
+        span:before,
+        span:after {
+            background: #fff;
+            display: block;
+            height: 2px;
+            opacity: 1;
+            position: absolute;
+            transition: 0.3s ease-in-out;
+        }
+
+        span:before,
+        span:after {
+            content: "";
+        }
+
+        // TOP
+        span:before {
+            left: 0px;
+            top: -10px;
+            width: 27px;
+            background-color: white;
+        }
+
+        // MIDDLE
+        span {
+            right: 0px;
+            top: 13px;
+            width: 23px;
+            background-color: white;
+        }
+
+        // BOTTOM
+        span:after {
+            left: 0px;
+            top: 10px;
+            width: 27px;
+            background-color: white;
+        }
+
+        // ROTATION ON CLICK
+        &.close {
+            // TOP
+            span:before {
+                top: 0px;
+                transform: rotate(90deg);
+                width: 27px;
+                background-color: white;
             }
-            button {
-                width: 10%;
-                height: 100%;
-                cursor: pointer;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                // background-color: #fff;
-                background-color: $bg-grey;
-                border-radius: 0;
-                border: none;
-                span {
-                    font-size: 2em;
-                    // color: #333;
-                    color: $text-light;
-                }
+
+            // MIDDLE
+            span {
+                transform: rotate(-45deg);
+                top: 13px;
+                width: 27px;
+                background-color: white;
+            }
+
+            // BOTTOM
+            span:after {
+                top: 0px;
+                left: 0;
+                transform: rotate(90deg);
+                opacity: 0;
+                width: 0;
+                background-color: white;
             }
         }
-        .search-overlay {
-            position: absolute;
-            top: 80px;
-            width: 100%;
-            background-color: green;
-            #search-results {
-                .overlay {
-                    padding: 3rem 10em 0;
-                    background-color: $bg-light;
-                    height: 100vh;
-                    display: grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    grid-template-rows: repeat(5, 1fr);
-                    grid-gap: 2em;
+    }
+}
 
-                    .search-game {
-                        background-color: $bg-grey;
-                        width: 100%;
-                        display: flex;
-                        align-items: center;
-                        img {
-                            height: auto;
-                            width: 30%;
-                            object-fit: cover;
-                        }
-                        a {
-                            color: $text-light;
-                            text-decoration: none;
-                            padding: 0.5rem;
-                        }
-                        a:hover {
-                            color: $yellow;
-                        }
-                    }
+#navbar {
+    z-index: 1;
+    min-width: 70%;
+    min-height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+    padding: 3rem ;
+    text-transform: uppercase;
+    text-align: start;
+
+
+    &.overlay {
+        visibility: visible;
+        opacity: 1;
+        background: $bg-grey;
+        overflow: hidden;
+        border-left: 2px solid $yellow;
+
+        .navbar__menu {
+            padding: 0;
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: space-around;
+            height: 80%;
+            .bottom-nav {
+                margin-top: auto;
+                height: 40%;
+            }
+            .navbar__menu__item {
+                list-style: none;
+                .navbar__menu__item--link {
+                    color: #fff;
+                    display: block;
+                    font-size: 22px;
+                    margin: 0 0 15px;
+                    text-decoration: none;
+                    margin-bottom: 2rem;
+                }
+            }
+
+            .navbar__menu__item:hover {
+                .navbar__menu__item--link {
+                    color: $yellow;
                 }
             }
         }
     }
 }
 
+// .dropdown {
+//     margin: 2.5rem;
+//     .dropdown__item {
+//         margin-bottom: 1.5rem;
+//         font-size: 1.5rem;
+//         display: flex;
+//         justify-content: left;
+//         align-items: center;
+//         i {
+//             font-size: 1rem;
+//             margin-right: 1.5rem;
+//         }
+//     }
+//     .dropdown__item:nth-child(1) {
+//         a::first-letter {
+//             color: $red;
+//             font-size: 2rem;
+//         }
+//     }
+//     .dropdown__item:nth-child(2) {
+//         a::first-letter {
+//             color: $green;
+//             font-size: 2rem;
+//         }
+//     }
+//     .dropdown__item:nth-child(3) {
+//         a::first-letter {
+//             color: $yellow;
+//             font-size: 2rem;
+//         }
+//     }
+//     .dropdown__item:nth-child(4) {
+//         a::first-letter {
+//             color: $blue;
+//             font-size: 2rem;
+//         }
+//     }
+// }
 
+// Underline du lien vers Github
+// .underline-from-left {
+//     position: relative;
+//     padding-bottom: 5px; // Add padding to create space between text and underline
+//     &:after {
+//         content: "";
+//         position: absolute;
+//         left: 0;
+//         bottom: 0;
+//         height: 1px;
+//         width: 0;
+//         transition: width 0.3s ease-in-out;
+//         background: $yellow;
+//     }
+//     &:hover:after {
+//         width: 100%;
+//     }
+// }
 
 @media screen and (max-width: 780px) {
-    .sidebar{
-        display: none;
-    }
-    .recherche {
+    .sidebar {
         display: none;
     }
 }
 
 @media screen and (min-width: 780px) and (max-width: 1200px) {
-    .sidebar{
+    .sidebar {
         display: none;
     }
-    .recherche {
+}
+
+@media screen and (min-width: 1200px) {
+    .sidebar {
+        display: block;
+    }
+
+    .burger {
         display: none;
     }
 }
