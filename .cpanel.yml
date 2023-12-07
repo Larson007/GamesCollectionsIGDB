@@ -1,0 +1,8 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/jirh6125/gamescollections.mbadev.fr 
+    - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp -R .[^.]* $DEPLOYPATH
+    - /usr/local/bin/composer install --no-dev --working-dir=$DEPLOYPATH
+    - /bin/cp $DEPLOYPATH/.env.example $DEPLOYPATH/.env
+    - /usr/local/bin/php $DEPLOYPATH/bin/console cache:clear --env=prod
