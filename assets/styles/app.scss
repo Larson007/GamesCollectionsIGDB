@@ -5,7 +5,8 @@
 @import "gridTemplate.scss";
 @import "mixins.scss";
 @import "nav.scss";
-@import "searchBar.scss";
+// @import "sidebar.scss";
+// @import "searchBar.scss";
 @import "popular.scss";
 @import "friends.scss";
 @import "detail.scss";
@@ -23,7 +24,8 @@
 body {
     // font-family: "Pixelify Sans", sans-serif;
     // font-family: "Quicksand", sans-serif;
-    font-family: "Lato", sans-serif;
+    // font-family: "Lato", sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
     background-color: $bg-dark !important;
     color: $text-light;

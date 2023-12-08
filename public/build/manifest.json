@@ -32,5 +32,14 @@
   "build/images/icons/websites/twitch.svg": "/build/images/icons/websites/twitch.svg",
   "build/images/icons/websites/youtube.svg": "/build/images/icons/websites/youtube.svg",
   "build/images/chevron-back-outline.svg": "/build/images/chevron-back-outline.svg",
-  "build/images/chevron-forward-outline.svg": "/build/images/chevron-forward-outline.svg"
+  "build/images/chevron-forward-outline.svg": "/build/images/chevron-forward-outline.svg",
+  "build/images/icons/nav/icons8-home.svg": "/build/images/icons/nav/icons8-home.svg",
+  "build/images/icons/nav/home.svg": "/build/images/icons/nav/home.svg",
+  "build/images/icons/nav/chevron-back-outline.svg": "/build/images/icons/nav/chevron-back-outline.svg",
+  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg",
+  "build/images/icons/nav/search.svg": "/build/images/icons/nav/search.svg",
+  "build/images/icons/nav/new.svg": "/build/images/icons/nav/new.svg",
+  "build/images/icons/nav/new.png": "/build/images/icons/nav/new.png",
+  "build/images/icons/nav/popular.png": "/build/images/icons/nav/popular.png",
+  "build/images/icons/nav/avatar.png": "/build/images/icons/nav/avatar.png"
 }
