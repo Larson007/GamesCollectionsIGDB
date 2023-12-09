@@ -1,8 +1,8 @@
 <header>
-	<nav class="menu menu-hidden">
+	<nav class="menu">
 		<button class="menu-button" type="button">
-			<img class="chevron-forward" src="{{ asset('build/images/icons/nav/chevron-forward-outline.svg') }}" alt="icon acceuil">
 			<img class="chevron-back" src="{{ asset('build/images/icons/nav/chevron-back-outline.svg') }}" alt="icon acceuil">
+			<img class="chevron-forward" src="{{ asset('build/images/icons/nav/chevron-forward-outline.svg') }}" alt="icon acceuil">
 		</button>
 		<div class="menu_content">
 			<a class="menu-logo menu-link" href="#">Logo</a>
@@ -11,9 +11,8 @@
 					<button class="list_item-link link-search">
 						<img src="{{ asset('build/images/icons/nav/search.svg') }}" alt="icon search">
 						<span class="link-title ">
-							<form id="search-form" role="search" action="{{ path('search') }}" method="post">
-								<input type="hidden" name="csrf_token" value="{{ csrf_token('search') }}">
-								<input id="search-input" type="search" placeholder="Recherche" aria-label="Search" name="q" spellcheck="false">
+							<form class="" role="search">
+								<input class="" type="search" placeholder="Recherche" aria-label="Search">
 							</form>
 						</span>
 					</button>
@@ -53,31 +52,31 @@
 
 <script>
 	document.querySelector('.menu-button').addEventListener('click', toggleMenu);
-document.querySelector('.link-search').addEventListener('click', openMenu);
-document.querySelector('.list_item_user-link').addEventListener('click', openMenu);
+	document.querySelector('.link-search').addEventListener('click', openMenu);
+	document.querySelector('.list_item_user-link').addEventListener('click', openMenu);
 
-function toggleMenu() {
-var menu = document.querySelector('.menu');
-var iconBack = document.querySelector('.chevron-back');
-var iconForward = document.querySelector('.chevron-forward');
-menu.classList.toggle('menu-hidden');
-if (menu.classList.contains('menu-hidden')) {
-iconBack.style.display = "none";
-iconForward.style.display = "block";
-} else {
-iconBack.style.display = "block";
-iconForward.style.display = "none";
-}
-}
+	function toggleMenu() {
+		var menu = document.querySelector('.menu');
+		var iconBack = document.querySelector('.chevron-back');
+		var iconForward = document.querySelector('.chevron-forward');
+		menu.classList.toggle('menu-hidden');
+		if (menu.classList.contains('menu-hidden')) {
+			iconBack.style.display = "none";
+			iconForward.style.display = "block";
+		} else {
+			iconBack.style.display = "block";
+			iconForward.style.display = "none";
+		}
+	}
 
-function openMenu() {
-var menu = document.querySelector('.menu');
-var iconBack = document.querySelector('.chevron-back');
-var iconForward = document.querySelector('.chevron-forward');
-if (menu.classList.contains('menu-hidden')) {
-menu.classList.remove('menu-hidden');
-iconBack.style.display = "block";
-iconForward.style.display = "none";
-}
-}
+	function openMenu() {
+		var menu = document.querySelector('.menu');
+		var iconBack = document.querySelector('.chevron-back');
+		var iconForward = document.querySelector('.chevron-forward');
+		if (menu.classList.contains('menu-hidden')) {
+			menu.classList.remove('menu-hidden');
+			iconBack.style.display = "block";
+			iconForward.style.display = "none";
+		}
+	}
 </script>

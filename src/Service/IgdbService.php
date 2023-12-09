@@ -174,12 +174,33 @@ class IgdbService
                 'Client-ID' => $this->clientId,
                 'Authorization' => 'Bearer ' . $this->apiToken,
             ],
-            'body' => 'fields name, cover.url; search "' . $query . '";',
+            'body' => '
+                fields
+                name, 
+                category,
+                genres.name, 
+                cover.url, 
+                first_release_date, 
+                rating, 
+                platforms.name, 
+                platforms.abbreviation; 
+                search "' . $query . '";',
         ]);
 
         // process the response to get the cover images
         $games = $response->toArray();
         $this->processCoverImages($games);
+
+        // Process the game category
+        $desiredCategories = [0, 2, 4, 8, 9]; // Replace this with the game categories you want to retrieve
+
+        foreach ($games as $key => $game) {
+            if (isset($game['category']) && !in_array($game['category'], $desiredCategories)) {
+                unset($games[$key]);
+            }
+        }
+
+
 
         return $games;
     }

@@ -19,12 +19,15 @@ class SearchController extends AbstractController
     }
 
     #[Route('/search', name: 'search')]
-    public function search(Request $request): JsonResponse
+    public function search(Request $request): Response
     {
-        $query = $request->query->get('query');
+        $query = $request->request->get('q');
         $games = $this->igdbService->searchGames($query);
-
-        return $this->json($games);
+    
+        return $this->render('game/search_games.html.twig', [
+            'controller_name' => 'GameNewController',
+            'games' => $games,
+        ]);
     }
 
     
