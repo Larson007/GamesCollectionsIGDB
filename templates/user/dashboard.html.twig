@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+<div class="body-content">
 	<div class="container">
 
 		<div class="dashboard">
@@ -116,6 +117,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 	{% for message in app.flashes('success') %}

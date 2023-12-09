@@ -34,9 +34,14 @@ body {
 }
 
 
+
+
 //********** Margin
 //********************************************/
 @media screen and (max-width: 780px) {
+    .body-content.menu-open {
+        filter: blur(5px);
+    }
     .containers {
         margin: 0 auto;
         padding: 0 0.5rem;

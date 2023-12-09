@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-
+<div class="body-content">
 	<div class="container">
 		<div class="recherche-amis">
 			<h2 class="text-center my-5">Ajouter des amis</h2>
@@ -75,7 +75,7 @@
 			{% endfor %}
 		</div>
 	</div>
-
+</div>
 {% for message in app.flashes('success') %}
     <div class="flash-message success" style="display: none;">{{ message }}</div>
 {% endfor %}

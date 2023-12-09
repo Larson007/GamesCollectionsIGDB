@@ -36,15 +36,46 @@
 						<span class="link-title">Populaires</span>
 					</a>
 				</li>
-				<li class="list_item_user ">
-					<div class="list_item_user-link {{ (path('app_login') == app.request.pathinfo or path('app_register') == app.request.pathinfo) ? 'active' : '' }}">
-						<img class="icon-avatar" src="{{ asset('build/images/icons/nav/avatar.png') }}" alt="icon acceuil">
-						<div class="list_item_user-link-login">
-							<a class="link-login {{ path('app_login') == app.request.pathinfo ? 'security' : '' }}" href="{{ path('app_login') }}">Connection</a>
-							<a class="link-register {{ path('app_register') == app.request.pathinfo ? 'security' : '' }}" href="{{ path('app_register') }}">Inscription</a>
-						</div>
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<li class="list_item">
+						<a class="list_item-link menu-link {{ path('app_user_collection') == app.request.pathinfo ? 'active' : '' }}" href="{{path('app_user_collection')}}">
+							<img src="{{ asset('build/images/icons/nav/collections.png') }}" alt="icon acceuil">
+							<span class="link-title">Collection</span>
+						</a>
+					</li>
+					<li class="list_item">
+						<a class="list_item-link menu-link {{ path('app_friends') == app.request.pathinfo ? 'active' : '' }}" href="{{path('app_friends')}}">
+							<img src="{{ asset('build/images/icons/nav/friends.png') }}" alt="icon acceuil">
+							<span class="link-title">Amis</span>
+						</a>
+					</li>
+					<div class="bottom-list">
+						<li class="list_item">
+							<a class="list_item-link menu-link menu-link-avatar {{ path('app_user_dashboard') == app.request.pathinfo ? 'active' : '' }}" href="{{path('app_user_dashboard')}}">
+								<img src="{{ asset('build/images/avatar/' ~ app.user.avatar) }}" alt="avatar de {{app.user.pseudo}}">
+								<span class="link-title">{{app.user.pseudo}}</span>
+							</a>
+						</li>
+						<li class="list_item">
+							<a class="list_item-link menu-link" href="{{path('app_logout')}}">
+								<img src="{{ asset('build/images/icons/nav/logout.svg') }}" alt="icone de deconnexion">
+								<span class="link-title">Déconnexion</span>
+							</a>
+						</li>
 					</div>
-				</li>
+
+				{% else %}
+					<li class="list_item_user ">
+						<div class="list_item_user-link {{ (path('app_login') == app.request.pathinfo or path('app_register') == app.request.pathinfo) ? 'active' : '' }}">
+							<img class="icon-avatar" src="{{ asset('build/images/icons/nav/avatar.png') }}" alt="icon acceuil">
+							<div class="list_item_user-link-login">
+								<a class="link-login {{ path('app_login') == app.request.pathinfo ? 'security' : '' }}" href="{{ path('app_login') }}">Connection</a>
+								<a class="link-register {{ path('app_register') == app.request.pathinfo ? 'security' : '' }}" href="{{ path('app_register') }}">Inscription</a>
+							</div>
+						</div>
+					</li>
+				{% endif %}
+
 			</ul>
 		</div>
 	</nav>
@@ -52,32 +83,7 @@
 </header>
 
 <script>
-	document.querySelector('.menu-button').addEventListener('click', toggleMenu);
-document.querySelector('.link-search').addEventListener('click', openMenu);
-document.querySelector('.list_item_user-link').addEventListener('click', openMenu);
-
-function toggleMenu() {
-var menu = document.querySelector('.menu');
-var iconBack = document.querySelector('.chevron-back');
-var iconForward = document.querySelector('.chevron-forward');
-menu.classList.toggle('menu-hidden');
-if (menu.classList.contains('menu-hidden')) {
-iconBack.style.display = "none";
-iconForward.style.display = "block";
-} else {
-iconBack.style.display = "block";
-iconForward.style.display = "none";
-}
-}
-
-function openMenu() {
-var menu = document.querySelector('.menu');
-var iconBack = document.querySelector('.chevron-back');
-var iconForward = document.querySelector('.chevron-forward');
-if (menu.classList.contains('menu-hidden')) {
-menu.classList.remove('menu-hidden');
-iconBack.style.display = "block";
-iconForward.style.display = "none";
-}
-}
-</script>
+    document.querySelector('.menu-button').addEventListener('click', function() {
+        document.querySelector('.body-content').classList.toggle('menu-open');
+    });
+	</script>

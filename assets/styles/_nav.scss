@@ -1,3 +1,4 @@
+
 header {
     position: relative;
     color: black;
@@ -193,6 +194,7 @@ header {
     }
 }
 
+// Formulaire de recherche
 .link-search {
     span {
         height: 100%;
@@ -224,13 +226,30 @@ header {
     }
 }
 
+// Position du menu etant logger
+.bottom-list {
+    margin-top: auto;
+    margin-bottom: 5rem;
+}
+// Avatar Item
+.menu-link-avatar {
+    img {
+        padding: 2px !important;
+        border-radius: 5px !important;
+    }
+}
+
 @media screen and (max-width: 780px) {
+
     header {
         .menu {
             width: 85%;
             padding: 3rem;
             transform: translateX(-100%);
             transition: transform 0.3s ease-in-out;
+            .list_item_user {
+                margin-bottom: 8rem;
+            }
         }
 
         // Comportement du menu en transtion
