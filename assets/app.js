@@ -14,6 +14,10 @@ import toastr from 'toastr';
 import 'toastr/toastr.scss';
 window.toastr = toastr;
 
+// Import noUiSlider
+import noUiSlider from 'nouislider';
+import 'nouislider/dist/nouislider.css';
+
 
 // Import Bootstrap
 import './styles/bootstrap.min.scss';
@@ -37,6 +41,7 @@ import { notifications } from './js/notifications.js';
 import { initGameDetails } from './js/pages/gameDetails.js';
 import { initSearchFriends } from './js/pages/searchFriends.js';
 import { initDashboard } from './js/pages/dashboard.js';
+import { initHomepage } from './js/pages/homepage.js';
 import navMenu from './js/navMenu.js';
 
 // Start the application
@@ -56,6 +61,9 @@ if (document.querySelector('.recherche-amis')) {
 }
 if (document.querySelector('.dashboard')) {
     initDashboard();
+}
+if (document.querySelector('.homepage')) {
+    initHomepage();
 }
 
 // Vider l'input Search Game lors du chargement de la page

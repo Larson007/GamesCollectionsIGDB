@@ -1,8 +1,9 @@
 {
-  "build/app.css": "/build/app.9729ea58.css",
-  "build/app.js": "/build/app.c2897107.js",
-  "build/runtime.js": "/build/runtime.0a5e6942.js",
-  "build/86.45b1fbf8.js": "/build/86.45b1fbf8.js",
+  "build/app.css": "/build/app.css",
+  "build/app.js": "/build/app.js",
+  "build/runtime.js": "/build/runtime.js",
+  "build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-c86318.css": "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-c86318.css",
+  "build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-c86318.js": "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-c86318.js",
   "build/images/placeholder.jpg": "/build/images/placeholder.jpg",
   "build/images/avatar/01-65709359b4630.png": "/build/images/avatar/01-65709359b4630.png",
   "build/images/icons/websites/epicgames.svg": "/build/images/icons/websites/epicgames.svg",
@@ -43,5 +44,7 @@
   "build/images/chevron-back-outline.svg": "/build/images/chevron-back-outline.svg",
   "build/images/chevron-forward-outline.svg": "/build/images/chevron-forward-outline.svg",
   "build/images/icons/nav/chevron-back-outline.svg": "/build/images/icons/nav/chevron-back-outline.svg",
-  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg"
+  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg",
+  "build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9e704d.css": "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9e704d.css",
+  "build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9e704d.js": "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9e704d.js"
 }

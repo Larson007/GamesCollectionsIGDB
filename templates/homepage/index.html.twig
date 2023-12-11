@@ -4,10 +4,71 @@
 {% endblock %}
 
 {% block body %}
-<div class="body-content">
-	<div class="container">
-		<h1 class="text-center text-uppercase py-5">Accueil</h1>
+	<div class="body-content">
+		<div
+			class="container">
+
+			{# <div class="games-filters">
+														<div class="notes my-5">
+															<div id="note-slider"></div>
+														</div>
+														<div class="dates my-5">
+															<div id="released-slider"></div>
+														</div>
+													</div> #}
+
+			<div class="homepage">
+				<div class="search_filter">
+					<div class="search_filter-btn">
+						<button id="platforms" class="platforms_filter">platform</button>
+						<button id="themes" class="themes_filter">themes</button>
+						<button id="genres" class="genres_filter">genres</button>
+						<button id="modes" class="game_modes_filter">modes</button>
+						<button id="rating" class="rating_filter">rating</button>
+						<button id="released" class="released_filter">released</button>
+					</div>
+
+					<div class="search_filter-selected">
+					</div>
+
+					<div class="search_filter-result"></div>
+				</div>
+
+				<div class="games_list">
+					{% for game in games %}
+
+						<div class="game_card">
+							<div class="game_card_img">
+								{% if game.cover is defined %}
+									<a href="{{ path('game', {id: game.id}) }}"><img src="{{ game.cover.url }}" alt="{{ game.name }} cover"></a>
+								{% else %}
+									<a href="{{ path('game', {id: game.id}) }}">
+										<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
+									</a>
+								{% endif %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+
 	</div>
 
-</div>
 {% endblock %}
+
+
+{# <div class="games-filters">
+					<p>Platforms</p>
+					<p>Genres</p>
+					<div class="notes my-5">
+						<div id="note-slider"></div>
+					</div>
+					<div class="dates my-5">
+						<div id="date-slider"></div>
+					</div>
+					<div class="tri my-5">
+						<button class="btn btn-small bg-primary">Asc</button>
+						<button class="btn btn-small bg-primary">Desc</button>
+					</div>
+				</div> #}

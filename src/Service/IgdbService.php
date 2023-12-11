@@ -106,7 +106,7 @@ class IgdbService
         & rating >= 0 
         & first_release_date < ' . strtotime($today) . '; 
         sort first_release_date desc;
-        limit 30;');
+        limit 100;');
 
         $this->processCoverImages($games);
 
@@ -131,7 +131,7 @@ class IgdbService
     {
 
         $threeMonthsAgo = strtotime(date('Y-m-d', strtotime('-3 months')));
-        $limit = 30;
+        $limit = 100;
 
         $games = $this->makeRequest('https://api.igdb.com/v4/games', '
         fields 
@@ -338,4 +338,138 @@ class IgdbService
         }
         return $igdbGames;
     }
+
+    public function homepage()
+    {
+
+        $games = $this->makeRequest('https://api.igdb.com/v4/games', '
+        fields 
+        name,
+        category,
+        cover.url, 
+        first_release_date, 
+        rating, 
+        platforms.name, 
+        platforms.abbreviation; 
+        
+        sort first_release_date desc; 
+        
+        where rating >= 50;
+        limit 500;
+        ');
+
+        // retirer de $games les jeux qui n'on pas de cover
+        $games = array_filter($games, function ($game) {
+            return isset($game['cover']);
+        });
+
+        // retirer les jeux qui n'ont pas de rating
+        $games = array_filter($games, function ($game) {
+            return isset($game['rating']);
+        });
+
+        // retirer les jeux qui n'ont pas de date de sortie
+        $games = array_filter($games, function ($game) {
+            return isset($game['first_release_date']);
+        });
+
+        // retirer les jeux qui n'ont pas de plateforme
+        $games = array_filter($games, function ($game) {
+            return isset($game['platforms']);
+        });
+
+        // retirer les jeux dont la date de sortie est dans le futur
+        $games = array_filter($games, function ($game) {
+            return $game['first_release_date'] < time();
+        });
+
+        // Process the game category
+        $desiredCategories = [0, 2, 8, 9]; // Replace this with the game categories you want to retrieve
+
+        foreach ($games as $key => $game) {
+            if (isset($game['category']) && !in_array($game['category'], $desiredCategories)) {
+                unset($games[$key]);
+            }
+        }
+
+        $this->processCoverImages($games);
+
+        return $games;
+    }
+
+    public function platforms()
+    {
+
+        $platforms = $this->makeRequest('https://api.igdb.com/v4/platforms', '
+        fields id, name;
+        limit 500; } ;
+        ');
+
+        return $platforms;
+    }
+
+    public function genres()
+    {
+
+        $genres = $this->makeRequest('https://api.igdb.com/v4/genres', '
+        fields id, name;
+        limit 500; } ;
+        ');
+
+        return $genres;
+    }
+
+    public function themes()
+    {
+
+        $themes = $this->makeRequest('https://api.igdb.com/v4/themes', '
+        fields id, name;
+        limit 500; } ;
+        ');
+
+        return $themes;
+    }
+
+    public function gameModes()
+    {
+
+        $gameModes = $this->makeRequest('https://api.igdb.com/v4/game_modes', '
+        fields id, name;
+        limit 500; } ;
+        ');
+
+        return $gameModes;
+    }
+
+    // public function platforms()
+    // {
+
+    //     $response = $this->makeRequest('https://api.igdb.com/v4/multiquery', '
+    //     query platforms "Platforms" { fields id, name, platform_logo, platform_family; limit 500; } ;
+    //     query platform_logos "Platforms Logos" { fields id, url, image_id; limit 500;  } ;
+    //     query platform_families "Platforms Families" { fields id, name, slug; limit 500; } ;
+    //     ');
+
+    //     $platforms = $response[0]['result'];
+    //     $logos = $response[1]['result'];
+    //     $families = $response[2]['result'];
+
+    //     foreach ($platforms as &$platform) {
+    //         foreach ($logos as $logo) {
+    //             if (isset($logo) && array_key_exists('platform_logo', $platform) && $platform['platform_logo'] == $logo['id']) {
+    //                 $platform['platform_logo'] = $logo;
+    //                 break;
+    //             }
+    //         }
+
+    //         foreach ($families as $family) {
+    //             if (isset($family) && array_key_exists('platform_family', $platform) && $platform['platform_family'] == $family['id']) {
+    //                 $platform['platform_family'] = $family;
+    //                 break;
+    //             }
+    //         }
+    //     }
+
+    //     return $platforms;
+    // }
 }
