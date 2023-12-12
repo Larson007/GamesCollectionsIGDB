@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomepageController extends AbstractController
 {
@@ -18,28 +19,50 @@ class HomepageController extends AbstractController
     }
 
     #[Route('/', name: 'homepage')]
-    public function index(): Response
+    #[Route('/dynamiqueSearch', name: 'dynamiqueSearch', methods:"POST")]
+    public function index(Request $request): Response
     {
+        if ($request->isMethod('POST')) {
+            # code...        // Récupérer toutes les données POST
+        $data = $request->request->all();
+
+        // Convertir les chaînes JSON en objets PHP
+        foreach ($data as $key => $value) {
+            $data[$key] = json_decode($value, true);
+        }
+
+        // Passer les données à la méthode dynamiqueSearch de IGDBService
+        $dynamiqueGames = $this->igdbService->dynamiqueSearch($data);
+        }
+        else {
+            $dynamiqueGames = null;
+        }
+
+
         $games = $this->igdbService->homepage();
 
         return $this->render('homepage/index.html.twig', [
             'games' => $games,
+            'dynamiqueGames' => $dynamiqueGames
         ]);
     }
 
-    // #[Route('/get-data/{type}', name: 'get_data')]
-    // public function getData(string $type): Response
+
+    // #[Route('/dynamiqueSearch', name: 'dynamiqueSearch', methods:"POST")]
+    // public function dynamiqueSearch(Request $request, IGDBService $igdbService)
     // {
-    //     // Lire le fichier JSON
-    //     $json = file_get_contents('path/to/your/json/file.json');
+    //     // Récupérer toutes les données POST
+    //     $data = $request->request->all();
 
-    //     // Convertir le JSON en tableau
-    //     $data = json_decode($json, true);
+    //     // Convertir les chaînes JSON en objets PHP
+    //     foreach ($data as $key => $value) {
+    //         $data[$key] = json_decode($value, true);
+    //     }
 
-    //     // Renvoyer les données correspondant au type demandé
-    //     return new JsonResponse($data[$type] ?? []);
+    //     // Passer les données à la méthode dynamiqueSearch de IGDBService
+    //     $dynamiqueGames = $igdbService->dynamiqueSearch($data);
+
+    //     // Renvoyer les jeux dynamiques en tant que réponse JSON
+    //     return new JsonResponse($dynamiqueGames);
     // }
 }
-
-
-

@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\Friend;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class IgdbService
@@ -355,7 +357,7 @@ class IgdbService
         sort first_release_date desc; 
         
         where rating >= 50;
-        limit 500;
+        limit 0;
         ');
 
         // retirer de $games les jeux qui n'on pas de cover
@@ -440,6 +442,59 @@ class IgdbService
 
         return $gameModes;
     }
+
+
+    public function dynamiqueSearch(array $data)
+    {
+        // dump('data : ' . $data);
+        // Préparez un tableau pour stocker les IDs
+        $ids = [];
+
+        // Bouclez sur les données
+        foreach ($data as $key => $value) {
+            // Si la valeur est un tableau (ce qui signifie qu'il s'agit d'un des champs que vous voulez),
+            // bouclez sur ce tableau et ajoutez chaque ID à $ids
+            if (is_array($value)) {
+                foreach ($value as $item) {
+                    if (isset($item['id'])) {
+                        $ids[] = $item['id'];
+                    }
+                }
+            }
+        }
+
+        // Convertissez les IDs en une chaîne pour les utiliser dans la requête
+        $dataString = implode(',', $ids);
+
+        // Faites une requête à l'API iGDB
+        $dynamiqueGames = $this->makeRequest('https://api.igdb.com/v4/games', "
+            fields name, genres.name, cover.url, first_release_date, rating, platforms.name, platforms.abbreviation;
+            where id = ($dataString);
+        ");
+
+        foreach ($dynamiqueGames as &$game) {
+            if (isset($game['cover'])) {
+                $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
+            }
+        }
+
+        // dump($dynamiqueGames);
+        return $dynamiqueGames;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // public function platforms()
     // {
