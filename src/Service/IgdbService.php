@@ -357,7 +357,7 @@ class IgdbService
         sort first_release_date desc; 
         
         where rating >= 50;
-        limit 10;
+        limit 500;
         ');
 
         // retirer de $games les jeux qui n'on pas de cover
@@ -466,25 +466,25 @@ class IgdbService
             genres.id, genres.name,
             themes,
             rating;
-            
+            sort first_release_date desc;
         ";
 
             if (empty($platforms) && empty($genres) && empty($themes) && empty($modes)) {
                 $query .= "where rating >= 50; ";
             } else {
-                $conditions = [];
+                $conditions = ["category = 0"];
 
                 if (!empty($platforms)) {
-                    $conditions[] = "platforms = {" . $platforms . "}";
+                    $conditions[] = "platforms = (" . $platforms . ")";
                 }
                 if (!empty($themes)) {
-                    $conditions[] = "themes = {" . $themes . "}";
+                    $conditions[] = "themes = (" . $themes . ")";
                 }
                 if (!empty($genres)) {
-                    $conditions[] = "genres = {" . $genres . "}";
+                    $conditions[] = "genres = (" . $genres . ")";
                 }
                 if (!empty($modes)) {
-                    $conditions[] = "game_modes = {" . $modes . "}";
+                    $conditions[] = "game_modes = (" . $modes . ")";
                 }
 
                 if (!empty($conditions)) {
@@ -492,7 +492,7 @@ class IgdbService
                 }
             }
 
-            $query .= "sort first_release_date desc; limit 500;";
+            $query .= "limit 500;";
 
             $dynamicGames = $this->makeRequest('https://api.igdb.com/v4/games', $query);
 

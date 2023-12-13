@@ -5,91 +5,102 @@ import data from '../json/searchFilter.json';
 
 export function initHomepage() {
     $(document).ready(function () {
-    console.log('Homepage js est chargé !');
+        console.log('Homepage js est chargé !');
 
-    sendSelectedValues();
+        sendSelectedValues();
 
-    let selectedValues = {
-        "platforms": [],
-        "themes": [],
-        "genres": [],
-        "modes": [],
-    };
+        let selectedValues = {
+            "platforms": [],
+            "themes": [],
+            "genres": [],
+            "modes": [],
+        };
+        
 
-    function updateSelectedValues(add, category, value) {
-        if (add) {
-            selectedValues[category].push(value);
-        } else {
-            selectedValues[category] = selectedValues[category].filter(item => item.id !== value.id);
-        }
-        console.log(selectedValues);
-    }
-
-    function sendSelectedValues() {
-        // récupérer selectedValues
-        let jsonSelectedValues = JSON.stringify(selectedValues);
-        console.log('stringify : ' + jsonSelectedValues);
-
-        fetch('/dynamiqueSearch', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: jsonSelectedValues,
-        })
-            .then(response => {
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    throw new TypeError("Oops, nous n'avons pas du JSON!");
+        function updateSelectedValues(add, category, value) {
+            if (add) {
+                if (!selectedValues[category]) {
+                    selectedValues[category] = [];
                 }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data);  // Afficher les données dans la console
-                updateGames(data);  // Mettre à jour le DOM avec les données
-            })
-            .catch((error) => {
-                console.error('Erreur:', error);
-            });
-    }
-
-    // Lorsque l'utilisateur clique sur un bouton de filtre
-    $(".filter_button").click(function () {
-        // Récupérer les valeurs sélectionnées
-        let selectedValues = getSelectedValues();
-
-        // Faire une requête AJAX à votre serveur
-        $.ajax({
-            url: '/dynamiqueSearch',
-            type: 'POST',
-            data: JSON.stringify(selectedValues),
-            contentType: 'application/json',
-            success: function (data) {
-                // Mettre à jour le contenu de "games" avec la réponse
-                updateGames(data);
+                selectedValues[category].push(value);
+            } else {
+                // Parcourir chaque catégorie de filtres
+                for (let key in selectedValues) {
+                    const index = selectedValues[key].findIndex(item => item.id === value.id);
+                    if (index > -1) {
+                        // Supprimer la valeur si elle est trouvée
+                        selectedValues[key].splice(index, 1);
+                    }
+                }
             }
+            console.log(selectedValues);
+        }
+
+        function sendSelectedValues() {
+            // récupérer selectedValues
+            let jsonSelectedValues = JSON.stringify(selectedValues);
+            console.log('stringify : ' + jsonSelectedValues);
+
+            fetch('/dynamiqueSearch', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: jsonSelectedValues,
+            })
+                .then(response => {
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        throw new TypeError("Oops, nous n'avons pas du JSON!");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);  // Afficher les données dans la console
+                    updateGames(data);  // Mettre à jour le DOM avec les données
+                })
+                .catch((error) => {
+                    console.error('Erreur:', error);
+                });
+        }
+
+        // Lorsque l'utilisateur clique sur un bouton de filtre
+        $(".filter_button").click(function () {
+            // Récupérer les valeurs sélectionnées
+            let selectedValues = getSelectedValues();
+
+            // Faire une requête AJAX à votre serveur
+            $.ajax({
+                url: '/dynamiqueSearch',
+                type: 'POST',
+                data: JSON.stringify(selectedValues),
+                contentType: 'application/json',
+                success: function (data) {
+                    // Mettre à jour le contenu de "games" avec la réponse
+                    updateGames(data);
+                }
+            });
         });
-    });
 
-// Mettre à jour le contenu de "games"
-function updateGames(data) {
-    // Supprimer le contenu actuel de "games"
-    $("#games_list").empty();
+        // Mettre à jour le contenu de "games"
+        function updateGames(data) {
+            // Supprimer le contenu actuel de "games"
+            $("#games_list").empty();
 
-    // Convertir data en tableau si c'est un objet
-    if (typeof data === 'object') {
-        data = Object.values(data);
-    }
+            // Convertir data en tableau si c'est un objet
+            if (typeof data === 'object') {
+                data = Object.values(data);
+            }
 
-    console.log(data);
-    // Ajouter chaque jeu à "games"
-    data.forEach(function (game) {
-        // console.log(game);  // Afficher l'objet game dans la console
+            console.log(data);
+            // Ajouter chaque jeu à "games"
+            data.forEach(function (game) {
+                // console.log(game);  // Afficher l'objet game dans la console
 
-        // Utiliser game.cover.url si défini, sinon utiliser une image de remplacement
-        var coverUrl = game.cover && game.cover.url ? game.cover.url : "build/images/placeholder.jpg";
+                // Utiliser game.cover.url si défini, sinon utiliser une image de remplacement
+                var coverUrl = game.cover && game.cover.url ? game.cover.url : "build/images/placeholder.jpg";
 
-        $("#games_list").append(`
+                $("#games_list").append(`
             <div class="game_card">
                 <div class="game_card_img">
                     <a href="/game/${game.id}">
@@ -101,8 +112,8 @@ function updateGames(data) {
                 </div>
             </div>
         `);
-    });
-}
+            });
+        }
 
 
 
