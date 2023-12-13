@@ -7,11 +7,9 @@
 	<div class="body-content">
 		<div
 			class="container">
-
-<pre>
-	{{ dump(dynamiqueGames) }}
-</pre>
-
+{# <pre>
+	{{ dump(games) }}
+</pre> #}
 			<div class="homepage">
 				<div class="search_filter">
 					<div class="search_filter-btn">
@@ -29,29 +27,13 @@
 					<div class="search_filter-result"></div>
 				</div>
 
-				<div class="games_list">
-					{% for game in games %}
+				<div id="games_list">
 
-						<div class="game_card">
-							<div class="game_card_img">
-								{% if game.cover is defined %}
-									<a href="{{ path('game', {id: game.id}) }}"><img src="{{ game.cover.url }}" alt="{{ game.name }} cover"></a>
-								{% else %}
-									<a href="{{ path('game', {id: game.id}) }}">
-										<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
-									</a>
-								{% endif %}
-							</div>
-						</div>
-					{% endfor %}
 				</div>
 			</div>
 		</div>
 
 	</div>
-
-
-
 {% endblock %}
 
 
@@ -69,3 +51,21 @@
 						<button class="btn btn-small bg-primary">Desc</button>
 					</div>
 				</div> #}
+
+
+
+
+					{# {% for game in games %}
+
+						<div class="game_card">
+							<div class="game_card_img">
+								{% if game.cover is defined %}
+									<a href="{{ path('game', {id: game.id}) }}"><img src="{{ game.cover.url }}" alt="{{ game.name }} cover"></a>
+								{% else %}
+									<a href="{{ path('game', {id: game.id}) }}">
+										<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
+									</a>
+								{% endif %}
+							</div>
+						</div>
+					{% endfor %} #}

@@ -1,9 +1,13 @@
-import noUiSlider from 'nouislider';
-import 'nouislider/dist/nouislider.css';
+// import noUiSlider from 'nouislider';
+// import 'nouislider/dist/nouislider.css';
 
 import data from '../json/searchFilter.json';
 
 export function initHomepage() {
+    $(document).ready(function () {
+    console.log('Homepage js est chargé !');
+
+    sendSelectedValues();
 
     let selectedValues = {
         "platforms": [],
@@ -22,44 +26,87 @@ export function initHomepage() {
     }
 
     function sendSelectedValues() {
-        const data = {...selectedValues};
-
-        // Si platforms ou themes sont des objets, les convertir en une chaîne JSON
-        if (typeof data.platforms === 'object') {
-            data.platforms = JSON.stringify(data.platforms);
-        }
-        if (typeof data.themes === 'object') {
-            data.themes = JSON.stringify(data.themes);
-        }
-        if (typeof data.genres === 'object') {
-            data.genres = JSON.stringify(data.genres);
-        }
-        if (typeof data.modes === 'object') {
-            data.modes = JSON.stringify(data.modes);
-        }
-
-        const params = new URLSearchParams();
-        for (const key in data) {
-            params.append(key, data[key]);
-        }
+        // récupérer selectedValues
+        let jsonSelectedValues = JSON.stringify(selectedValues);
+        console.log('stringify : ' + jsonSelectedValues);
 
         fetch('/dynamiqueSearch', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
             },
-            body: params,
+            body: jsonSelectedValues,
         })
-        .then(response => response.text())
-        .then(data => console.log(data))
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+            .then(response => {
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new TypeError("Oops, nous n'avons pas du JSON!");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);  // Afficher les données dans la console
+                updateGames(data);  // Mettre à jour le DOM avec les données
+            })
+            .catch((error) => {
+                console.error('Erreur:', error);
+            });
     }
 
+    // Lorsque l'utilisateur clique sur un bouton de filtre
+    $(".filter_button").click(function () {
+        // Récupérer les valeurs sélectionnées
+        let selectedValues = getSelectedValues();
+
+        // Faire une requête AJAX à votre serveur
+        $.ajax({
+            url: '/dynamiqueSearch',
+            type: 'POST',
+            data: JSON.stringify(selectedValues),
+            contentType: 'application/json',
+            success: function (data) {
+                // Mettre à jour le contenu de "games" avec la réponse
+                updateGames(data);
+            }
+        });
+    });
+
+// Mettre à jour le contenu de "games"
+function updateGames(data) {
+    // Supprimer le contenu actuel de "games"
+    $("#games_list").empty();
+
+    // Convertir data en tableau si c'est un objet
+    if (typeof data === 'object') {
+        data = Object.values(data);
+    }
+
+    console.log(data);
+    // Ajouter chaque jeu à "games"
+    data.forEach(function (game) {
+        // console.log(game);  // Afficher l'objet game dans la console
+
+        // Utiliser game.cover.url si défini, sinon utiliser une image de remplacement
+        var coverUrl = game.cover && game.cover.url ? game.cover.url : "build/images/placeholder.jpg";
+
+        $("#games_list").append(`
+            <div class="game_card">
+                <div class="game_card_img">
+                    <a href="/game/${game.id}">
+                        <img src="${coverUrl}" alt="${game.name} cover">
+                    </a>
+                </div>
+                <div class="game_card_info">
+                    <h2>${game.name}</h2>
+                </div>
+            </div>
+        `);
+    });
+}
 
 
-    $(document).ready(function () {
+
+
 
         // Gestion des sliders
         let currentButton = null;
@@ -100,6 +147,9 @@ export function initHomepage() {
                     resultDiv.innerHTML = '';
 
 
+                    // Triez les données par categorie dans l'ordre alphabétique
+                    buttonData.sort((a, b) => a.name.localeCompare(b.name));
+
                     //* Gestion des boutons de filtre platform/thems/genres/modes
                     // Créez un bouton pour chaque élément de data
                     let html = buttonData.map(item => `<button id="${item.id}" class="result-button ${this.id}-result">${item.name}</button>`).join('');
@@ -129,8 +179,8 @@ export function initHomepage() {
                             } else {
                                 //* Ajout au tableau selectedValues
                                 // Si l'élément n'existe pas, ajoutez-le
-                                let value = { id: this.id, name: this.textContent };
-                                let selectedHtml = `<div class="search_filter-selected-item selected_${currentButton.id}"><p id="${this.id}" class="selected-button_${currentButton.id}">${this.textContent}</p><button class="remove-button"><ion-icon name="close-outline"></ion-icon></button></div>`;
+                                let value = { id: this.id };
+                                let selectedHtml = `<div class="search_filter-selected-item selected_${currentButton.id}"><p id="${this.id}" class="selected-button_${currentButton.id}">${this.textContent} [${this.id}]</p><button class="remove-button"><ion-icon name="close-outline"></ion-icon></button></div>`;
                                 selectedDiv.innerHTML += selectedHtml;
 
                                 // Mettez à jour selectedValues
@@ -148,7 +198,7 @@ export function initHomepage() {
                                         this.parentElement.remove();
 
                                         // Supprimez l'élément du tableau selectedValues
-                                        let value = { id: this.previousElementSibling.id, name: this.previousElementSibling.textContent };
+                                        let value = { id: this.previousElementSibling.id };
                                         selectedValues[currentButton.id] = selectedValues[currentButton.id].filter(item => item.id !== value.id);
 
                                         // Mettez à jour selectedValues
@@ -169,20 +219,6 @@ export function initHomepage() {
         });
     });
 
-    function getControllerData() {
-        fetch('/dynamiqueSearch')
-            .then(response => response.json())
-            .then(data => {
-                // Utilisez les données ici
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }
+
 }
 
-// window.onload = function() {
-//     // Récupérez les données du contrôleur lorsque la page est chargée
-//     getControllerData();
-// };

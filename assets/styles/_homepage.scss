@@ -314,7 +314,7 @@
         }
     }
 
-    .games_list {
+    #games_list {
         display: grid;
         grid-template-columns: repeat(8, 1fr);
         grid-gap: 1rem;
