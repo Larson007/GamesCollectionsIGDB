@@ -1,5 +1,7 @@
+import noUiSlider from 'nouislider';
+import 'nouislider/dist/nouislider.css';
+
 import data from '../json/searchFilter.json';
-import { multiRangeSliders } from './multiRangeSliders';
 
 export function initHomepage() {
     $(document).ready(function () {
@@ -118,6 +120,7 @@ export function initHomepage() {
         let currentButton = null;
         // Stockez les valeurs sélectionnées
 
+
         // Ajoutez un écouteur d'événements 'click' à chaque bouton de filtre
         let buttons = document.querySelectorAll('.search_filter-btn button');
         buttons.forEach((button) => {
@@ -137,10 +140,6 @@ export function initHomepage() {
                     let resultDiv = document.querySelector('.search_filter-result');
                     // Supprimez les éléments de rating_filter-slider et released_filter-slider s'ils existent
                     resultDiv.innerHTML = '';
-
-
-
-
                     // retire la classe active du bouton actuel
                     this.classList.remove('active');
                     // Supprimez la classe 'active' du bouton actuel
@@ -155,38 +154,16 @@ export function initHomepage() {
                     // Supprimez les résultats existants
                     resultDiv.innerHTML = '';
 
-                    //************** Button rating/relased **************/
-                    // si le bouton actuel est le bouton released ou rating
-                    if (this.id === 'released') {
-                        // Créez un élément HTML pour le slider
-                        let sliderHtml = `<div class="released_filter-slider"><div id="released-slider" class="slider"></div><button id="released-add"  class="result-button add-button-released"><ion-icon name="add-outline"></ion-icon></button></div>`;
-                        // Ajoutez le HTML à resultDiv
-                        resultDiv.innerHTML = sliderHtml;
-                        let releasedSlider = document.getElementById('released-slider');
-                        // appeler la fonction multiRangeSliders
-                        multiRangeSliders(releasedSlider, 1972, 2025, 1972, 2023);
-                        // si ke bouton actuel est le bouton released ou rating
-                    } else if (this.id === 'rating') {
-                        // Créez un élément HTML pour le slider
-                        let sliderHtml = `<div class="rating_filter-slider"><div id="rating-slider" class="slider"></div><button id="rating-add" class="result-button add-button-rating"><ion-icon name="add-outline"></ion-icon></button></div>`;
-                        // Ajoutez le HTML à resultDiv
-                        resultDiv.innerHTML = sliderHtml;
-                        let ratingSlider = document.getElementById('rating-slider');
-                        // appeler la fonction multiRangeSliders
-                        multiRangeSliders(ratingSlider, 0, 100, 0, 100);
-                    } else {
-                        //************** Button classique **************/
-                        // Triez les données par categorie dans l'ordre alphabétique
-                        buttonData.sort((a, b) => a.name.localeCompare(b.name));
 
-                        //* Gestion des boutons de filtre platform/thems/genres/modes
-                        // Créez un bouton pour chaque élément de data
-                        let html = buttonData.map(item => `<button id="${item.id}" class="result-button ${this.id}-result">${item.name}</button>`).join('');
+                    // Triez les données par categorie dans l'ordre alphabétique
+                    buttonData.sort((a, b) => a.name.localeCompare(b.name));
 
-                        // Ajoutez le HTML à resultDiv
-                        resultDiv.innerHTML = html;
-                    }
+                    //* Gestion des boutons de filtre platform/thems/genres/modes
+                    // Créez un bouton pour chaque élément de data
+                    let html = buttonData.map(item => `<button id="${item.id}" class="result-button ${this.id}-result">${item.name}</button>`).join('');
 
+                    // Ajoutez le HTML à resultDiv
+                    resultDiv.innerHTML = html;
 
                     // Ajoutez un écouteur d'événements 'click' à chaque bouton
                     let resultButtons = document.querySelectorAll('.result-button');
@@ -194,43 +171,9 @@ export function initHomepage() {
                     resultButtons.forEach((resultButton) => {
                         // Ajoutez un écouteur d'événements 'click' à chaque bouton
                         resultButton.addEventListener('click', function () {
-                            // Sélectionnez la div pour afficher les valeurs sélectionnées
+                            // Supprimez la classe 'active' de tous les boutons
                             let selectedDiv = document.querySelector('.search_filter-selected');
-                            // si le bouton actuel est le bouton released-add ou rating-add
-                            if (this.id === 'released-add' || this.id === 'rating-add') {
-                                // Récupérez les valeurs min et max du slider correspondant
-                                let slider = document.getElementById(this.id.replace('-add', '-slider'));
-                                let min = slider.noUiSlider.get()[0];
-                                let max = slider.noUiSlider.get()[1];
-
-                                // Formatez les valeurs
-                                let valueText = `min ${min} max ${max}`;
-
-                                // Sélectionnez la div pour afficher les valeurs sélectionnées
-                                let selectedDiv = document.querySelector('.search_filter-selected');
-
-                                // Vérifiez si une valeur pour le bouton actuel a déjà été ajoutée
-                                let existingValue = selectedDiv.querySelector(`.selected-button_${this.id.replace('-add', '')}`);
-                                if (existingValue) {
-                                    // Si une valeur a déjà été ajoutée, ne faites rien
-                                    return;
-                                }
-
-                                // Créez le HTML pour la nouvelle valeur
-                                let selectedHtml = `<div class="search_filter-selected-item selected_${this.id.replace('-add', '')}"><p id="${this.id}" class="selected-button_${this.id.replace('-add', '')}">${valueText}</p><button class="remove-button"><ion-icon name="close-outline"></ion-icon></button></div>`;
-
-                                // Ajoutez le HTML à selectedDiv
-                                selectedDiv.innerHTML += selectedHtml;
-
-                                // Ajoutez un écouteur d'événements 'click' au bouton de suppression
-                                let removeButton = selectedDiv.querySelector('.remove-button');
-                                removeButton.addEventListener('click', function () {
-                                    // Supprimez l'élément parent du bouton de suppression
-                                    this.parentElement.remove();
-                                });
-                            }
-
-                            // Vérifiez si l'élément existe déjà dans selectedDiv
+                            // Supprimez la classe 'active' de tous les boutons
                             let existingButton = selectedDiv.querySelector(`.selected-button[id="${this.id}"]`);
 
                             // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
@@ -242,7 +185,7 @@ export function initHomepage() {
                                 return;
                                 // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
                             } else {
-
+                                //* Ajout au tableau selectedValues
                                 // Si l'élément n'existe pas, ajoutez-le
                                 let value = { id: this.id };
                                 let selectedHtml = `<div class="search_filter-selected-item selected_${currentButton.id}"><p id="${this.id}" class="selected-button_${currentButton.id}">${this.textContent} [${this.id}]</p><button class="remove-button"><ion-icon name="close-outline"></ion-icon></button></div>`;
@@ -277,12 +220,13 @@ export function initHomepage() {
                             }
                         });
                     });
-
                     // Mettez à jour le bouton actuellement sélectionné
                     currentButton = this;
                 }
             });
         });
     });
+
+
 }
 

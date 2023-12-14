@@ -5,11 +5,16 @@
 
 {% block body %}
 	<div class="body-content">
-		<div
-			class="container">
-{# <pre>
-	{{ dump(games) }}
-</pre> #}
+		<div class="container">
+					{# <div class="rating_result">
+						<div id="rating-slider"></div>
+						<button class="result-button rating-result"><ion-icon name="add-outline"></ion-icon></button>
+					</div> #}
+					{# <div class="special_result released_result mt-5">
+						<div id="released-slider"></div>
+					</div> #}
+
+
 			<div class="homepage">
 				<div class="search_filter">
 					<div class="search_filter-btn">
@@ -21,15 +26,12 @@
 						<button id="released" class="released_filter">released</button>
 					</div>
 
-					<div class="search_filter-selected">
-					</div>
+					<div class="search_filter-selected"></div>
 
 					<div class="search_filter-result"></div>
 				</div>
 
-				<div id="games_list">
-
-				</div>
+				<div id="games_list"></div>
 			</div>
 		</div>
 
@@ -53,9 +55,7 @@
 				</div> #}
 
 
-
-
-					{# {% for game in games %}
+{# {% for game in games %}
 
 						<div class="game_card">
 							<div class="game_card_img">
