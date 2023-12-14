@@ -34,7 +34,7 @@ export function initHomepage() {
                             selectedValues[key].splice(index, 1);
                         }
                     } else {
-                        console.error('selectedValues[' + key + '] doit être un tableau');
+                        console.log('selectedValues[' + key + '] doit être un tableau');
                     }
                 }
             }

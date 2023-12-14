@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\Friend;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -408,6 +409,10 @@ class IgdbService
             $genres = implode(",", array_column($data['genres'], 'id'));
             $themes = implode(",", array_column($data['themes'], 'id'));
             $modes = implode(",", array_column($data['modes'], 'id'));
+            $ratingMin = $data['rating']['min'];
+            $ratingMax = $data['rating']['max'];
+            $releasedMin = $data['released']['min'];
+            $releasedMax = $data['released']['max'];
 
             // Faire la requête
             $query = "
@@ -423,10 +428,10 @@ class IgdbService
             genres.id, genres.name,
             themes,
             rating;
-            sort first_release_date desc;
+            sort rating desc;
         ";
 
-            if (empty($platforms) && empty($genres) && empty($themes) && empty($modes)) {
+            if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
                 $query .= "where rating >= 50; ";
             } else {
                 $conditions = ["category = 0"];
@@ -442,6 +447,18 @@ class IgdbService
                 }
                 if (!empty($modes)) {
                     $conditions[] = "game_modes = {" . $modes . "}";
+                }
+                if (!empty($ratingMin)) {
+                    $conditions[] = "rating >= " . $ratingMin;
+                }
+                if (!empty($ratingMax)) {
+                    $conditions[] = "rating <= " . $ratingMax;
+                }
+                if (!empty($releasedMin)) {
+                    $conditions[] = "first_release_date >= " . strtotime($releasedMin.'-01-01');
+                }
+                if (!empty($releasedMax)) {
+                    $conditions[] = "first_release_date <= " . strtotime($releasedMax.'-12-31');
                 }
 
                 if (!empty($conditions)) {

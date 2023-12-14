@@ -48,6 +48,17 @@ class HomepageController extends AbstractController
         // Récupérer les données JSON
         $data = json_decode($request->getContent(), true);
 
+        // dump(strtotime($data['released']['min']));
+        // dump(strtotime($data['released']['max']));
+        // dump($data['released']['min']);
+        // dump($data['released']['max']);
+        // dump($data['rating']['min']);
+        // dump($data['rating']['max']);
+
+        // if (!empty($data['released']['min'])) {
+        //     dump("released min");
+        // } else (dump("released min empty"));
+
 
 
         if (empty($data)) {
