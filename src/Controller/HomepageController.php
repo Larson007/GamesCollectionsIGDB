@@ -19,14 +19,16 @@ class HomepageController extends AbstractController
     }
 
     #[Route('/', name: 'homepage', methods: "GET")]
-    public function index()
+    public function index(Request $request): Response
     {
+        
+
         // // Récupérer les données JSON
         // $data = json_decode($request->getContent(), true);
 
-
-
-
+        // $yearMax = $data['released']['min'];
+        // $dateMax = $yearMax . "-12-31 00:00:00";
+        // $releasedMax = strtotime($dateMax);
 
         // if (empty($data)) {
             // $games = $this->igdbService->homepage();
@@ -45,6 +47,7 @@ class HomepageController extends AbstractController
     {
         // Récupérer les données JSON
         $data = json_decode($request->getContent(), true);
+
 
 
         if (empty($data)) {

@@ -3,7 +3,7 @@ import { multiRangeSliders } from './multiRangeSliders';
 
 export function initHomepage() {
     $(document).ready(function () {
-        console.log('Homepage js est chargé !');
+        // console.log('Homepage js est chargé !');
 
         sendSelectedValues();
 
@@ -12,6 +12,8 @@ export function initHomepage() {
             "themes": [],
             "genres": [],
             "modes": [],
+            "rating": { "min": null, "max": null },
+            "released": { "min": null, "max": null }
         };
 
 
@@ -24,15 +26,40 @@ export function initHomepage() {
             } else {
                 // Parcourir chaque catégorie de filtres
                 for (let key in selectedValues) {
-                    const index = selectedValues[key].findIndex(item => item.id === value.id);
-                    if (index > -1) {
-                        // Supprimer la valeur si elle est trouvée
-                        selectedValues[key].splice(index, 1);
+                    // Vérifiez si selectedValues[key] est un tableau
+                    if (Array.isArray(selectedValues[key])) {
+                        const index = selectedValues[key].findIndex(item => item.id === value.id);
+                        if (index > -1) {
+                            // Supprimer la valeur si elle est trouvée
+                            selectedValues[key].splice(index, 1);
+                        }
+                    } else {
+                        console.error('selectedValues[' + key + '] doit être un tableau');
                     }
                 }
             }
             console.log(selectedValues);
         }
+
+        function updateSelectedRatingAndRelasedValues(type, min, max) {
+            if (type !== "rating" && type !== "released") {
+                console.error("Invalid type. Expected 'rating' or 'released'.");
+                return;
+            }
+
+            if (min === null && max === null) {
+                selectedValues[type] = { min: null, max: null };
+                console.log(`Les valeurs pour '${type}' ont été réinitialisées.`);
+            } else {
+                if (selectedValues[type]) {
+                    console.log(`Les valeurs pour '${type}' ont été mises à jour.`);
+                } else {
+                    console.log(`Les valeurs pour '${type}' ont été ajoutées.`);
+                }
+                selectedValues[type] = { min: min, max: max };
+            }
+        }
+
 
         function sendSelectedValues() {
             // récupérer selectedValues
@@ -138,9 +165,6 @@ export function initHomepage() {
                     // Supprimez les éléments de rating_filter-slider et released_filter-slider s'ils existent
                     resultDiv.innerHTML = '';
 
-
-
-
                     // retire la classe active du bouton actuel
                     this.classList.remove('active');
                     // Supprimez la classe 'active' du bouton actuel
@@ -197,6 +221,8 @@ export function initHomepage() {
                             // Sélectionnez la div pour afficher les valeurs sélectionnées
                             let selectedDiv = document.querySelector('.search_filter-selected');
                             // si le bouton actuel est le bouton released-add ou rating-add
+
+                            //? ******** Gestion des bouttons rating et released */
                             if (this.id === 'released-add' || this.id === 'rating-add') {
                                 // Récupérez les valeurs min et max du slider correspondant
                                 let slider = document.getElementById(this.id.replace('-add', '-slider'));
@@ -217,64 +243,86 @@ export function initHomepage() {
                                 }
 
                                 // Créez le HTML pour la nouvelle valeur
-                                let selectedHtml = `<div class="search_filter-selected-item selected_${this.id.replace('-add', '')}"><p id="${this.id}" class="selected-button_${this.id.replace('-add', '')}">${valueText}</p><button class="remove-button"><ion-icon name="close-outline"></ion-icon></button></div>`;
+                                let selectedHtml = `<div class="search_filter-selected-item selected_${this.id.replace('-add', '')}">
+                                    <p id="${this.id}" class="selected-button_${this.id.replace('-add', '')}">${valueText}</p>
+                                    <button class="remove-button" id="remove-${this.id.replace('-add', '')}">
+                                        <ion-icon name="close-outline"></ion-icon>
+                                    </button>
+                                </div>`;
 
                                 // Ajoutez le HTML à selectedDiv
                                 selectedDiv.innerHTML += selectedHtml;
 
-                                // Ajoutez un écouteur d'événements 'click' au bouton de suppression
-                                let removeButton = selectedDiv.querySelector('.remove-button');
-                                removeButton.addEventListener('click', function () {
-                                    // Supprimez l'élément parent du bouton de suppression
-                                    this.parentElement.remove();
-                                });
-                            }
-
-                            // Vérifiez si l'élément existe déjà dans selectedDiv
-                            let existingButton = selectedDiv.querySelector(`.selected-button[id="${this.id}"]`);
-
-                            // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
-                            let existingValue = selectedValues[currentButton.id].find(item => item.id === this.id);
-
-                            // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
-                            if (existingButton || existingValue) {
-                                // Si l'élément existe déjà, ne faites rien
-                                return;
-                                // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
-                            } else {
-
-                                // Si l'élément n'existe pas, ajoutez-le
-                                let value = { id: this.id };
-                                let selectedHtml = `<div class="search_filter-selected-item selected_${currentButton.id}"><p id="${this.id}" class="selected-button_${currentButton.id}">${this.textContent} [${this.id}]</p><button class="remove-button"><ion-icon name="close-outline"></ion-icon></button></div>`;
-                                selectedDiv.innerHTML += selectedHtml;
-
                                 // Mettez à jour selectedValues
-                                updateSelectedValues(true, currentButton.id, value);
+                                updateSelectedRatingAndRelasedValues(this.id.replace('-add', ''), min, max);
 
                                 // Envoyez selectedValues à votre contrôleur
                                 sendSelectedValues();
 
-                                // Ajoutez un écouteur d'événements 'click' au bouton de suppression
-                                let removeButtons = document.querySelectorAll('.remove-button');
-
-                                removeButtons.forEach((removeButton) => {
+                                // Ajoutez un écouteur d'événements 'click' à tous les boutons de suppression
+                                let removeButtons = selectedDiv.querySelectorAll(`.remove-button`);
+                                removeButtons.forEach(removeButton => {
                                     removeButton.addEventListener('click', function () {
                                         // Supprimez l'élément parent du bouton de suppression
                                         this.parentElement.remove();
 
-                                        // Supprimez l'élément du tableau selectedValues
-                                        let value = { id: this.previousElementSibling.id };
-                                        selectedValues[currentButton.id] = selectedValues[currentButton.id].filter(item => item.id !== value.id);
-
-                                        // Mettez à jour selectedValues
-                                        updateSelectedValues(false, currentButton.id, value);
-
-                                        // Envoyez selectedValues à votre contrôleur
+                                        let type = this.id.replace('remove-', '');
+                                        console.log(type);  // Ajoutez cette ligne pour déboguer
+                                        updateSelectedRatingAndRelasedValues(type, null, null);
                                         sendSelectedValues();
                                     });
                                 });
-
                             }
+                            //? ******** Gestion des bouttons platforms, themes, genres et modes */
+                            else {
+
+                                // Vérifiez si l'élément existe déjà dans selectedDiv
+                                let existingButton = selectedDiv.querySelector(`.selected-button[id="${this.id}"]`);
+
+                                // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
+                                let existingValue = selectedValues[currentButton.id].find(item => item.id === this.id);
+
+                                // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
+                                if (existingButton || existingValue) {
+                                    // Si l'élément existe déjà, ne faites rien
+                                    return;
+                                    // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
+                                } else {
+
+                                    // Si l'élément n'existe pas, ajoutez-le
+                                    let value = { id: this.id };
+                                    let selectedHtml = `<div class="search_filter-selected-item selected_${currentButton.id}"><p id="${this.id}" class="selected-button_${currentButton.id}">${this.textContent} [${this.id}]</p><button class="remove-button"><ion-icon name="close-outline"></ion-icon></button></div>`;
+                                    selectedDiv.innerHTML += selectedHtml;
+
+                                    // Mettez à jour selectedValues
+                                    updateSelectedValues(true, currentButton.id, value);
+
+                                    // Envoyez selectedValues à votre contrôleur
+                                    sendSelectedValues();
+
+                                    // Ajoutez un écouteur d'événements 'click' au bouton de suppression
+                                    let removeButtons = document.querySelectorAll('.remove-button');
+
+                                    removeButtons.forEach((removeButton) => {
+                                        removeButton.addEventListener('click', function () {
+                                            // Supprimez l'élément parent du bouton de suppression
+                                            this.parentElement.remove();
+
+                                            // Supprimez l'élément du tableau selectedValues
+                                            let value = { id: this.previousElementSibling.id };
+                                            selectedValues[currentButton.id] = selectedValues[currentButton.id].filter(item => item.id !== value.id);
+
+                                            // Mettez à jour selectedValues
+                                            updateSelectedValues(false, currentButton.id, value);
+
+                                            // Envoyez selectedValues à votre contrôleur
+                                            sendSelectedValues();
+                                        });
+                                    });
+
+                                }
+                            }
+
                         });
                     });
 

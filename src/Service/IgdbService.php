@@ -415,12 +415,13 @@ class IgdbService
             id, 
             name, 
             category,
+            genres.name, 
             cover.url, 
             first_release_date, 
-            platforms.id,
-            game_modes.id,
-            genres.id,
-            themes.id,
+            platforms.id, platforms.name, platforms.abbreviation,
+            game_modes,
+            genres.id, genres.name,
+            themes,
             rating;
             sort first_release_date desc;
         ";
@@ -428,8 +429,7 @@ class IgdbService
             if (empty($platforms) && empty($genres) && empty($themes) && empty($modes)) {
                 $query .= "where rating >= 50; ";
             } else {
-                //? Catrgories de jeux à récupérer et qui ont une image de couverture
-                $conditions = ["category = 0  & cover.url != null"];
+                $conditions = ["category = 0"];
 
                 if (!empty($platforms)) {
                     $conditions[] = "platforms = (" . $platforms . ")";
