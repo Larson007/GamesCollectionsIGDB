@@ -15,7 +15,7 @@ export function initHomepage() {
             "genres": [],
             "modes": [],
         };
-        
+
 
         function updateSelectedValues(add, category, value) {
             if (add) {
@@ -106,9 +106,6 @@ export function initHomepage() {
                     <a href="/game/${game.id}">
                         <img src="${coverUrl}" alt="${game.name} cover">
                     </a>
-                </div>
-                <div class="game_card_info">
-                    <h2>${game.name}</h2>
                 </div>
             </div>
         `);

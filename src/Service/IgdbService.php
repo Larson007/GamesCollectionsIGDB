@@ -103,8 +103,7 @@ class IgdbService
         platforms.name, 
         first_release_date, 
         rating; 
-        
-        where first_release_date >= ' . strtotime($threeMonthsAgo) . ' 
+        where category = (0, 2, 4, 8, 9) & first_release_date >= ' . strtotime($threeMonthsAgo) . ' 
         & rating >= 0 
         & first_release_date < ' . strtotime($today) . '; 
         sort first_release_date desc;
@@ -399,49 +398,7 @@ class IgdbService
         return $games;
     }
 
-    public function platforms()
-    {
 
-        $platforms = $this->makeRequest('https://api.igdb.com/v4/platforms', '
-        fields id, name;
-        limit 500; } ;
-        ');
-
-        return $platforms;
-    }
-
-    public function genres()
-    {
-
-        $genres = $this->makeRequest('https://api.igdb.com/v4/genres', '
-        fields id, name;
-        limit 500; } ;
-        ');
-
-        return $genres;
-    }
-
-    public function themes()
-    {
-
-        $themes = $this->makeRequest('https://api.igdb.com/v4/themes', '
-        fields id, name;
-        limit 500; } ;
-        ');
-
-        return $themes;
-    }
-
-    public function gameModes()
-    {
-
-        $gameModes = $this->makeRequest('https://api.igdb.com/v4/game_modes', '
-        fields id, name;
-        limit 500; } ;
-        ');
-
-        return $gameModes;
-    }
 
 
     public function dynamiqueSearch($data)
@@ -484,7 +441,7 @@ class IgdbService
                     $conditions[] = "genres = (" . $genres . ")";
                 }
                 if (!empty($modes)) {
-                    $conditions[] = "game_modes = (" . $modes . ")";
+                    $conditions[] = "game_modes = {" . $modes . "}";
                 }
 
                 if (!empty($conditions)) {
@@ -508,6 +465,50 @@ class IgdbService
             $dynamicGames = null;
             return $dynamicGames;
         }
+    }
+
+    public function platforms()
+    {
+
+        $platforms = $this->makeRequest('https://api.igdb.com/v4/platforms', '
+        fields id, name;
+        limit 500; } ;
+        ');
+
+        return $platforms;
+    }
+
+    public function genres()
+    {
+
+        $genres = $this->makeRequest('https://api.igdb.com/v4/genres', '
+        fields id, name;
+        limit 500; } ;
+        ');
+
+        return $genres;
+    }
+
+    public function themes()
+    {
+
+        $themes = $this->makeRequest('https://api.igdb.com/v4/themes', '
+        fields id, name;
+        limit 500; } ;
+        ');
+
+        return $themes;
+    }
+
+    public function gameModes()
+    {
+
+        $gameModes = $this->makeRequest('https://api.igdb.com/v4/game_modes', '
+        fields id, name;
+        limit 500; } ;
+        ');
+
+        return $gameModes;
     }
 
 
