@@ -408,20 +408,20 @@ class IgdbService
         // Vérifier si tous les sous-éléments de $data sont vides ou null
         if (empty($data['platforms']) && empty($data['themes']) && empty($data['genres']) && empty($data['modes']) && $data['rating']['min'] === null && $data['rating']['max'] === null && $data['released']['min'] === null && $data['released']['max'] === null) {
             return null;
-        }
+        } else {
 
-        // 2 : on va récupérer les données de $data pour les stocker dans des variables
-        $platforms =  implode(",", $data['platforms']);
-        $genres = implode(",", $data['genres']);
-        $themes = implode(",", $data['themes']);
-        $modes = implode(",", $data['modes']);
-        $ratingMin = $data['rating']['min'];
-        $ratingMax = $data['rating']['max'];
-        $releasedMin =  $data['released']['min'];
-        $releasedMax = $data['released']['max'];
+            // 2 : on va récupérer les données de $data pour les stocker dans des variables
+            $platforms =  implode(",", $data['platforms']);
+            $genres = implode(",", $data['genres']);
+            $themes = implode(",", $data['themes']);
+            $modes = implode(",", $data['modes']);
+            $ratingMin = $data['rating']['min'];
+            $ratingMax = $data['rating']['max'];
+            $releasedMin =  $data['released']['min'];
+            $releasedMax = $data['released']['max'];
 
-        // 3 : on va créer une requête en fonction des données de $data
-        $query = "
+            // 3 : on va créer une requête en fonction des données de $data
+            $query = "
             fields
             id, 
             name, 
@@ -433,57 +433,59 @@ class IgdbService
             game_modes,
             first_release_date, 
             rating;
+            sort first_release_date desc;
         ";
 
-        if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
-            $query .= "sort first_release_date desc; where rating >= 50; ";
-        } else {
-            $conditions = ["category = 0"];
+            if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
+                $query .= "sort first_release_date desc; where rating >= 50; ";
+            } else {
+                $conditions = ["category = 0"];
 
-            if (!empty($platforms)) {
-                $conditions[] = "platforms = (" . $platforms . ")";
-            }
-            if (!empty($themes)) {
-                $conditions[] = "themes = (" . $themes . ")";
-            }
-            if (!empty($genres)) {
-                $conditions[] = "genres = (" . $genres . ")";
-            }
-            if (!empty($modes)) {
-                $conditions[] = "game_modes = {" . $modes . "}";
-            }
-            if (!empty($ratingMin)) {
-                $conditions[] = "rating >= " . $ratingMin;
-            }
-            if (!empty($ratingMax)) {
-                $conditions[] = "rating <= " . $ratingMax;
-            }
-            if (!empty($releasedMin)) {
-                $conditions[] = "first_release_date >= " . strtotime($releasedMin . '-01-01');
-            }
-            if (!empty($releasedMax)) {
-                $conditions[] = "first_release_date <= " . strtotime($releasedMax . '-12-31');
+                if (!empty($platforms)) {
+                    $conditions[] = "platforms = (" . $platforms . ")";
+                }
+                if (!empty($themes)) {
+                    $conditions[] = "themes = (" . $themes . ")";
+                }
+                if (!empty($genres)) {
+                    $conditions[] = "genres = (" . $genres . ")";
+                }
+                if (!empty($modes)) {
+                    $conditions[] = "game_modes = {" . $modes . "}";
+                }
+                if (!empty($ratingMin)) {
+                    $conditions[] = "rating >= " . $ratingMin;
+                }
+                if (!empty($ratingMax)) {
+                    $conditions[] = "rating <= " . $ratingMax;
+                }
+                if (!empty($releasedMin)) {
+                    $conditions[] = "first_release_date >= " . strtotime($releasedMin . '-01-01');
+                }
+                if (!empty($releasedMax)) {
+                    $conditions[] = "first_release_date <= " . strtotime($releasedMax . '-12-31');
+                }
+
+                if (!empty($conditions)) {
+                    $query .= "where " . implode(" & ", $conditions) . "; ";
+                }
             }
 
-            if (!empty($conditions)) {
-                $query .= "where " . implode(" & ", $conditions) . "; ";
+            $query .= "limit 50;";
+
+            // 4 : on va faire une requête à l'API iGDB
+            $dynamicGames = $this->makeRequest('https://api.igdb.com/v4/games', $query);
+
+            // 5 : on va traiter les données reçues de l'API iGDB
+            foreach ($dynamicGames as &$game) {
+                if (isset($game['cover'])) {
+                    $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
+                }
             }
+
+            // 6 : on va retourner les données traitées
+            return $dynamicGames;
         }
-
-        $query .= "limit 50;";
-
-        // 4 : on va faire une requête à l'API iGDB
-        $dynamicGames = $this->makeRequest('https://api.igdb.com/v4/games', $query);
-
-        // 5 : on va traiter les données reçues de l'API iGDB
-        foreach ($dynamicGames as &$game) {
-            if (isset($game['cover'])) {
-                $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
-            }
-        }
-
-        // 6 : on va retourner les données traitées
-        return $dynamicGames;
     }
 
 

@@ -169,6 +169,7 @@ export function initHomepage() {
                         // Div qui contient le slider
                         let categoryDivSlider = document.createElement('div');
                         categoryDivSlider.setAttribute('id', `${currentButton}-slider`);
+                        categoryDivSlider.classList.add(`slider_${currentButton}`);
                         // on verifie si on est sur released ou rating pour pour appelé la fonction multiRangeSliders
                         if (currentButton == 'released') {
                             multiRangeSliders(categoryDivSlider, 1970, 2025, 1970, 2023);
@@ -219,6 +220,7 @@ export function initHomepage() {
                                 categoryDiv.setAttribute('data-min', `${min}`);
                                 categoryDiv.setAttribute('data-max', `${max}`);
                                 let resultTextCategory = document.createElement('p');
+                                resultTextCategory.classList.add('result-text');
                                 resultTextCategory.textContent = 'min ' + min + ' max ' + max;
                                 categoryDiv.appendChild(resultTextCategory);
                                 filterSelected.appendChild(categoryDiv);
@@ -247,10 +249,13 @@ export function initHomepage() {
                     //* POUR LE BOUTTON DE FILTRE PLATFORMS
                     if (currentButton == 'platforms') {
                         // Créer un champ de recherche
+                        let inputDiv = document.createElement('div');
+                        inputDiv.classList.add('input-platforms');
                         let searchInput = document.createElement('input');
                         searchInput.setAttribute('type', 'search');
                         searchInput.setAttribute('placeholder', 'Rechercher par nom...');
-                        filterShow.appendChild(searchInput);
+                        inputDiv.appendChild(searchInput);
+                        filterShow.appendChild(inputDiv);
 
                         // Créer les boutons
                         data.forEach(category => {
@@ -258,11 +263,11 @@ export function initHomepage() {
                             let categoryAddButton = document.createElement('button');
                             categoryAddButton.classList.add(`add_button-${currentButton}`);
                             categoryAddButton.setAttribute('data-id', `${category.id}`);
-                            categoryAddButton.innerText = `ID: ${category.id} - Name: ${category.name}`;
+                            categoryAddButton.innerText = `${category.name}`;
                             categoryDiv.appendChild(categoryAddButton);
                             filterShow.appendChild(categoryDiv);
                             // Initialiser tous les boutons avec display = "none"
-                            categoryDiv.style.display = "none";
+                            // categoryDiv.style.display = "none";
 
                             // AJOUTE LORS DU CLIQUE SUR LE BOUTON ADD DANS .filter_selected
                             // sélectionner l'élément avec la classe '.filter_selected'
@@ -344,11 +349,12 @@ export function initHomepage() {
                         // On met à jour le contenu de filterShow en fonction du bouton cliqué pour récuperer les données en fonction de la catégorie
                         data.forEach(category => {
                             let categoryDiv = document.createElement('div');
+                            categoryDiv.classList.add('category', `category_${currentButton}`);
                             let categoryAddButton = document.createElement('button');
                             categoryAddButton.classList.add(`add_button-${currentButton}`);
                             // categoryAddButton.setAttribute('data-category', `${currentButton}`);
                             // categoryAddButton.setAttribute('data-id', `${category.id}`);
-                            categoryAddButton.innerText = `ID: ${category.id} - Name: ${category.name}`;
+                            categoryAddButton.innerText = `${category.name}`;
 
                             //* AJOUTE LORS DU CLIQUE SUR LE BOUTON ADD DANS .filter_selected
                             // sélectionner l'élément avec la classe '.filter_selected'

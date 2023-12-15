@@ -63,12 +63,12 @@ class HomepageController extends AbstractController
 
 
 
-        // if (empty($data)) {
-        //     $games = $this->igdbService->homepage();
-        // } else {
-        //     $games = $this->igdbService->dynamiqueSearch($data);
-        // }
-        $games = $this->igdbService->dynamiqueSearch($data);
+        if (empty($data)) {
+            $games = $this->igdbService->homepage();
+        } else {
+            $games = $this->igdbService->dynamiqueSearch($data);
+        }
+        // $games = $this->igdbService->dynamiqueSearch($data);
         // dump($games);
 
 
