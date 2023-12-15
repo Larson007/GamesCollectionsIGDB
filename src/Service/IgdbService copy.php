@@ -404,98 +404,83 @@ class IgdbService
 
     public function dynamiqueSearch($data)
     {
-        // 1 : on vérifie si $data est vide ou non
-        // Vérifier si tous les sous-éléments de $data sont vides ou null
-        if (empty($data['platforms']) && empty($data['themes']) && empty($data['genres']) && empty($data['modes']) && $data['rating']['min'] === null && $data['rating']['max'] === null && $data['released']['min'] === null && $data['released']['max'] === null) {
-            return null;
-        }
+        if (isset($data)) {
+            $platforms = implode(",", array_column($data['platforms'], 'id'));
+            $genres = implode(",", array_column($data['genres'], 'id'));
+            $themes = implode(",", array_column($data['themes'], 'id'));
+            $modes = implode(",", array_column($data['modes'], 'id'));
+            $ratingMin = $data['rating']['min'];
+            $ratingMax = $data['rating']['max'];
+            $releasedMin = $data['released']['min'];
+            $releasedMax = $data['released']['max'];
 
-        // 2 : on va récupérer les données de $data pour les stocker dans des variables
-        $platforms =  implode(",", $data['platforms']);
-        $genres = implode(",", $data['genres']);
-        $themes = implode(",", $data['themes']);
-        $modes = implode(",", $data['modes']);
-        $ratingMin = $data['rating']['min'];
-        $ratingMax = $data['rating']['max'];
-        $releasedMin =  $data['released']['min'];
-        $releasedMax = $data['released']['max'];
-
-        // 3 : on va créer une requête en fonction des données de $data
-        $query = "
+            // Faire la requête
+            $query = "
             fields
             id, 
             name, 
             category,
             cover.url, 
-            platforms,
+            platforms.id, platforms.name, platforms.abbreviation,
             themes,
-            genres,
+            genres.id, genres.name,
             game_modes,
             first_release_date, 
             rating;
         ";
 
-        if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
-            $query .= "sort first_release_date desc; where rating >= 50; ";
+            if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
+                $query .= "where rating >= 50; ";
+            } else {
+                $conditions = ["category = 0"];
+
+                if (!empty($platforms)) {
+                    $conditions[] = "platforms = (" . $platforms . ")";
+                }
+                if (!empty($themes)) {
+                    $conditions[] = "themes = (" . $themes . ")";
+                }
+                if (!empty($genres)) {
+                    $conditions[] = "genres = (" . $genres . ")";
+                }
+                if (!empty($modes)) {
+                    $conditions[] = "game_modes = {" . $modes . "}";
+                }
+                if (!empty($ratingMin)) {
+                    $conditions[] = "rating >= " . $ratingMin;
+                }
+                if (!empty($ratingMax)) {
+                    $conditions[] = "rating <= " . $ratingMax;
+                }
+                if (!empty($releasedMin)) {
+                    $conditions[] = "first_release_date >= " . strtotime($releasedMin.'-01-01');
+                }
+                if (!empty($releasedMax)) {
+                    $conditions[] = "first_release_date <= " . strtotime($releasedMax.'-12-31');
+                }
+
+                if (!empty($conditions)) {
+                    $query .= "where " . implode(" & ", $conditions) . "; ";
+                }
+            }
+
+            $query .= "limit 5;";
+
+            $dynamicGames = $this->makeRequest('https://api.igdb.com/v4/games', $query);
+
+            // Traiter les jeux
+            foreach ($dynamicGames as &$game) {
+                if (isset($game['cover'])) {
+                    $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
+                }
+            }
+
+            return $dynamicGames;
         } else {
-            $conditions = ["category = 0"];
-
-            if (!empty($platforms)) {
-                $conditions[] = "platforms = (" . $platforms . ")";
-            }
-            if (!empty($themes)) {
-                $conditions[] = "themes = (" . $themes . ")";
-            }
-            if (!empty($genres)) {
-                $conditions[] = "genres = (" . $genres . ")";
-            }
-            if (!empty($modes)) {
-                $conditions[] = "game_modes = {" . $modes . "}";
-            }
-            if (!empty($ratingMin)) {
-                $conditions[] = "rating >= " . $ratingMin;
-            }
-            if (!empty($ratingMax)) {
-                $conditions[] = "rating <= " . $ratingMax;
-            }
-            if (!empty($releasedMin)) {
-                $conditions[] = "first_release_date >= " . strtotime($releasedMin . '-01-01');
-            }
-            if (!empty($releasedMax)) {
-                $conditions[] = "first_release_date <= " . strtotime($releasedMax . '-12-31');
-            }
-
-            if (!empty($conditions)) {
-                $query .= "where " . implode(" & ", $conditions) . "; ";
-            }
+            $dynamicGames = null;
+            return $dynamicGames;
         }
-
-        $query .= "limit 50;";
-
-        // 4 : on va faire une requête à l'API iGDB
-        $dynamicGames = $this->makeRequest('https://api.igdb.com/v4/games', $query);
-
-        // 5 : on va traiter les données reçues de l'API iGDB
-        foreach ($dynamicGames as &$game) {
-            if (isset($game['cover'])) {
-                $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
-            }
-        }
-
-        // 6 : on va retourner les données traitées
-        return $dynamicGames;
     }
-
-
-
-
-
-
-
-
-
-
-
 
     public function platforms()
     {

@@ -48,6 +48,8 @@ class HomepageController extends AbstractController
         // Récupérer les données JSON
         $data = json_decode($request->getContent(), true);
 
+        // dump($data);
+
         // dump(strtotime($data['released']['min']));
         // dump(strtotime($data['released']['max']));
         // dump($data['released']['min']);
@@ -61,11 +63,14 @@ class HomepageController extends AbstractController
 
 
 
-        if (empty($data)) {
-            $games = $this->igdbService->homepage();
-        } else {
-            $games = $this->igdbService->dynamiqueSearch($data);
-        }
+        // if (empty($data)) {
+        //     $games = $this->igdbService->homepage();
+        // } else {
+        //     $games = $this->igdbService->dynamiqueSearch($data);
+        // }
+        $games = $this->igdbService->dynamiqueSearch($data);
+        // dump($games);
+
 
         // Renvoyer une réponse JSON
         return new JsonResponse($games);
