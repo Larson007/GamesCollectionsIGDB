@@ -356,8 +356,8 @@ class IgdbService
         
         sort first_release_date desc; 
         
-        where rating >= 50;
-        limit 10;
+        where rating >= 75 & category = (0, 2, 4, 8, 9);
+        limit 50;
         ');
 
         // retirer de $games les jeux qui n'on pas de cover
@@ -407,6 +407,26 @@ class IgdbService
         // 1 : on vérifie si $data est vide ou non
         // Vérifier si tous les sous-éléments de $data sont vides ou null
         if (empty($data['platforms']) && empty($data['themes']) && empty($data['genres']) && empty($data['modes']) && $data['rating']['min'] === null && $data['rating']['max'] === null && $data['released']['min'] === null && $data['released']['max'] === null) {
+
+            // $games = $this->makeRequest('https://api.igdb.com/v4/games', '
+            // fields 
+            // name,
+            // category,
+            // cover.url, 
+            // first_release_date, 
+            // rating, 
+            // platforms.name, 
+            // platforms.abbreviation; 
+            
+            // sort first_release_date desc; 
+            
+            // where rating >= 75 & category = (0, 2, 4, 8, 9);
+            // limit 50;
+            // ');
+            // $this->processCoverImages($games);
+
+            // return $games;
+
             return null;
         } else {
 

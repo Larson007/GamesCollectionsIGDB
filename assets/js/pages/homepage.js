@@ -182,9 +182,12 @@ export function initHomepage() {
                         // Boutton add
                         let categoryAddButton = document.createElement('button');
                         categoryAddButton.classList.add(`add_button-${currentButton}`);
-                        categoryAddButton.innerText = 'Add';
+                        let addImg = document.createElement('img');
+                        addImg.src = 'build/images/add-outline.svg';
+                        // categoryAddButton.innerText = 'Add';
 
                         // On ajoute les éléments dans le DOM
+                        categoryAddButton.appendChild(addImg);
                         categoryDiv.appendChild(categoryDivSlider);
                         categoryDiv.appendChild(categoryAddButton);
                         filterShow.appendChild(categoryDiv);
@@ -232,7 +235,12 @@ export function initHomepage() {
                             let resultRemoveCategory = document.createElement('button');
                             resultRemoveCategory.classList.add('result-remove');
                             resultRemoveCategory.setAttribute('data-category', `${currentButton}`);
-                            resultRemoveCategory.textContent = 'remove';
+                            resultRemoveCategory.textContent = 'X';
+                            // let removeImg = document.createElement('img');
+                            // removeImg.src = 'build/images/close-outline.svg';
+                            // resultRemoveCategory.appendChild(removeImg);
+
+
                             resultRemoveCategory.addEventListener('click', function () {
                                 // supprimer categoryDiv de .filter_selected lorsque cliqué
                                 filterSelected.removeChild(categoryDiv);
@@ -291,8 +299,11 @@ export function initHomepage() {
                                     // bouton 'remove'
                                     let resultRemoveCategory = document.createElement('button');
                                     resultRemoveCategory.classList.add('result-remove');
-                                    resultRemoveCategory.textContent = 'Remove';
-
+                                    resultRemoveCategory.textContent = 'X';
+                                    // let removeImg = document.createElement('img');
+                                    // removeImg.src = 'build/images/close-outline.svg';
+                                    // resultRemoveCategory.appendChild(removeImg);
+                                    
                                     // ajouter la nouvelle div à filterSelected
                                     filterSelected.appendChild(resultDivCategory);
                                     resultDivCategory.appendChild(resultTextCategory);
@@ -378,7 +389,10 @@ export function initHomepage() {
                                     // bouton 'remove'
                                     let resultRemoveCategory = document.createElement('button');
                                     resultRemoveCategory.classList.add('result-remove');
-                                    resultRemoveCategory.textContent = 'Remove';
+                                    resultRemoveCategory.textContent = 'X';
+                                    // let removeImg = document.createElement('img');
+                                    // removeImg.src = 'build/images/close-outline.svg';
+                                    // resultRemoveCategory.appendChild(removeImg);
 
                                     // ajouter la nouvelle div à filterSelected
                                     filterSelected.appendChild(resultDivCategory);
