@@ -1,232 +1,673 @@
-import noUiSlider from 'nouislider';
-import 'nouislider/dist/nouislider.css';
-
-import data from '../json/searchFilter.json';
+import jsonData from '../json/searchFilter.json';
+import { multiRangeSliders } from './multiRangeSliders';
 
 export function initHomepage() {
     $(document).ready(function () {
         console.log('Homepage js est chargé !');
-
-        sendSelectedValues();
+        let currentButton = null;
 
         let selectedValues = {
             "platforms": [],
             "themes": [],
             "genres": [],
             "modes": [],
+            "rating": { "min": null, "max": null },
+            "released": { "min": null, "max": null },
+            "sort": { "rating": null, "released": null }
         };
 
+        //* Fonction pour ajouter/modifier/supprimer les valeurs des filtres dans selectedValues
+        function updateSelectedValues() {
+            // sélectionner tous les éléments avec la classe '.result'
+            let results = document.querySelectorAll('.result');
+            // vider selectedValues
+            selectedValues = {
+                "platforms": [],
+                "themes": [],
+                "genres": [],
+                "modes": [],
+                "rating": { "min": null, "max": null },
+                "released": { "min": null, "max": null },
+                "sort": { "rating": null, "released": null }
 
-        function updateSelectedValues(add, category, value) {
-            if (add) {
-                if (!selectedValues[category]) {
-                    selectedValues[category] = [];
+            };
+            // parcourir tous les éléments avec la classe '.result'
+            results.forEach(result => {
+                // obtenir la catégorie de l'élément
+                let category = result.getAttribute('data-category');
+                // obtenir l'id de l'élément
+                let id = result.getAttribute('data-id');
+                // obtenir le min de l'élément
+                let min = result.getAttribute('data-min');
+                // obtenir le max de l'élément
+                let max = result.getAttribute('data-max');
+                // vérifier si l'élément est un rating ou un released
+                if (category == 'rating' || category == 'released') {
+                    // si oui, mettre à jour selectedValues
+                    selectedValues[category].min = min;
+                    selectedValues[category].max = max;
+                } else {
+                    // sinon, mettre à jour selectedValues
+                    selectedValues[category].push(id);
                 }
-                selectedValues[category].push(value);
+            });
+
+            // obtenir les éléments sortRating et sortReleased
+            let sortRatingElement = document.querySelector('.sort_rating');
+            let sortReleasedElement = document.querySelector('.sort_released');
+
+            if (sortRatingElement && sortReleasedElement) {
+                // obtenir la valeur de l'attribut 'data-sort' de sortRating et sortReleased
+                let sortRating = sortRatingElement.getAttribute('data-sort');
+                let sortReleased = sortReleasedElement.getAttribute('data-sort');
+                // mettre à jour selectedValues.sort.rating et selectedValues.sort.released
+                selectedValues.sort.rating = sortRating === 'null' ? null : sortRating;
+                selectedValues.sort.released = sortReleased === 'null' ? null : sortReleased;
             } else {
-                // Parcourir chaque catégorie de filtres
-                for (let key in selectedValues) {
-                    const index = selectedValues[key].findIndex(item => item.id === value.id);
-                    if (index > -1) {
-                        // Supprimer la valeur si elle est trouvée
-                        selectedValues[key].splice(index, 1);
-                    }
-                }
+                console.log('sortRatingElement or sortReleasedElement does not exist');
             }
+
+            // Appeler sendSelectedValues après avoir mis à jour selectedValues
+            sendSelectedValues();
+            // Afficher selectedValues dans la console
             console.log(selectedValues);
         }
 
+
+
+
+
+
+        // Envoyer les données de selectedValues dynamiquement au format JSON
         function sendSelectedValues() {
-            // récupérer selectedValues
-            let jsonSelectedValues = JSON.stringify(selectedValues);
-            console.log('stringify : ' + jsonSelectedValues);
+            // pas de données à envoyer si selectedValues est vide
+            // if (Object.keys(selectedValues).length === 0) {
+            //     return;
+            // }
 
-            fetch('/dynamiqueSearch', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: jsonSelectedValues,
-            })
-                .then(response => {
-                    const contentType = response.headers.get('content-type');
-                    if (!contentType || !contentType.includes('application/json')) {
-                        throw new TypeError("Oops, nous n'avons pas du JSON!");
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);  // Afficher les données dans la console
-                    updateGames(data);  // Mettre à jour le DOM avec les données
-                })
-                .catch((error) => {
-                    console.error('Erreur:', error);
-                });
-        }
+            // Obtenir l'élément games_sort
+            let sort = document.querySelector('#games_sort');
 
-        // Lorsque l'utilisateur clique sur un bouton de filtre
-        $(".filter_button").click(function () {
-            // Récupérer les valeurs sélectionnées
-            let selectedValues = getSelectedValues();
-
-            // Faire une requête AJAX à votre serveur
+            // envoyer les données de selectedValues au format JSON
             $.ajax({
                 url: '/dynamiqueSearch',
                 type: 'POST',
                 data: JSON.stringify(selectedValues),
                 contentType: 'application/json',
+                dataType: 'json',
                 success: function (data) {
-                    // Mettre à jour le contenu de "games" avec la réponse
-                    updateGames(data);
+                    // afficher les données reçues dans la console
+                    console.log(data);
+                    // afficher les données reçues dans le DOM
+                    let result = document.querySelector('#games_list');
+                    sort.style.display = 'inline-block';
+                    result.appendChild(sort);
+                    result.innerHTML = '';
+
+                    if (Array.isArray(data)) {
+                        result.appendChild(sort);
+                        // Créer une nouvelle div games_cards
+                        let gamesCards = document.createElement('div');
+                        gamesCards.classList.add('games_cards');
+
+                        data.forEach(game => {
+                            let gameDiv = document.createElement('div');
+                            gameDiv.classList.add('game_card');
+
+                            if (game.cover == undefined || !game.cover.url.includes('t_cover_big')) {
+                                gameDiv.innerHTML = `
+                                    <a href="/game/${game.id}">
+                                        <div class="game_card_img">
+                                            <img src="build/images/placeholder.jpg" alt="${game.name}">
+                                        </div>
+                                        <div class="game_card_info">
+                                            <h3>${game.name}</h3>
+                                        </div>
+                                    </a>
+                                `;
+                            } else {
+                                gameDiv.innerHTML = `
+                                    <a href="/game/${game.id}">
+                                        <div class="game_card_img">
+                                            <img src="${game.cover.url}" alt="${game.name}">
+                                        </div>
+                                    </a>
+                                `;
+                            }
+
+                            // Ajouter gameDiv à gamesCards
+                            gamesCards.appendChild(gameDiv);
+                        });
+
+                        // Ajouter gamesCards à result
+                        result.appendChild(gamesCards);
+                    } else {
+                        // Si data est vide (pas de filtre selectionné ou pas de résultat)
+                        result.innerHTML = '';
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
                 }
-            });
-        });
-
-        // Mettre à jour le contenu de "games"
-        function updateGames(data) {
-            // Supprimer le contenu actuel de "games"
-            $("#games_list").empty();
-
-            // Convertir data en tableau si c'est un objet
-            if (typeof data === 'object') {
-                data = Object.values(data);
-            }
-
-            console.log(data);
-            // Ajouter chaque jeu à "games"
-            data.forEach(function (game) {
-                // console.log(game);  // Afficher l'objet game dans la console
-
-                // Utiliser game.cover.url si défini, sinon utiliser une image de remplacement
-                var coverUrl = game.cover && game.cover.url ? game.cover.url : "build/images/placeholder.jpg";
-
-                $("#games_list").append(`
-            <div class="game_card">
-                <div class="game_card_img">
-                    <a href="/game/${game.id}">
-                        <img src="${coverUrl}" alt="${game.name} cover">
-                    </a>
-                </div>
-            </div>
-        `);
             });
         }
 
 
 
+        //* Fonction pour selectionner les bouttons de filtres et les afficher dans filter-show
+        function filterBtn() {
+            // sélectionner les boutons de filtre_btn
+            let filterBtn = document.querySelectorAll('.filter-btn');
+            // sélectionner le conteneur filter-show
+            let filterShow = document.querySelector('.filter_show');
 
-
-        // Gestion des sliders
-        let currentButton = null;
-        // Stockez les valeurs sélectionnées
-
-
-        // Ajoutez un écouteur d'événements 'click' à chaque bouton de filtre
-        let buttons = document.querySelectorAll('.search_filter-btn button');
-        buttons.forEach((button) => {
-            button.addEventListener('click', function () {
-
-                //* Gestion des boutons de filtre
-                // Supprimez la classe 'active' de tous les boutons
-                buttons.forEach((btn) => {
-                    btn.classList.remove('active');
-                });
-                // Ajoutez la classe 'active' au bouton actuel
-                this.classList.add('active');
-
-                //* Si on reclique sur le bouton actuel, alors on supprime les résultats
-                if (this === currentButton) {
-                    // Si oui, supprimez les résultats et réinitialisez le bouton sélectionné actuellement
-                    let resultDiv = document.querySelector('.search_filter-result');
-                    // Supprimez les éléments de rating_filter-slider et released_filter-slider s'ils existent
-                    resultDiv.innerHTML = '';
-                    // retire la classe active du bouton actuel
-                    this.classList.remove('active');
-                    // Supprimez la classe 'active' du bouton actuel
-                    currentButton = null;
-                }
-                //* Sinon on affiche les résultats
-                else {
-                    // Stockez les données correspondantes au bouton actuel
-                    let buttonData = data[this.id];
-                    // Sélectionnez la div pour afficher les résultats
-                    let resultDiv = document.querySelector('.search_filter-result');
-                    // Supprimez les résultats existants
-                    resultDiv.innerHTML = '';
-
-
-                    // Triez les données par categorie dans l'ordre alphabétique
-                    buttonData.sort((a, b) => a.name.localeCompare(b.name));
-
-                    //* Gestion des boutons de filtre platform/thems/genres/modes
-                    // Créez un bouton pour chaque élément de data
-                    let html = buttonData.map(item => `<button id="${item.id}" class="result-button ${this.id}-result">${item.name}</button>`).join('');
-
-                    // Ajoutez le HTML à resultDiv
-                    resultDiv.innerHTML = html;
-
-                    // Ajoutez un écouteur d'événements 'click' à chaque bouton
-                    let resultButtons = document.querySelectorAll('.result-button');
-                    // Ajoutez un écouteur d'événements 'click' à chaque bouton
-                    resultButtons.forEach((resultButton) => {
-                        // Ajoutez un écouteur d'événements 'click' à chaque bouton
-                        resultButton.addEventListener('click', function () {
-                            // Supprimez la classe 'active' de tous les boutons
-                            let selectedDiv = document.querySelector('.search_filter-selected');
-                            // Supprimez la classe 'active' de tous les boutons
-                            let existingButton = selectedDiv.querySelector(`.selected-button[id="${this.id}"]`);
-
-                            // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
-                            let existingValue = selectedValues[currentButton.id].find(item => item.id === this.id);
-
-                            // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
-                            if (existingButton || existingValue) {
-                                // Si l'élément existe déjà, ne faites rien
-                                return;
-                                // Vérifiez si l'élément existe déjà dans selectedValues[currentButton.id]
-                            } else {
-                                //* Ajout au tableau selectedValues
-                                // Si l'élément n'existe pas, ajoutez-le
-                                let value = { id: this.id };
-                                let selectedHtml = `<div class="search_filter-selected-item selected_${currentButton.id}"><p id="${this.id}" class="selected-button_${currentButton.id}">${this.textContent} [${this.id}]</p><button class="remove-button"><ion-icon name="close-outline"></ion-icon></button></div>`;
-                                selectedDiv.innerHTML += selectedHtml;
-
-                                // Mettez à jour selectedValues
-                                updateSelectedValues(true, currentButton.id, value);
-
-                                // Envoyez selectedValues à votre contrôleur
-                                sendSelectedValues();
-
-                                // Ajoutez un écouteur d'événements 'click' au bouton de suppression
-                                let removeButtons = document.querySelectorAll('.remove-button');
-
-                                removeButtons.forEach((removeButton) => {
-                                    removeButton.addEventListener('click', function () {
-                                        // Supprimez l'élément parent du bouton de suppression
-                                        this.parentElement.remove();
-
-                                        // Supprimez l'élément du tableau selectedValues
-                                        let value = { id: this.previousElementSibling.id };
-                                        selectedValues[currentButton.id] = selectedValues[currentButton.id].filter(item => item.id !== value.id);
-
-                                        // Mettez à jour selectedValues
-                                        updateSelectedValues(false, currentButton.id, value);
-
-                                        // Envoyez selectedValues à votre contrôleur
-                                        sendSelectedValues();
-                                    });
-                                });
-
-                            }
-                        });
+            //* POUR TOUS LES BOUTTONS DE FILTRES
+            filterBtn.forEach(button => {
+                button.addEventListener('click', function () {
+                    // retirer la classe active de tous les boutons
+                    filterBtn.forEach(btn => {
+                        // si le bouton cliqué est différent du bouton en cours de boucle sur lequel on clique
+                        if (btn !== this) {
+                            btn.classList.remove('active');
+                        }
                     });
-                    // Mettez à jour le bouton actuellement sélectionné
-                    currentButton = this;
-                }
+
+                    // si le bouton cliqué a déjà la classe 'active', vider filterShow et sortir de la fonction
+                    if (this.classList.contains('active')) {
+                        filterShow.innerHTML = '';
+                        this.classList.remove('active');
+                        return;
+                    }
+
+                    // ajouter la classe active du bouton cliqué
+                    this.classList.add('active');
+
+                    // stocker le bouton cliqué dans currentButton
+                    currentButton = this.id;
+
+                    console.log(currentButton);
+
+                    // On récupère les données du fichier json
+                    let data = jsonData[currentButton];
+
+                    // vider filterShow lorsqu'on clique sur un autre bouton
+                    filterShow.innerHTML = '';
+
+                    //* POUR LES BOUTTON DE FILTRES RATING ET RELEASED
+                    if (currentButton == 'rating' || currentButton == 'released') {
+                        // Div qui contient le slider et le boutton add
+                        let categoryDiv = document.createElement('div');
+                        categoryDiv.classList.add('slider');
+                        categoryDiv.setAttribute('data-category', `${currentButton}`);
+
+                        // Div qui contient le slider
+                        let categoryDivSlider = document.createElement('div');
+                        categoryDivSlider.setAttribute('id', `${currentButton}-slider`);
+                        categoryDivSlider.classList.add(`slider_${currentButton}`);
+                        // on verifie si on est sur released ou rating pour pour appelé la fonction multiRangeSliders
+                        if (currentButton == 'released') {
+                            multiRangeSliders(categoryDivSlider, 1970, 2025, 1970, 2023);
+                            // let min = categoryDivSlider.noUiSlider.get()[0];
+                            // let max = categoryDivSlider.noUiSlider.get()[1];
+                        } else {
+                            multiRangeSliders(categoryDivSlider, 0, 100, 0, 100);
+                        }
+
+                        // Boutton add
+                        let categoryAddButton = document.createElement('button');
+                        categoryAddButton.classList.add(`add_button-${currentButton}`);
+                        let addImg = document.createElement('img');
+                        addImg.src = 'build/images/add-outline.svg';
+                        // categoryAddButton.innerText = 'Add';
+
+                        // On ajoute les éléments dans le DOM
+                        categoryAddButton.appendChild(addImg);
+                        categoryDiv.appendChild(categoryDivSlider);
+                        categoryDiv.appendChild(categoryAddButton);
+                        filterShow.appendChild(categoryDiv);
+
+                        let filterSelected = document.querySelector('.filter_selected');
+
+                        // ajouter un écouteur d'événements de clic au bouton 'add'
+                        categoryAddButton.addEventListener('click', function () {
+                            // obtenir les valeurs min et max du slider
+                            let min = categoryDivSlider.noUiSlider.get()[0];
+                            let max = categoryDivSlider.noUiSlider.get()[1];
+                            // créer une nouvelle div
+                            let categoryDiv = filterSelected.querySelector(`.result-${currentButton}`);
+                            if (categoryDiv) {
+                                // si un élément avec la classe `result-${currentButton}` existe déjà, mettre à jour son textContent
+                                categoryDiv.setAttribute('data-min', `${min}`);
+                                categoryDiv.setAttribute('data-max', `${max}`);
+                                categoryDiv.textContent = '';
+                                let resultTextCategory = document.createElement('p');
+
+                                // Vérifier la valeur de l'attribut data-category
+                                if (categoryDiv.getAttribute('data-category') === 'released') {
+                                    resultTextCategory.classList.add('result-text-released');
+                                    resultTextCategory.textContent = 'Date de sortie : Entre ' + min + ' & ' + max;
+                                } else if (categoryDiv.getAttribute('data-category') === 'rating') {
+                                    resultTextCategory.classList.add('result-text-rating');
+                                    resultTextCategory.textContent = 'Notes : min ' + min + ' max ' + max;
+                                } else {
+                                    resultTextCategory.textContent = 'Min ' + min + ' Max ' + max;
+                                }
+
+                                // resultTextCategory.textContent = 'Min ' + min + ' Max ' + max;
+                                categoryDiv.appendChild(resultTextCategory);
+                                // ajouter la classe 'update-result' à categoryDiv
+                                categoryDiv.classList.add('update-result');
+
+                                // appeler updateSelectedValues après avoir supprimé un élément
+                                updateSelectedValues();
+                            }
+                            else {
+                                // sinon, créer un nouvel élément et l'ajouter à filterSelected
+                                categoryDiv = document.createElement('div');
+                                categoryDiv.classList.add('result', `result-${currentButton}`);
+                                categoryDiv.setAttribute('data-category', `${currentButton}`);
+                                categoryDiv.setAttribute('data-min', `${min}`);
+                                categoryDiv.setAttribute('data-max', `${max}`);
+                                let resultTextCategory = document.createElement('p');
+                                resultTextCategory.classList.add('result-text');
+
+                                // Vérifier la valeur de l'attribut data-category
+                                if (categoryDiv.getAttribute('data-category') === 'released') {
+                                    resultTextCategory.classList.add('result-text-released');
+                                    resultTextCategory.textContent = 'Date de sortie : Entre ' + min + ' & ' + max;
+                                } else if (categoryDiv.getAttribute('data-category') === 'rating') {
+                                    resultTextCategory.classList.add('result-text-rating');
+                                    resultTextCategory.textContent = 'Notes : min ' + min + ' max ' + max;
+                                } else {
+                                    resultTextCategory.textContent = 'Min ' + min + ' Max ' + max;
+                                }
+
+
+                                // resultTextCategory.textContent = 'Min ' + min + ' Max ' + max;
+                                categoryDiv.appendChild(resultTextCategory);
+                                filterSelected.appendChild(categoryDiv);
+
+                                // appeler updateSelectedValues après avoir supprimé un élément
+                                updateSelectedValues();
+                            }
+                            // ajouter un bouton 'remove'
+                            let resultRemoveCategory = document.createElement('button');
+                            resultRemoveCategory.classList.add('result-remove');
+                            resultRemoveCategory.setAttribute('data-category', `${currentButton}`);
+                            resultRemoveCategory.textContent = 'X';
+                            // let removeImg = document.createElement('img');
+                            // removeImg.src = 'build/images/close-outline.svg';
+                            // resultRemoveCategory.appendChild(removeImg);
+
+
+                            resultRemoveCategory.addEventListener('click', function () {
+                                // supprimer categoryDiv de .filter_selected lorsque cliqué
+                                filterSelected.removeChild(categoryDiv);
+
+                                // appeler updateSelectedValues après avoir supprimé un élément
+                                updateSelectedValues();
+                            });
+                            categoryDiv.appendChild(resultRemoveCategory);
+                            // ajouter la classe 'active-result' au bouton 'add'
+                            this.classList.add('active-result');
+                        });
+                    }
+
+                    //* POUR LE BOUTTON DE FILTRE PLATFORMS
+                    if (currentButton == 'platforms') {
+                        // Créer un champ de recherche
+                        let inputDiv = document.createElement('div');
+                        inputDiv.classList.add('input-platforms');
+                        let searchInput = document.createElement('input');
+                        searchInput.setAttribute('type', 'search');
+                        searchInput.setAttribute('placeholder', 'Rechercher par nom...');
+                        inputDiv.appendChild(searchInput);
+                        filterShow.appendChild(inputDiv);
+
+                        // Trier les add_button par ordre alphabétique
+                        data.sort((a, b) => a.name.localeCompare(b.name));
+
+                        // Créer les boutons
+                        data.forEach(category => {
+                            let categoryDiv = document.createElement('div');
+                            let categoryAddButton = document.createElement('button');
+                            categoryAddButton.classList.add(`add_button-${currentButton}`);
+                            categoryAddButton.setAttribute('data-id', `${category.id}`);
+                            categoryAddButton.innerText = `${category.name}`;
+                            categoryDiv.appendChild(categoryAddButton);
+                            filterShow.appendChild(categoryDiv);
+                            // Initialiser tous les boutons avec display = "none"
+                            // categoryDiv.style.display = "none";
+
+                            // AJOUTE LORS DU CLIQUE SUR LE BOUTON ADD DANS .filter_selected
+                            // sélectionner l'élément avec la classe '.filter_selected'
+                            let filterSelected = document.querySelector('.filter_selected');
+
+                            // ajouter un écouteur d'événements de clic au bouton 'add'
+                            categoryAddButton.addEventListener('click', function () {
+                                // vérifier si le innerText du bouton 'add' est déjà présent dans filterSelected
+                                if (!filterSelected.textContent.includes(this.innerText)) {
+                                    // div qui contiendra le innerText du bouton 'add'
+                                    let resultDivCategory = document.createElement('div');
+                                    resultDivCategory.classList.add('result', `result-${currentButton}`);
+                                    resultDivCategory.setAttribute('data-category', `${currentButton}`);
+                                    resultDivCategory.setAttribute('data-id', `${category.id}`);
+
+                                    // p qui contiendra le innerText
+                                    let resultTextCategory = document.createElement('p');
+                                    resultTextCategory.classList.add('result-text');
+                                    resultTextCategory.textContent = this.innerText;
+
+                                    // bouton 'remove'
+                                    let resultRemoveCategory = document.createElement('button');
+                                    resultRemoveCategory.classList.add('result-remove');
+                                    resultRemoveCategory.textContent = 'X';
+                                    // let removeImg = document.createElement('img');
+                                    // removeImg.src = 'build/images/close-outline.svg';
+                                    // resultRemoveCategory.appendChild(removeImg);
+
+                                    // ajouter la nouvelle div à filterSelected
+                                    filterSelected.appendChild(resultDivCategory);
+                                    resultDivCategory.appendChild(resultTextCategory);
+                                    resultDivCategory.appendChild(resultRemoveCategory);
+
+                                    // appeler updateSelectedValues après avoir ajouté un nouvel élément
+                                    updateSelectedValues();
+
+                                    // ajouter un écouteur d'événement à chaque bouton 'remove'
+                                    document.addEventListener('click', function (event) {
+                                        if (event.target.classList.contains('result-remove')) {
+                                            // obtenir la div parent de ce bouton 'remove'
+                                            let categoryDiv = event.target.parentElement;
+                                            // vérifier si categoryDiv a un parent
+                                            if (categoryDiv.parentElement) {
+                                                // supprimer categoryDiv de .filter_selected
+                                                categoryDiv.parentElement.removeChild(categoryDiv);
+
+                                                // appeler updateSelectedValues après avoir supprimé un élément
+                                                updateSelectedValues();
+                                            }
+                                        }
+                                    });
+
+                                    // ajouter la classe 'active-result' au bouton 'add'
+                                    this.classList.add('active-result');
+                                } else {
+                                    // si le innerText du bouton 'add' n'est plus présent dans filterSelected, retirer la classe 'active-result'
+                                    this.classList.remove('active-result');
+                                }
+                            });
+                        });
+
+                        // Filtrer les boutons en fonction de la recherche
+                        let timeout = null;
+                        searchInput.addEventListener('input', function () {
+                            clearTimeout(timeout);
+                            timeout = setTimeout(() => {
+                                let filter = this.value.toUpperCase();
+                                data.forEach(category => {
+                                    let btn = filterShow.querySelector(`.add_button-${currentButton}[data-id="${category.id}"]`);
+                                    if (btn.innerText.toUpperCase().includes(filter)) {
+                                        btn.parentElement.style.display = "";
+                                    } else {
+                                        btn.parentElement.style.display = "none";
+                                    }
+                                });
+                            }, 500); // Délai de 500 ms
+                        });
+                    }
+
+                    //* POUR LES BOUTTON DE FILTRES THEMES, GENRES, MODES
+                    if (currentButton == 'themes' || currentButton == 'genres' || currentButton == 'modes') {
+                        // On met à jour le contenu de filterShow en fonction du bouton cliqué pour récuperer les données en fonction de la catégorie
+
+                        // Trier les add_button par ordre alphabétique
+                        data.sort((a, b) => a.name.localeCompare(b.name));
+
+                        data.forEach(category => {
+                            let categoryDiv = document.createElement('div');
+                            categoryDiv.classList.add('category', `category_${currentButton}`);
+                            let categoryAddButton = document.createElement('button');
+                            categoryAddButton.classList.add(`add_button-${currentButton}`);
+                            // categoryAddButton.setAttribute('data-category', `${currentButton}`);
+                            // categoryAddButton.setAttribute('data-id', `${category.id}`);
+                            categoryAddButton.innerText = `${category.name}`;
+
+                            //* AJOUTE LORS DU CLIQUE SUR LE BOUTON ADD DANS .filter_selected
+                            // sélectionner l'élément avec la classe '.filter_selected'
+                            let filterSelected = document.querySelector('.filter_selected');
+
+                            // ajouter un écouteur d'événements de clic au bouton 'add'
+                            categoryAddButton.addEventListener('click', function () {
+                                // vérifier si le innerText du bouton 'add' est déjà présent dans filterSelected
+                                if (!filterSelected.textContent.includes(this.innerText)) {
+                                    // div qui contiendra le innerText du bouton 'add'
+                                    let resultDivCategory = document.createElement('div');
+                                    resultDivCategory.classList.add('result', `result-${currentButton}`);
+                                    resultDivCategory.setAttribute('data-category', `${currentButton}`);
+                                    resultDivCategory.setAttribute('data-id', `${category.id}`);
+
+                                    // p qui contiendra le innerText
+                                    let resultTextCategory = document.createElement('p');
+                                    resultTextCategory.classList.add('result-text');
+                                    resultTextCategory.textContent = this.innerText;
+
+                                    // bouton 'remove'
+                                    let resultRemoveCategory = document.createElement('button');
+                                    resultRemoveCategory.classList.add('result-remove');
+                                    resultRemoveCategory.textContent = 'X';
+                                    // let removeImg = document.createElement('img');
+                                    // removeImg.src = 'build/images/close-outline.svg';
+                                    // resultRemoveCategory.appendChild(removeImg);
+
+                                    // ajouter la nouvelle div à filterSelected
+                                    filterSelected.appendChild(resultDivCategory);
+                                    resultDivCategory.appendChild(resultTextCategory);
+                                    resultDivCategory.appendChild(resultRemoveCategory);
+
+                                    // appeler updateSelectedValues après avoir ajouté un nouvel élément
+                                    updateSelectedValues();
+
+                                    // ajouter un écouteur d'événement à chaque bouton 'remove'
+                                    document.addEventListener('click', function (event) {
+                                        if (event.target.classList.contains('result-remove')) {
+                                            // obtenir la div parent de ce bouton 'remove'
+                                            let categoryDiv = event.target.parentElement;
+                                            // vérifier si categoryDiv a un parent
+                                            if (categoryDiv && categoryDiv.parentElement) {
+                                                // supprimer categoryDiv de .filter_selected
+                                                categoryDiv.parentElement.removeChild(categoryDiv);
+
+                                                // appeler updateSelectedValues après avoir supprimé un élément
+                                                updateSelectedValues();
+                                            }
+                                        }
+                                    });
+
+                                    // ajouter la classe 'active-result' au bouton 'add'
+                                    this.classList.add('active-result');
+                                } else {
+                                    // si le innerText du bouton 'add' n'est plus présent dans filterSelected, retirer la classe 'active-result'
+                                    this.classList.remove('active-result');
+                                }
+                            });
+
+                            // On ajoute les éléments dans le DOM de chaque catégorie
+                            categoryDiv.appendChild(categoryAddButton);
+                            filterShow.appendChild(categoryDiv);
+                        });
+                    }
+
+                });
             });
-        });
+        }
+
+        //* FONCTION POUR LES BOUTTONS SORT RATING ET RELEASED
+        function sortResult() {
+            let gameShowDiv = document.querySelector('#games_sort');
+            let sortDiv = document.createElement('div');
+            sortDiv.classList.add('sort_games');
+
+            let sortRating = document.createElement('button');
+            sortRating.classList.add('sort_rating');
+            sortRating.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
+            sortRating.setAttribute('data-sort', 'desc');
+            sortRating.innerText = 'Sort by rating';
+
+            let sortReleased = document.createElement('button');
+            sortReleased.classList.add('sort_released');
+            sortReleased.setAttribute('data-sort', 'desc');
+            sortReleased.innerText = 'Sort by released';
+
+            // Ajouter une image à sortRating 
+            let sortRatingImg = document.createElement('img');
+            sortRatingImg.src = 'build/images/caret-down-outline.svg';
+            sortRating.appendChild(sortRatingImg);
+
+            // Ajouter une image à sortReleased 
+            let sortReleasedImg = document.createElement('img');
+            sortReleasedImg.src = 'build/images/caret-down-outline.svg';
+            sortReleased.appendChild(sortReleasedImg);
+
+
+            sortDiv.appendChild(sortRating);
+            sortDiv.appendChild(sortReleased);
+            gameShowDiv.appendChild(sortDiv);
+
+            // Ajouter un écouteur d'événement de clic à sortRating
+            sortRating.addEventListener('click', function () {
+                let currentSort = this.getAttribute('data-sort');
+                if (currentSort === 'desc') {
+                    this.setAttribute('data-sort', 'asc');
+                    sortRatingImg.src = 'build/images/caret-up-outline.svg';
+                } else {
+                    this.setAttribute('data-sort', 'desc');
+                    sortRatingImg.src = 'build/images/caret-down-outline.svg';
+                }
+                // Mettre à jour l'attribut data-sort de sortReleased
+                sortReleased.setAttribute('data-sort', null);
+                // Ajouter la classe 'sort-active' à sortRating et la supprimer de sortReleased
+                this.classList.add('sort-active');
+                sortReleased.classList.remove('sort-active');
+                updateSelectedValues();
+            });
+
+            // Ajouter un écouteur d'événement de clic à sortReleased
+            sortReleased.addEventListener('click', function () {
+                let currentSort = this.getAttribute('data-sort');
+                if (currentSort === 'desc') {
+                    this.setAttribute('data-sort', 'asc');
+                    sortReleasedImg.src = 'build/images/caret-up-outline.svg';
+
+                } else {
+                    this.setAttribute('data-sort', 'desc');
+                    sortReleasedImg.src = 'build/images/caret-down-outline.svg';
+                }
+                // Mettre à jour l'attribut data-sort de sortRating
+                sortRating.setAttribute('data-sort', null);
+                this.classList.add('sort-active');
+                sortRating.classList.remove('sort-active');
+                updateSelectedValues();
+            });
+        }
+
+
+        //* APPEL DES FONCTIONS
+        filterBtn();
+        sortResult();
+
     });
-
-
 }
 
+
+
+
+// function sendSelectedValues() {
+//     // pas de données à envoyer si selectedValues est vide
+//     // if (Object.keys(selectedValues).length === 0) {
+//     //     return;
+//     // }
+
+//     // Obtenir l'élément games_sort
+//     let sort = document.querySelector('#games_sort');
+
+//     // envoyer les données de selectedValues au format JSON
+//     $.ajax({
+//         url: '/dynamiqueSearch',
+//         type: 'POST',
+//         data: JSON.stringify(selectedValues),
+//         contentType: 'application/json',
+//         dataType: 'json',
+//         success: function (data) {
+//             // afficher les données reçues dans la console
+//             console.log(data);
+//             // afficher les données reçues dans le DOM
+//             let result = document.querySelector('#games_list');
+//             if (sort) {
+//                 // si sort existe, mettre à jour le style
+//                 sort.style.display = 'inline-block';
+//                 result.appendChild(sort);
+//                 result.innerHTML = '';
+//             } else {
+//                 // sinon, afficher un message d'erreur
+//                 console.log('sort does not exist');
+//                 // créer un nouvel élément div
+//                 sort = document.createElement('div');
+//                 // ajouter l'id 'games_sort' à sort
+//                 sort.setAttribute('id', 'games_sort');
+//                 // ajouter le style 'display: inline-block' à sort
+//                 sort.style.display = 'inline-block';
+//                 result.appendChild(sort);
+//                 result.innerHTML = '';
+//             }
+//             // sort.style.display = 'inline-block';
+//             // result.appendChild(sort);
+//             // result.innerHTML = '';
+
+//             if (Array.isArray(data)) {
+//                 result.appendChild(sort);
+//                 // Créer une nouvelle div games_cards
+//                 let gamesCards = document.createElement('div');
+//                 gamesCards.classList.add('games_cards');
+
+//                 data.forEach(game => {
+//                     let gameDiv = document.createElement('div');
+//                     gameDiv.classList.add('game_card');
+
+//                     if (game.cover == undefined || !game.cover.url.includes('t_cover_big')) {
+//                         gameDiv.innerHTML = `
+//                             <a href="/game/${game.id}">
+//                                 <div class="game_card_img">
+//                                     <img src="build/images/placeholder.jpg" alt="${game.name}">
+//                                 </div>
+//                                 <div class="game_card_info">
+//                                     <h3>${game.name}</h3>
+//                                 </div>
+//                             </a>
+//                         `;
+//                     } else {
+//                         gameDiv.innerHTML = `
+//                             <a href="/game/${game.id}">
+//                                 <div class="game_card_img">
+//                                     <img src="${game.cover.url}" alt="${game.name}">
+//                                 </div>
+//                             </a>
+//                         `;
+//                     }
+
+//                     // Ajouter gameDiv à gamesCards
+//                     gamesCards.appendChild(gameDiv);
+//                 });
+
+//                 // Ajouter gamesCards à result
+//                 result.appendChild(gamesCards);
+//             } else {
+//                 // Si data est vide (pas de filtre selectionné ou pas de résultat)
+//                 result.innerHTML = '';
+//             }
+//         },
+//         error: function (error) {
+//             console.log(error);
+//         }
+//     });
+// }

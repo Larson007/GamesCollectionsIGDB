@@ -369,58 +369,101 @@
     }
 
     #games_list {
-        display: grid;
-        grid-template-columns: repeat(8, 1fr);
-        grid-gap: 1rem;
-        .game_card {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-            border-radius: 5px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            // background-color: #DEDEDE;
-            
-            .game_card_img {
-                border: 1px solid transparent;
-                max-width: 100%;
-                max-height: 100%;
-                img {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 5px;
-                }
-                &:hover {
-                    border: 1px solid white;
-                    border-radius: 5px;
+        .games_cards {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-gap: 1rem;
+            .game_card {
+                width: 100%;
+                height: 200px;
+                overflow: hidden;
+                border-radius: 5px;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                // background-color: #DEDEDE;
 
+                .game_card_img {
+                    border: 1px solid transparent;
+                    max-width: 100%;
+                    max-height: 100%;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 5px;
+                    }
+                    &:hover {
+                        border: 1px solid white;
+                        border-radius: 5px;
+                    }
+                }
+                .game_card_info {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 90%;
+                    h3 {
+                        text-align: center;
+                        color: $blue;
+                        font-size: 1.2rem;
+                        font-weight: bold;
+                        padding: 0;
+                        margin: 0;
+                        text-shadow:
+                            2px 0 black,
+                            -2px 0 black,
+                            0 2px black,
+                            0 -2px black,
+                            1px 1px black,
+                            -1px -1px black,
+                            1px -1px black,
+                            -1px 1px black;
+                    }
                 }
             }
-            .game_card_info {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 90%;
-                h3 {
-                    text-align: center;
-                    color: $blue;
-                    font-size: 1.2rem;
-                    font-weight: bold;
-                    padding: 0;
-                    margin: 0;
-                    text-shadow:
-                        2px 0 black,
-                        -2px 0 black,
-                        0 2px black,
-                        0 -2px black,
-                        1px 1px black,
-                        -1px -1px black,
-                        1px -1px black,
-                        -1px 1px black;
+        }
+    }
+
+    #games_sort {
+        width: 100%;
+        margin-bottom: 2rem;
+        .sort_games {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: end;
+            button {
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.25rem 0.5rem;
+                border: 1px solid tomato;
+                background-color: transparent;
+                border-radius: 3px;
+                color: #fff;
+                font-weight: bold;
+                text-shadow:
+                2px 0 black,
+                -2px 0 black,
+                0 2px black,
+                0 -2px black,
+                1px 1px black,
+                -1px -1px black,
+                1px -1px black,
+                -1px 1px black;
+                img {
+                    width: 1.25rem;
+                    height: 1.25rem;
+                    margin-left: 1rem;
                 }
+            }
+            .sort_rating {
+                margin-right: 0.5rem;
+            }
+            .sort-active {
+                background-color: tomato;
             }
         }
     }

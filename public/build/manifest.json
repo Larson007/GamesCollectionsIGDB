@@ -46,5 +46,7 @@
   "build/images/close-outline.svg": "/build/images/close-outline.svg",
   "build/images/add-outline.svg": "/build/images/add-outline.svg",
   "build/images/icons/nav/chevron-back-outline.svg": "/build/images/icons/nav/chevron-back-outline.svg",
-  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg"
+  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg",
+  "build/images/caret-down-outline.svg": "/build/images/caret-down-outline.svg",
+  "build/images/caret-up-outline.svg": "/build/images/caret-up-outline.svg"
 }

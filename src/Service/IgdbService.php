@@ -417,9 +417,9 @@ class IgdbService
             // rating, 
             // platforms.name, 
             // platforms.abbreviation; 
-            
+
             // sort first_release_date desc; 
-            
+
             // where rating >= 75 & category = (0, 2, 4, 8, 9);
             // limit 50;
             // ');
@@ -439,6 +439,15 @@ class IgdbService
             $ratingMax = $data['rating']['max'];
             $releasedMin =  $data['released']['min'];
             $releasedMax = $data['released']['max'];
+            $sortRating = $data['sort']['rating'];
+            $sortReleased = $data['sort']['released'];
+
+            $sortType = null;
+            if (!empty($data['sort']['rating'])) {
+                $sortType = 'rating';
+            } elseif (!empty($data['sort']['released'])) {
+                $sortType = 'released';
+            }
 
             // 3 : on va créer une requête en fonction des données de $data
             $query = "
@@ -453,11 +462,17 @@ class IgdbService
             game_modes,
             first_release_date, 
             rating;
-            sort first_release_date desc;
         ";
+            if (!empty($data['sort']['rating'])) {
+                $query .= "sort rating " . $data['sort']['rating'] . "; ";
+            } elseif (!empty($data['sort']['released'])) {
+                $query .= "sort first_release_date " . $data['sort']['released'] . "; ";
+            } else {
+                $query .= "sort first_release_date desc; ";
+            }
 
             if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
-                $query .= "sort first_release_date desc; where rating >= 50; ";
+                $query .= "";
             } else {
                 $conditions = ["category = 0"];
 

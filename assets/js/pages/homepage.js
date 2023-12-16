@@ -12,8 +12,11 @@ export function initHomepage() {
             "genres": [],
             "modes": [],
             "rating": { "min": null, "max": null },
-            "released": { "min": null, "max": null }
+            "released": { "min": null, "max": null },
+            "sort": { "rating": null, "released": null }
         };
+
+        
 
         //* Fonction pour ajouter/modifier/supprimer les valeurs des filtres dans selectedValues
         function updateSelectedValues() {
@@ -26,7 +29,8 @@ export function initHomepage() {
                 "genres": [],
                 "modes": [],
                 "rating": { "min": null, "max": null },
-                "released": { "min": null, "max": null }
+                "released": { "min": null, "max": null },
+                "sort": { "rating": null, "released": null }
 
             };
             // parcourir tous les éléments avec la classe '.result'
@@ -49,15 +53,27 @@ export function initHomepage() {
                     selectedValues[category].push(id);
                 }
             });
+
+            // obtenir les éléments sortRating et sortReleased
+            let sortRatingElement = document.querySelector('.sort_rating');
+            let sortReleasedElement = document.querySelector('.sort_released');
+
+            if (sortRatingElement && sortReleasedElement) {
+                // obtenir la valeur de l'attribut 'data-sort' de sortRating et sortReleased
+                let sortRating = sortRatingElement.getAttribute('data-sort');
+                let sortReleased = sortReleasedElement.getAttribute('data-sort');
+                // mettre à jour selectedValues.sort.rating et selectedValues.sort.released
+                selectedValues.sort.rating = sortRating === 'null' ? null : sortRating;
+                selectedValues.sort.released = sortReleased === 'null' ? null : sortReleased;
+            } else {
+                console.log('sortRatingElement or sortReleasedElement does not exist');
+            }
+
             // Appeler sendSelectedValues après avoir mis à jour selectedValues
             sendSelectedValues();
             // Afficher selectedValues dans la console
             console.log(selectedValues);
         }
-
-
-
-
 
 
         // Envoyer les données de selectedValues dynamiquement au format JSON
@@ -66,6 +82,7 @@ export function initHomepage() {
             // if (Object.keys(selectedValues).length === 0) {
             //     return;
             // }
+
             // envoyer les données de selectedValues au format JSON
             $.ajax({
                 url: '/dynamiqueSearch',
@@ -81,10 +98,14 @@ export function initHomepage() {
                     result.innerHTML = '';
 
                     if (Array.isArray(data)) {
+                        // Créer une nouvelle div games_cards
+                        let gamesCards = document.createElement('div');
+                        gamesCards.classList.add('games_cards');
+
                         data.forEach(game => {
                             let gameDiv = document.createElement('div');
                             gameDiv.classList.add('game_card');
-                        
+
                             if (game.cover == undefined || !game.cover.url.includes('t_cover_big')) {
                                 gameDiv.innerHTML = `
                                     <a href="/game/${game.id}">
@@ -105,8 +126,13 @@ export function initHomepage() {
                                     </a>
                                 `;
                             }
-                            result.appendChild(gameDiv);
+
+                            // Ajouter gameDiv à gamesCards
+                            gamesCards.appendChild(gameDiv);
                         });
+
+                        // Ajouter gamesCards à result
+                        result.appendChild(gamesCards);
                     } else {
                         // Si data est vide (pas de filtre selectionné ou pas de résultat)
                         result.innerHTML = '';
@@ -119,6 +145,17 @@ export function initHomepage() {
         }
 
 
+        // //* CONDITON POUR AFFICHER LES BOUTTONS SORT RATING ET RELEASED UNIQUEMENT SI DATA N'EST PAS VIDE
+        // document.addEventListener('DOMContentLoaded', function() {
+
+        //     let gamesDOM = document.querySelector('.games_cards');
+        //     let sortDOM = document.querySelector('#games_sort');
+        //     if (gamesDOM) {
+        //         sortDOM.style.display = 'inline-block';
+        //     } else {
+        //         sortDOM.style.display = 'none';
+        //     }
+        // });
 
         //* Fonction pour selectionner les bouttons de filtres et les afficher dans filter-show
         function filterBtn() {
@@ -127,7 +164,7 @@ export function initHomepage() {
             // sélectionner le conteneur filter-show
             let filterShow = document.querySelector('.filter_show');
 
-            // ajout de la classe active lors du clique sur le bouton
+            //* POUR TOUS LES BOUTTONS DE FILTRES
             filterBtn.forEach(button => {
                 button.addEventListener('click', function () {
                     // retirer la classe active de tous les boutons
@@ -467,7 +504,82 @@ export function initHomepage() {
                 });
             });
         }
+
+        //* FONCTION POUR LES BOUTTONS SORT RATING ET RELEASED
+        function sortResult() {
+            let gameShowDiv = document.querySelector('#games_sort');
+            let sortDiv = document.createElement('div');
+            sortDiv.classList.add('sort_games');
+
+            let sortRating = document.createElement('button');
+            sortRating.classList.add('sort_rating');
+            sortRating.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
+            sortRating.setAttribute('data-sort', 'desc');
+            sortRating.innerText = 'Sort by rating';
+
+            let sortReleased = document.createElement('button');
+            sortReleased.classList.add('sort_released');
+            sortReleased.setAttribute('data-sort', 'desc');
+            sortReleased.innerText = 'Sort by released';
+
+            // Ajouter une image à sortRating 
+            let sortRatingImg = document.createElement('img');
+            sortRatingImg.src = 'build/images/caret-down-outline.svg';
+            sortRating.appendChild(sortRatingImg);
+
+            // Ajouter une image à sortReleased 
+            let sortReleasedImg = document.createElement('img');
+            sortReleasedImg.src = 'build/images/caret-down-outline.svg';
+            sortReleased.appendChild(sortReleasedImg);
+
+
+            sortDiv.appendChild(sortRating);
+            sortDiv.appendChild(sortReleased);
+            gameShowDiv.appendChild(sortDiv);
+
+            // Ajouter un écouteur d'événement de clic à sortRating
+            sortRating.addEventListener('click', function () {
+                let currentSort = this.getAttribute('data-sort');
+                if (currentSort === 'desc') {
+                    this.setAttribute('data-sort', 'asc');
+                    sortRatingImg.src = 'build/images/caret-up-outline.svg';
+                } else {
+                    this.setAttribute('data-sort', 'desc');
+                    sortRatingImg.src = 'build/images/caret-down-outline.svg';
+                }
+                // Mettre à jour l'attribut data-sort de sortReleased
+                sortReleased.setAttribute('data-sort', null);
+                // Ajouter la classe 'sort-active' à sortRating et la supprimer de sortReleased
+                this.classList.add('sort-active');
+                sortReleased.classList.remove('sort-active');
+                updateSelectedValues();
+            });
+
+            // Ajouter un écouteur d'événement de clic à sortReleased
+            sortReleased.addEventListener('click', function () {
+                let currentSort = this.getAttribute('data-sort');
+                if (currentSort === 'desc') {
+                    this.setAttribute('data-sort', 'asc');
+                    sortReleasedImg.src = 'build/images/caret-up-outline.svg';
+
+                } else {
+                    this.setAttribute('data-sort', 'desc');
+                    sortReleasedImg.src = 'build/images/caret-down-outline.svg';
+                }
+                // Mettre à jour l'attribut data-sort de sortRating
+                sortRating.setAttribute('data-sort', null);
+                this.classList.add('sort-active');
+                sortRating.classList.remove('sort-active');
+                updateSelectedValues();
+            });
+        }
+
+
+        //* APPEL DES FONCTIONS
         filterBtn();
+        sortResult();
 
     });
 }
+
+
