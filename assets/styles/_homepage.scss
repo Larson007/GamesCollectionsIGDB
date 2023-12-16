@@ -227,6 +227,11 @@
                 flex-flow: row nowrap;
                 margin: 0.3rem;
                 background-color: transparent;
+                .result-remove {
+                    font-family: "Nunito", sans-serif;
+                    font-weight: lighter;
+                    padding: 0.5rem 1rem;
+                }
                 button,
                 p {
                     padding: 0.5rem;
@@ -319,6 +324,35 @@
                     border: 1px solid $light-blue;
                 }
             }
+            .update-result {
+                p {
+                    // animation de clignotement
+                    animation: blink 0.8s; // Réduire la durée de l'animation à 0.25s
+                    animation-iteration-count: 1; // Répéter l'animation x fois
+
+                    @keyframes blink {
+                        0% {
+                            opacity: 1;
+                        }
+                        50% {
+                            opacity: 0;
+                        }
+                        100% {
+                            opacity: 1;
+                        }
+                    }
+                }
+                .result-text-rating {
+                    background-color: $light-blue;
+                    border: 1px solid $light-blue;
+                    border-right: none;
+                }
+                .result-text-released {
+                    background-color: $red;
+                    border: 1px solid $red;
+                    border-right: none;
+                }
+            }
             // Selected Released
             .result-released {
                 .result-text {
@@ -344,26 +378,24 @@
             overflow: hidden;
             border-radius: 5px;
             position: relative;
-
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            // background-color: #DEDEDE;
+            
             .game_card_img {
-                position: absolute;
-                top: 0;
-                left: 0;
                 border: 1px solid transparent;
                 max-width: 100%;
                 max-height: 100%;
-                opacity: 1;
                 img {
                     width: 100%;
                     height: 100%;
                     border-radius: 5px;
                 }
                 &:hover {
-                    // transform: scale(1.1);
-                    // transition: transform 0.3s ease-in-out;
                     border: 1px solid white;
                     border-radius: 5px;
-                    // opacity: 0;
+
                 }
             }
             .game_card_info {

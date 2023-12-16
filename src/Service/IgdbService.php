@@ -491,7 +491,7 @@ class IgdbService
                 }
             }
 
-            $query .= "limit 50;";
+            $query .= "limit 500;";
 
             // 4 : on va faire une requête à l'API iGDB
             $dynamicGames = $this->makeRequest('https://api.igdb.com/v4/games', $query);

@@ -57,6 +57,9 @@ export function initHomepage() {
 
 
 
+
+
+
         // Envoyer les données de selectedValues dynamiquement au format JSON
         function sendSelectedValues() {
             // pas de données à envoyer si selectedValues est vide
@@ -76,32 +79,38 @@ export function initHomepage() {
                     // afficher les données reçues dans le DOM
                     let result = document.querySelector('#games_list');
                     result.innerHTML = '';
-                    data.forEach(game => {
-                        let gameDiv = document.createElement('div');
-                        gameDiv.classList.add('game_card');
-                        if (game.cover == undefined) {
-                            gameDiv.innerHTML = `
-                            <a href="/game/${game.id}">
-                                <div class="game_card_img">
-                                    <img src="build/images/placeholder.jpg" alt="${game.name}">
-                                </div>
-                                <div class="game_card_info">
-                                    <h3>${game.name}</h3>
-                                </div>
-                            </a>
-                            `;
-                        } else {
-                            gameDiv.innerHTML = `
-                                <a href="/game/${game.id}">
-                                    <div class="game_card_img">
-                                        <img src="${game.cover.url}" alt="${game.name}">
-                                    </div>
-                                </a>
-                            `;
-                        }
 
-                        result.appendChild(gameDiv);
-                    });
+                    if (Array.isArray(data)) {
+                        data.forEach(game => {
+                            let gameDiv = document.createElement('div');
+                            gameDiv.classList.add('game_card');
+                        
+                            if (game.cover == undefined || !game.cover.url.includes('t_cover_big')) {
+                                gameDiv.innerHTML = `
+                                    <a href="/game/${game.id}">
+                                        <div class="game_card_img">
+                                            <img src="build/images/placeholder.jpg" alt="${game.name}">
+                                        </div>
+                                        <div class="game_card_info">
+                                            <h3>${game.name}</h3>
+                                        </div>
+                                    </a>
+                                `;
+                            } else {
+                                gameDiv.innerHTML = `
+                                    <a href="/game/${game.id}">
+                                        <div class="game_card_img">
+                                            <img src="${game.cover.url}" alt="${game.name}">
+                                        </div>
+                                    </a>
+                                `;
+                            }
+                            result.appendChild(gameDiv);
+                        });
+                    } else {
+                        // Si data est vide (pas de filtre selectionné ou pas de résultat)
+                        result.innerHTML = '';
+                    }
                 },
                 error: function (error) {
                     console.log(error);
@@ -109,15 +118,6 @@ export function initHomepage() {
             });
         }
 
-        //     <div class="game_card_info">
-        //     <h3>${game.name}</h3>
-        //     <p>Rating: ${game.rating}</p>
-        //     <p>Released: ${game.released}</p>
-        //     <p>Platforms: ${game.platforms}</p>
-        //     <p>Themes: ${game.themes}</p>
-        //     <p>Genres: ${game.genres}</p>
-        //     <p>Modes: ${game.modes}</p>
-        // </div>
 
 
         //* Fonction pour selectionner les bouttons de filtres et les afficher dans filter-show
@@ -207,7 +207,19 @@ export function initHomepage() {
                                 categoryDiv.setAttribute('data-max', `${max}`);
                                 categoryDiv.textContent = '';
                                 let resultTextCategory = document.createElement('p');
-                                resultTextCategory.textContent = 'min ' + min + ' max ' + max;
+
+                                // Vérifier la valeur de l'attribut data-category
+                                if (categoryDiv.getAttribute('data-category') === 'released') {
+                                    resultTextCategory.classList.add('result-text-released');
+                                    resultTextCategory.textContent = 'Date de sortie : Entre ' + min + ' & ' + max;
+                                } else if (categoryDiv.getAttribute('data-category') === 'rating') {
+                                    resultTextCategory.classList.add('result-text-rating');
+                                    resultTextCategory.textContent = 'Notes : min ' + min + ' max ' + max;
+                                } else {
+                                    resultTextCategory.textContent = 'Min ' + min + ' Max ' + max;
+                                }
+
+                                // resultTextCategory.textContent = 'Min ' + min + ' Max ' + max;
                                 categoryDiv.appendChild(resultTextCategory);
                                 // ajouter la classe 'update-result' à categoryDiv
                                 categoryDiv.classList.add('update-result');
@@ -224,7 +236,20 @@ export function initHomepage() {
                                 categoryDiv.setAttribute('data-max', `${max}`);
                                 let resultTextCategory = document.createElement('p');
                                 resultTextCategory.classList.add('result-text');
-                                resultTextCategory.textContent = 'min ' + min + ' max ' + max;
+
+                                // Vérifier la valeur de l'attribut data-category
+                                if (categoryDiv.getAttribute('data-category') === 'released') {
+                                    resultTextCategory.classList.add('result-text-released');
+                                    resultTextCategory.textContent = 'Date de sortie : Entre ' + min + ' & ' + max;
+                                } else if (categoryDiv.getAttribute('data-category') === 'rating') {
+                                    resultTextCategory.classList.add('result-text-rating');
+                                    resultTextCategory.textContent = 'Notes : min ' + min + ' max ' + max;
+                                } else {
+                                    resultTextCategory.textContent = 'Min ' + min + ' Max ' + max;
+                                }
+
+
+                                // resultTextCategory.textContent = 'Min ' + min + ' Max ' + max;
                                 categoryDiv.appendChild(resultTextCategory);
                                 filterSelected.appendChild(categoryDiv);
 
@@ -265,6 +290,9 @@ export function initHomepage() {
                         inputDiv.appendChild(searchInput);
                         filterShow.appendChild(inputDiv);
 
+                        // Trier les add_button par ordre alphabétique
+                        data.sort((a, b) => a.name.localeCompare(b.name));
+
                         // Créer les boutons
                         data.forEach(category => {
                             let categoryDiv = document.createElement('div');
@@ -303,7 +331,7 @@ export function initHomepage() {
                                     // let removeImg = document.createElement('img');
                                     // removeImg.src = 'build/images/close-outline.svg';
                                     // resultRemoveCategory.appendChild(removeImg);
-                                    
+
                                     // ajouter la nouvelle div à filterSelected
                                     filterSelected.appendChild(resultDivCategory);
                                     resultDivCategory.appendChild(resultTextCategory);
@@ -358,6 +386,10 @@ export function initHomepage() {
                     //* POUR LES BOUTTON DE FILTRES THEMES, GENRES, MODES
                     if (currentButton == 'themes' || currentButton == 'genres' || currentButton == 'modes') {
                         // On met à jour le contenu de filterShow en fonction du bouton cliqué pour récuperer les données en fonction de la catégorie
+
+                        // Trier les add_button par ordre alphabétique
+                        data.sort((a, b) => a.name.localeCompare(b.name));
+
                         data.forEach(category => {
                             let categoryDiv = document.createElement('div');
                             categoryDiv.classList.add('category', `category_${currentButton}`);
