@@ -19,7 +19,7 @@ class HomepageController extends AbstractController
     }
 
     #[Route('/', name: 'homepage', methods: "GET")]
-    public function index(): Response
+    public function index(Request $request): Response
     {
 
         $games = $this->igdbService->homepage();

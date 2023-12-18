@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie récente populaire
+{% endblock %}
+
+{% block body %}
+	<div class="body-content">
+		<div class="popular-game">
+			<div class="container">
+				<div class="page-title">
+					<h1 class="page-title">Sortie récente populaire</h1>
+				</div>
+				<div class="popular-platforms">
+
+					<button id="popular-all" class="popular-platforms-filter">All</button>
+					<button id="popular-pc" class="popular-platforms-filter">PC</button>
+					<button id="popular-playstation" class="popular-platforms-filter">Playstation 5</button>
+					<button id="popular-xbox" class="popular-platforms-filter">Series X/S</button>
+					<button id="popular-nintendo" class="popular-platforms-filter">Switch</button>
+
+				</div>
+				<div class="popular-game-template">
+					{% include 'game/popular/_last_popular_games_platforms.html.twig' %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

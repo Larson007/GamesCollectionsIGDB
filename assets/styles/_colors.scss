@@ -9,16 +9,23 @@ $bg-light: #434961;
 $bg-dark: #2a2d3c;
 $bg-grey: #343a40;
 $cards: #3a3a3a;
-$bg-txt: rgba(255, 255, 255, 0.200);
+$bg-txt: rgba(255, 255, 255, 0.2);
 $bg-white: #eee;
 $text-light: #fff;
 
-
 // Générique
-$background: transparent;
+$background: #41495a;
 $text-color: transparent;
-$text-shadow: transparent;
 $border-color: transparent;
+$text-shadow:
+    2px 0 black,
+    -2px 0 black,
+    0 2px black,
+    0 -2px black,
+    1px 1px black,
+    -1px -1px black,
+    1px -1px black,
+    -1px 1px black;
 
 // Cards
 $card-bg: transparent;
@@ -38,16 +45,23 @@ $card-shadow-hover: transparent;
 $card-shadow-active: transparent;
 $card-shadow-active-hover: transparent;
 
+//* Navigation
+// Button Toggle navigation
+$nav-arrow-bg: tomato;
+$nav-arrow-color: #eee;
+// $nav-arrow-color: #41495a;
 
-
-// Navigation
 $nav-bg: #eee;
-$nav-text: transparent;
-$nav-text-hover: transparent;
-$nav-text-active: transparent;
-$nav-item: transparent;
-$nav-item-hover: transparent;
-$nav-item-active: transparent;
-$nav-item-active-hover: transparent;
-$nav-item-border: transparent;
-$nav-item-border-hover: transparent;
+$nav-text: #41495a;
+
+// Item
+$nav-item-bg: #d5d7d8;
+$nav-item-border: #8a939940;
+
+// Active Item
+$nav-item-active-bg: tomato;
+$nav-item-active-border: tomato;
+
+// Hover Item
+$nav-item-hover-border: tomato;
+$nav-item-hover-bg: tomato;

@@ -95,6 +95,8 @@ class IgdbService
 
     public function getGamesReleasedThisMonth()
     {
+
+
         $today = date('Y-m-d');
         $threeMonthsAgo = date('Y-m-d', strtotime('-3 months'));
 
@@ -135,10 +137,29 @@ class IgdbService
         return $games;
     }
 
-    public function getRecentPopularGames()
+    public function getRecentPopularGames($platform = null)
     {
+        $platformId = "6, 167, 48, 169, 49, 130"; // Default value for all platforms
+
+        if ($platform !== null) {
+            switch ($platform) {
+                case "popular-playstation":
+                    $platformId = 167;
+                    break;
+                case "popular-xbox":
+                    $platformId = 169;
+                    break;
+                case "popular-nintendo":
+                    $platformId = 130;
+                    break;
+                case "popular-pc":
+                    $platformId = 6;
+                    break;
+            }
+        }
 
         $threeMonthsAgo = strtotime(date('Y-m-d', strtotime('-3 months')));
+        $today = strtotime(date('Y-m-d'));
         $limit = 100;
 
         $games = $this->makeRequest('https://api.igdb.com/v4/games', '
@@ -154,10 +175,16 @@ class IgdbService
         platforms.name, 
         platforms.abbreviation; 
         
-        sort rating desc; 
+        sort first_release_date desc; 
         
-        where rating >= 80 
-        & first_release_date >= ' . $threeMonthsAgo . '; limit ' . $limit . ';
+        where 
+        category = (0, 2, 4, 8, 9)
+        & platforms = (' . $platformId . ')
+        & rating >= 75
+        & first_release_date >= ' . $threeMonthsAgo . '
+        & first_release_date < ' . $today . ';
+
+        limit ' . $limit . ';
         ');
 
         // Process the game category
@@ -474,7 +501,7 @@ class IgdbService
                     $conditions[] = "genres = (" . $genres . ")";
                 }
                 if (!empty($modes)) {
-                    $conditions[] = "game_modes = [" . $modes . "]" ;
+                    $conditions[] = "game_modes = [" . $modes . "]";
                 }
                 if (!empty($ratingMin)) {
                     $conditions[] = "rating >= " . $ratingMin;

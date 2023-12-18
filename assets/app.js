@@ -42,6 +42,7 @@ import { initGameDetails } from './js/pages/gameDetails.js';
 import { initSearchFriends } from './js/pages/searchFriends.js';
 import { initDashboard } from './js/pages/dashboard.js';
 import { initHomepage } from './js/pages/homepage.js';
+import { initGamesPopular } from './js/pages/gamesPopular.js';
 import navMenu from './js/navMenu.js';
 
 // Start the application
@@ -52,6 +53,9 @@ notifications();
 
 if (document.querySelector('.game-detail')) {
     initGameDetails();
+} 
+if (document.querySelector('.popular-game')) {
+    initGamesPopular();
 } 
 if (document.querySelector('.recherche')) {
     initSearchGames();

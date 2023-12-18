@@ -20,20 +20,20 @@ class TestAPiController extends AbstractController
     public function index(): Response
     {
 
-        $games = $this->igdbService->getGamesWithOffset();
-        // $platforms  = $this->igdbService->platforms();
-        // $genres = $this->igdbService->genres();
-        // $themes = $this->igdbService->themes();
-        // $modes = $this->igdbService->gameModes();
+        // $games = $this->igdbService->getGamesWithOffset();
+        $platforms  = $this->igdbService->platforms();
+        $genres = $this->igdbService->genres();
+        $themes = $this->igdbService->themes();
+        $modes = $this->igdbService->gameModes();
 
         
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestAPiController',
-            // 'platforms' => $platforms,
-            // 'genres' => $genres,
-            // 'themes' => $themes,
-            // 'modes' => $modes,
-            'games' => $games,
+            'platforms' => $platforms,
+            'genres' => $genres,
+            'themes' => $themes,
+            'modes' => $modes,
+            // 'games' => $games,
 
 
         ]);

@@ -1,8 +1,13 @@
 <header>
 	<nav class="menu menu-hidden">
 		<button class="menu-button" type="button">
-			<img class="chevron-forward" src="{{ asset('build/images/icons/nav/chevron-forward-outline.svg') }}" alt="icon acceuil">
-			<img class="chevron-back" src="{{ asset('build/images/icons/nav/chevron-back-outline.svg') }}" alt="icon acceuil">
+			{# <img class="chevron-forward" src="{{ asset('build/images/icons/nav/chevron-forward-outline.svg') }}" alt="icon acceuil">
+			<img class="chevron-back" src="{{ asset('build/images/icons/nav/chevron-back-outline.svg') }}" alt="icon acceuil"> #}
+
+			<svg xmlns="http://www.w3.org/2000/svg" class="chevron-forward" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
+
+			<svg xmlns="http://www.w3.org/2000/svg" class="chevron-back" viewBox="0 0 512 512"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+
 		</button>
 		<div class="menu_content">
 			<a class="menu-logo menu-link" href="#">Logo</a>

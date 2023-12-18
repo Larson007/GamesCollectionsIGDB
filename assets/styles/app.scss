@@ -1,7 +1,9 @@
 // @import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans&family=Quicksand&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Afacad&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Afacad&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
 
 @import "colors.scss";
 @import "gridTemplate.scss";
@@ -25,20 +27,38 @@
 }
 
 body {
+    font-family: "Afacad", sans-serif;
     // font-family: "Pixelify Sans", sans-serif;
     // font-family: "Quicksand", sans-serif;
     // font-family: "Lato", sans-serif;
     // font-family: Arial, Helvetica, sans-serif;
-    font-family: 'Afacad', sans-serif;
+    // font-family: 'Bebas Neue', sans-serif;
+    // font-family: 'Anton', sans-serif;
     min-height: 100vh;
-    background-color: $bg-dark !important;
+    background-color: $background !important;
     color: $text-light;
     margin: 0;
-    padding: 0;
+    padding-top: 3rem;
 }
 
+.page-title {
+    display: inline-block;
+    h1 {
+        font-family: 'Anton', sans-serif;
+        width: 100%;
+        font-size: 2.5rem;
+        font-weight: bolder;
+        margin-bottom: 1rem;
 
-
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        color: #fff;
+        text-shadow: $text-shadow;
+        padding-bottom: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #fff;
+    }
+}
 
 //********** Margin
 //********************************************/
@@ -54,7 +74,7 @@ body {
 
 @media screen and (min-width: 780px) and (max-width: 1200px) {
     .containers {
-        margin: 0 auto ;
+        margin: 0 auto;
         padding: 0 1rem;
     }
 }
@@ -65,9 +85,3 @@ body {
         padding: 0 8rem;
     }
 }
-
-
-
-
-
-

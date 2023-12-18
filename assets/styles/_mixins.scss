@@ -1,4 +1,47 @@
 // Fiches de jeux
+.popular-platforms {
+        padding: 0;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        width: 60%;
+        margin-bottom: 2rem;
+            button {
+                font-size: 0.9rem;
+                font-weight: bold;
+                border-radius: 3px;
+                padding: 0.5rem 1rem;
+                width: 19%;
+                background-color: transparent;
+                border: 2px solid #fff;
+                border-radius: 5px;
+                color: #fff;
+            }
+            #popular-all {
+                background-color: #fff;
+                color: #000;
+            }
+            #popular-pc {
+                background-color: #313131;
+                border-color: gold;
+            }
+            #popular-playstation {
+                background-color: #2E6DB4;
+                border-color: #00AB9F;
+                color: #fff;
+            }
+            #popular-xbox {
+                background-color: #137C11;
+                border-color: #393939;
+                color: #393939;
+            }
+            #popular-nintendo {
+                background-color: #DD2020;
+                border-color: #A5A2A2;
+                color: #fff;
+            }
+
+}
 .game {
     width: 100%;
     display: flex;
@@ -37,7 +80,7 @@
         display: flex;
         flex-flow: column wrap;
         justify-content: space-between;
-        padding: 0.5rem 1rem;
+        padding:  1rem;
         border-radius: 0 5px 5px 0;
         background-color: $cards;
         color: $text-light;
@@ -82,36 +125,62 @@
                 margin: 0 0.2rem 0.2rem 0;
             }
         }
-        .game_body--genres {
+        .game_body-filter {
             width: 100%;
             display: flex;
             flex-flow: row wrap;
-            small {
+        }
+        .game_body--genres {
+
                 margin: 0 0.2rem 0.2rem 0;
                 background-color: $yellow;
                 color: black;
-            }
+
         }
         .game_body--themes {
-            width: 100%;
-            display: flex;
-            flex-flow: row wrap;
-            small {
+
                 margin: 0 0.2rem 0.2rem 0;
                 background-color: $green;
                 color: black;
-            }
+
         }
         .game_body--modes {
-            width: 100%;
-            display: flex;
-            flex-flow: row wrap;
-            small {
+
                 margin: 0 0.2rem 0.2rem 0;
                 background-color: $purple;
                 color: black;
-            }
+
         }
+        // .game_body--genres {
+        //     width: 100%;
+        //     display: flex;
+        //     flex-flow: row wrap;
+        //     small {
+        //         margin: 0 0.2rem 0.2rem 0;
+        //         background-color: $yellow;
+        //         color: black;
+        //     }
+        // }
+        // .game_body--themes {
+        //     width: 100%;
+        //     display: flex;
+        //     flex-flow: row wrap;
+        //     small {
+        //         margin: 0 0.2rem 0.2rem 0;
+        //         background-color: $green;
+        //         color: black;
+        //     }
+        // }
+        // .game_body--modes {
+        //     width: 100%;
+        //     display: flex;
+        //     flex-flow: row wrap;
+        //     small {
+        //         margin: 0 0.2rem 0.2rem 0;
+        //         background-color: $purple;
+        //         color: black;
+        //     }
+        // }
         .game_body--footer {
             width: 100%;
             display: flex;
@@ -124,6 +193,9 @@
                 p {
                     margin: 0;
                     font-weight: bold;
+                    span {
+                        font-size: 1rem;
+                    }
                 }
             }
             .game_body--footer--rating {
@@ -136,7 +208,7 @@
                 }
                 .score {
                     padding: 0.25rem 0.5rem;
-                    font-size: 0.75rem;
+                    font-size: 1rem;
                     font-weight: bold;
                     border-radius: 3px;
                     text-shadow:
