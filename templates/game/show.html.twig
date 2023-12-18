@@ -119,9 +119,9 @@
 								{% if game.platforms is defined %}
 									{% for platform in game.platforms %}
 										{% if platform.abbreviation is defined %}
-											<small class="badge text-bg-secondary">{{ platform.abbreviation }}</small>
+											<small class="badge text-bg-secondary">{{ platform.id }} - {{ platform.abbreviation }}</small>
 										{% elseif platform.name is defined %}
-											<small class="badge text-bg-secondary">{{ platform.name }}</small>
+											<small class="badge text-bg-secondary">{{ platform.id }} - {{ platform.name }}</small>
 										{% else %}
 											<small class="badge text-bg-secondary">N/A</small>
 										{% endif %}
@@ -138,7 +138,7 @@
 							<li class="list-group-item">
 								{% if game.genres is defined %}
 									{% for genre in game.genres %}
-										<small class="badge text-bg-secondary">{{ genre.name }}</small>
+										<small class="badge text-bg-secondary">{{ genre.id }} - {{ genre.name }}</small>
 									{% endfor %}
 								{% else %}
 									<small class="badge text-bg-secondary">N/A</small>
@@ -152,7 +152,7 @@
 							<li class="list-group-item">
 								{% if game.themes is defined %}
 									{% for theme in game.themes %}
-										<small class="badge text-bg-secondary">{{ theme.name }}</small>
+										<small class="badge text-bg-secondary">{{ theme.id }} - {{ theme.name }}</small>
 									{% endfor %}
 								{% else %}
 									<small class="badge text-bg-secondary">N/A</small>
@@ -166,7 +166,7 @@
 							<li class="list-group-item">
 								{% if game.game_modes is defined %}
 									{% for game_mode in game.game_modes %}
-										<small class="badge text-bg-secondary">{{ game_mode.name }}</small>
+										<small class="badge text-bg-secondary">{{ game_mode.id }} - {{ game_mode.name }}</small>
 									{% endfor %}
 								{% else %}
 									<small class="badge text-bg-secondary">N/A</small>

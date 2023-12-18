@@ -19,24 +19,10 @@ class HomepageController extends AbstractController
     }
 
     #[Route('/', name: 'homepage', methods: "GET")]
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        
 
-        // // Récupérer les données JSON
-        // $data = json_decode($request->getContent(), true);
-
-        // $yearMax = $data['released']['min'];
-        // $dateMax = $yearMax . "-12-31 00:00:00";
-        // $releasedMax = strtotime($dateMax);
-
-        // if (empty($data)) {
-            // $games = $this->igdbService->homepage();
-            // } else {
-                // $games = $this->igdbService->dynamiqueSearch($data);
-                // }
-                
-                $games = $this->igdbService->homepage();
+        $games = $this->igdbService->homepage();
 
         return $this->render('homepage/index.html.twig', [
             'games' => $games
@@ -49,33 +35,9 @@ class HomepageController extends AbstractController
         // Récupérer les données JSON
         $data = json_decode($request->getContent(), true);
 
-        // dump($data);
-
-        // dump(strtotime($data['released']['min']));
-        // dump(strtotime($data['released']['max']));
-        // dump($data['released']['min']);
-        // dump($data['released']['max']);
-        // dump($data['rating']['min']);
-        // dump($data['rating']['max']);
-
-        // if (!empty($data['released']['min'])) {
-        //     dump("released min");
-        // } else (dump("released min empty"));
-
-
-
-        if (empty($data)) {
-            $games = $this->igdbService->homepage();
-        } else {
-            $games = $this->igdbService->dynamiqueSearch($data);
-        }
-        // $games = $this->igdbService->dynamiqueSearch($data);
-        // dump($games);
-
+        $games = $this->igdbService->dynamiqueSearch($data);
 
         // Renvoyer une réponse JSON
         return new JsonResponse($games);
-
     }
-
 }

@@ -27,12 +27,17 @@ class ImagesProcess
         }
     }
 
+    // RECUPREARATION SMALL RETINA
     public function processCoverSmall(array &$covers)
     {
         //* COVER AU FORMAT 90 x 128	Fit
         foreach ($covers as &$cover) {
             if (isset($cover['cover'])) {
-                $cover['cover']['url'] = str_replace('t_thumb', 't_cover_small', $cover['cover']['url']);
+                if (strpos($cover['cover']['url'], 't_cover_small_2x') !== false) {
+                    $cover['cover']['url'] = str_replace('t_thumb', 't_cover_small_2x', $cover['cover']['url']);
+                } else {
+                    $cover['cover']['url'] = str_replace('t_thumb', 't_cover_big', $cover['cover']['url']);
+                }
             }
         }
     }

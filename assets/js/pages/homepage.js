@@ -100,6 +100,7 @@ export function initHomepage() {
                 data: JSON.stringify(selectedValues),
                 contentType: 'application/json',
                 dataType: 'json',
+                
                 success: function (data) {
 
                     //* VERIFIE SI LA FONCTION HOMEPAGE() EXISTE VIA LA CLASS .homepage_games ETAPE 2

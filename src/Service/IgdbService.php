@@ -367,7 +367,7 @@ class IgdbService
         sort first_release_date desc; 
         
         where rating >= 75 & category = (0, 2, 4, 8, 9);
-        limit 24;
+        limit 105;
         ');
 
         // retirer de $games les jeux qui n'on pas de cover
@@ -405,7 +405,8 @@ class IgdbService
         }
 
         // $this->processCoverImages($games);
-        $this->imagesProcess->processCoverBig($games);
+        $this->imagesProcess->processCoverSmall($games);
+
         return $games;
     }
 
@@ -442,10 +443,10 @@ class IgdbService
             name, 
             category,
             cover.url, 
-            platforms,
-            themes,
-            genres,
-            game_modes,
+            platforms.id,
+            themes.id,
+            genres.id,
+            game_modes.id,
             first_release_date, 
             release_dates.*,
             rating;
@@ -464,22 +465,22 @@ class IgdbService
                 $conditions = ["category = (0) & version_parent = null & cover != null & rating != null & first_release_date != null"];
 
                 if (!empty($platforms)) {
-                    $conditions[] = "platforms = (" . $platforms . ") & platforms = {" . $platforms . "}";
+                    $conditions[] = "platforms = [" . $platforms . "]";
                 }
                 if (!empty($themes)) {
-                    $conditions[] = "themes = (" . $themes . ") & themes = {" . $themes . "}";
+                    $conditions[] = "themes = (" . $themes . ")";
                 }
                 if (!empty($genres)) {
-                    $conditions[] = "genres = (" . $genres . ") & genres = {" . $genres . "}";
+                    $conditions[] = "genres = (" . $genres . ")";
                 }
                 if (!empty($modes)) {
-                    $conditions[] = "game_modes = (" . $modes . ") & game_modes = {" . $modes . "}" ;
+                    $conditions[] = "game_modes = [" . $modes . "]" ;
                 }
                 if (!empty($ratingMin)) {
                     $conditions[] = "rating >= " . $ratingMin;
                 }
                 if (!empty($ratingMax)) {
-                    $conditions[] = "rating <= " . $ratingMax;
+                    $conditions[] = "rating <= " . $ratingMax + 1;
                 }
                 if (!empty($releasedMin)) {
                     $conditions[] = "first_release_date >= " . strtotime($releasedMin . '-01-01');
@@ -493,18 +494,14 @@ class IgdbService
                 }
             }
 
-            $query .= "limit 104;";
+            $query .= "limit 500;";
             // dump($query);
 
             // 4 : on va faire une requête à l'API iGDB
             $dynamicGames = $this->makeRequest('https://api.igdb.com/v4/games', $query);
 
             // 5 : on va traiter les données reçues de l'API iGDB
-            foreach ($dynamicGames as &$game) {
-                if (isset($game['cover'])) {
-                    $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
-                }
-            }
+            $this->imagesProcess->processCoverSmall($dynamicGames);
 
             // 6 : on va retourner les données traitées
             return $dynamicGames;
