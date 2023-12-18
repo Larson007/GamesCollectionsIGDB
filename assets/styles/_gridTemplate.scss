@@ -92,17 +92,31 @@
 }
 
 @media screen and (min-width: 1200px) {
+    // Home Page Template
+    #games_list {
+        .games_cards {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-gap: 1rem;
+        }
+    }
+    // Pagination Template
+    .pagination-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+    }
     // New Games Template
     .new-game-template {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         grid-gap: 2em;
     }
 
     // Popular Games Template
     .popular-game-template {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         grid-gap: 2em;
     }
 

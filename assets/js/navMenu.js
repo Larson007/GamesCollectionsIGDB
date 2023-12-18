@@ -1,7 +1,10 @@
 const navMenu = () => {
     document.querySelector('.menu-button').addEventListener('click', toggleMenu);
     document.querySelector('.link-search').addEventListener('click', openMenu);
-    document.querySelector('.list_item_user-link').addEventListener('click', openMenu);
+    let userLink = document.querySelector('.list_item_user-link');
+    if (userLink) {
+        userLink.addEventListener('click', openMenu);
+    }
     
     function toggleMenu() {
         var menu = document.querySelector('.menu');

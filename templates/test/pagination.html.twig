@@ -1,21 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Games released this month
+{% block title %}TEST COVER
 {% endblock %}
 
 {% block body %}
+
+
 	<div class="body-content">
-		<div class="containers">
+		<div class="container">
 
-			<h1 class="text-center text-uppercase my-5">Nouvelles sorties</h1>
+			<div class="pagination">
+				<a href="{{ path('pagination', {'page': 1}) }}"><< First</a>
+				{% if page > 1 %}
+					<a href="{{ path('pagination', {'page': page - 1}) }}">< Prev</a>
+				{% endif %}
+				<form action="{{ path('pagination') }}" method="get" style="display: inline;">
+					<input type="number" name="page" min="1" max="521" value="{{ page }}">
+					<input type="submit" value="Go">
+				</form>
+				{% if page < 521 %}
+					<a href="{{ path('pagination', {'page': page + 1}) }}">Next ></a>
+				{% endif %}
+				<a href="{{ path('pagination', {'page': 521}) }}">Last >></a>
+			</div>
 
-			<div class="new-game-template">
+			{# <div class="row">
+				{% for game in games %}
+					<div class="card m-3" style="width: 18rem;">
+						{% if game.cover is defined and game.cover.url matches '/t_cover_big\\//' %}
+							<img src="{{game.cover.url}}" alt="" class="card-img-top" alt="...">
+						{% else %}
+							<img src="{{asset("build/images/placeholder.jpg")}}" alt="" class="card-img-top" alt="...">
+						{% endif %}
+						<div class="card-body">
+							<h5 class="card-title">{{ game.name }}</h5>
+							<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							<a href="#" class="btn btn-primary">Go somewhere</a>
+						</div>
+					</div>
+				{% endfor %}
+			</div> #}
+
+			<div class="pagination-template">
 				{% for game in games %}
 					<div class="game">
 						<div class="game_image">
-							{% if game.cover is defined %}
+						{% if game.cover is defined and game.cover.url matches '/t_cover_big\\//' %}
 								<a href="{{ path('game', {id: game.id}) }}"><img src="{{ game.cover.url }}" alt="{{ game.name }} cover"></a>
-
 							{% else %}
 								<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
 							{% endif %}
@@ -25,38 +56,6 @@
 								<h2>
 									<a href="{{ path('game', {id: game.id}) }}">{{ game.name }}</a>
 								</h2>
-							</div>
-							<div class="game_body--platforms">
-								{% for platform in game.platforms %}
-									{% if platform.abbreviation is defined %}
-										<small class="badge bg-primary">{{ platform.abbreviation }}</small>
-									{% elseif platform.name is defined %}
-										<small class="badge bg-primary">{{ platform.name }}</small>
-									{% else %}
-										<small class="badge bg-primary">N/A</small>
-									{% endif %}
-								{% endfor %}
-							</div>
-							<div class="game_body--genres">
-								{% if game.genres is defined %}
-									{% for genre in game.genres %}
-										<small class="badge">{{ genre.name }}</small>
-									{% endfor %}
-								{% endif %}
-							</div>
-							<div class="game_body--themes">
-								{% if game.themes is defined %}
-									{% for theme in game.themes %}
-										<small class="badge">{{ theme.name }}</small>
-									{% endfor %}
-								{% endif %}
-							</div>
-							<div class="game_body--modes">
-								{% if game.game_modes is defined %}
-									{% for mode in game.game_modes %}
-										<small class="badge">{{ mode.name }}</small>
-									{% endfor %}
-								{% endif %}
 							</div>
 							<div class="game_body--footer">
 								<div class="game_body--footer--release">
@@ -78,7 +77,9 @@
 											{% else %}
 												<span class="score score-red">{{ game.rating|round }}%</span>
 											{% endif %}
+
 										</p>
+
 									{% endif %}
 								</div>
 							</div>
@@ -86,6 +87,7 @@
 					</div>
 				{% endfor %}
 			</div>
+
 		</div>
 	</div>
 {% endblock %}

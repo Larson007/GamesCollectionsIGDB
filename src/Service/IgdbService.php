@@ -4,9 +4,10 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\Friend;
-use Symfony\Component\Console\Output\NullOutput;
+use App\Service\ImagesProcess;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class IgdbService
@@ -14,6 +15,7 @@ class IgdbService
     private $client;
     private $clientId;
     private $apiToken;
+    private $imagesProcess;
 
     // Définir les noms des sites web
     private $websiteNames = [
@@ -58,11 +60,12 @@ class IgdbService
         14 => 'update',
     ];
 
-    public function __construct(HttpClientInterface $client, string $clientId, string $apiToken)
+    public function __construct(HttpClientInterface $client, string $clientId, string $apiToken, ImagesProcess $imagesProcess)
     {
         $this->client = $client;
         $this->clientId = $clientId;
         $this->apiToken = $apiToken;
+        $this->imagesProcess = $imagesProcess;
     }
 
     private function makeRequest(string $endpoint, string $body)
@@ -81,14 +84,14 @@ class IgdbService
         return $response->toArray();
     }
 
-    private function processCoverImages(array &$games)
-    {
-        foreach ($games as &$game) {
-            if (isset($game['cover'])) {
-                $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
-            }
-        }
-    }
+    // private function processCoverImages(array &$games)
+    // {
+    //     foreach ($games as &$game) {
+    //         if (isset($game['cover'])) {
+    //             $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
+    //         }
+    //     }
+    // }
 
     public function getGamesReleasedThisMonth()
     {
@@ -97,7 +100,10 @@ class IgdbService
 
         $games = $this->makeRequest('https://api.igdb.com/v4/games', '
         fields 
-        name,genres.name, 
+        name,
+        genres.name, 
+        themes.name,
+        game_modes.name,
         category,
         cover.url, 
         platforms.abbreviation, 
@@ -110,7 +116,7 @@ class IgdbService
         sort first_release_date desc;
         limit 100;');
 
-        $this->processCoverImages($games);
+        $this->imagesProcess->processCoverBig($games);
 
 
         // Process the game category
@@ -140,6 +146,8 @@ class IgdbService
         name, 
         category,
         genres.name, 
+        themes.name,
+        game_modes.name,
         cover.url, 
         first_release_date, 
         rating, 
@@ -163,7 +171,7 @@ class IgdbService
             $game['category'] = $this->gameTypes[$game['category']];
         }
 
-        $this->processCoverImages($games);
+        $this->imagesProcess->processCoverBig($games);
 
         return $games;
     }
@@ -186,12 +194,13 @@ class IgdbService
                 rating, 
                 platforms.name, 
                 platforms.abbreviation; 
-                search "' . $query . '";',
+                search "' . $query . '";
+                where version_parent = null;',
         ]);
 
         // process the response to get the cover images
         $games = $response->toArray();
-        $this->processCoverImages($games);
+        $this->imagesProcess->processCoverSmall($games);
 
         // Process the game category
         $desiredCategories = [0, 2, 4, 8, 9]; // Replace this with the game categories you want to retrieve
@@ -218,6 +227,8 @@ class IgdbService
         category,
         summary, 
         genres.name, 
+        themes.name,
+        game_modes.name,
         cover.url, 
         first_release_date, 
         franchises.name, franchises.games.name, franchises.games.cover.url, franchises.games.first_release_date, franchises.games.rating, franchises.games.platforms.abbreviation, franchises.games.genres.name, franchises.games.category,
@@ -237,15 +248,33 @@ class IgdbService
 
         $game = $response[0];
 
-        // Process the game type
+        // Process Category Name
         if (isset($game['category'])) {
             $game['category'] = $this->gameTypes[$game['category']];
         }
+
+        // Process the cover image
+        $this->imagesProcess->processCoverDetail($game, "cover");
+
+        // Process the screenshots
+        $this->imagesProcess->processScreenshotSmall($game, "screenshots");
+
+        // Process the cover dlcs
+        $this->imagesProcess->processDlcsExpansionsBig($game, "dlcs");
+
+        // Process the cover expansions
+        $this->imagesProcess->processDlcsExpansionsBig($game, "expansions");
+
+        // Process the artworks
+        $this->imagesProcess->processArtworksBig($game);
 
         // Process the franchises
         if (isset($game['franchises'])) {
             foreach ($game['franchises'] as &$franchise) {
                 if (isset($franchise['games'])) {
+                    // Traiter les images de couverture
+                    $this->imagesProcess->processCoverBig($franchise['games']);
+
                     // Exclure certaines catégories
                     $franchise['games'] = array_filter($franchise['games'], function ($game) {
                         return in_array($game['category'], [0, 4]);
@@ -262,13 +291,6 @@ class IgdbService
                         $bDate = isset($b['first_release_date']) ? $b['first_release_date'] : null;
                         return $bDate <=> $aDate;
                     });
-
-                    // Traiter les images de couverture
-                    foreach ($franchise['games'] as &$franchiseGame) {
-                        if (isset($franchiseGame['cover'])) {
-                            $franchiseGame['cover']['url'] = str_replace('t_thumb', 't_cover_big', $franchiseGame['cover']['url']);
-                        }
-                    }
                 }
             }
         }
@@ -283,42 +305,32 @@ class IgdbService
             }
         }
 
-        // Process the cover image
-        if (isset($game['cover'])) {
-            $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
-        }
 
-        // Process the screenshots
-        if (isset($game['screenshots'])) {
-            foreach ($game['screenshots'] as &$screenshot) {
-                $screenshot['url'] = str_replace('t_thumb', 't_screenshot_big', $screenshot['url']);
-            }
-        }
 
-        // Process dlcs cover images
-        if (isset($game['dlcs'])) {
-            foreach ($game['dlcs'] as &$dlc) {
-                if (isset($dlc['cover'])) {
-                    $dlc['cover']['url'] = str_replace('t_thumb', 't_cover_big', $dlc['cover']['url']);
-                }
-            }
-        }
+        // // Process dlcs cover images
+        // if (isset($game['dlcs'])) {
+        //     foreach ($game['dlcs'] as &$dlc) {
+        //         if (isset($dlc['cover'])) {
+        //             $dlc['cover']['url'] = str_replace('t_thumb', 't_cover_big', $dlc['cover']['url']);
+        //         }
+        //     }
+        // }
 
-        // Process expansions cover images
-        if (isset($game['expansions'])) {
-            foreach ($game['expansions'] as &$expansion) {
-                if (isset($expansion['cover'])) {
-                    $expansion['cover']['url'] = str_replace('t_thumb', 't_cover_big', $expansion['cover']['url']);
-                }
-            }
-        }
+        // // Process expansions cover images
+        // if (isset($game['expansions'])) {
+        //     foreach ($game['expansions'] as &$expansion) {
+        //         if (isset($expansion['cover'])) {
+        //             $expansion['cover']['url'] = str_replace('t_thumb', 't_cover_big', $expansion['cover']['url']);
+        //         }
+        //     }
+        // }
 
-        // Process artworks
-        if (isset($game['artworks'])) {
-            foreach ($game['artworks'] as &$artwork) {
-                $artwork['url'] = str_replace('t_thumb', 't_screenshot_big', $artwork['url']);
-            }
-        }
+        // // Process artworks
+        // if (isset($game['artworks'])) {
+        //     foreach ($game['artworks'] as &$artwork) {
+        //         $artwork['url'] = str_replace('t_thumb', 't_screenshot_big', $artwork['url']);
+        //     }
+        // }
 
         // dump($game);
 
@@ -333,11 +345,9 @@ class IgdbService
             where id = ($gameIdsString);
         ");
 
-        foreach ($igdbGames as &$game) {
-            if (isset($game['cover'])) {
-                $game['cover']['url'] = str_replace('t_thumb', 't_cover_big', $game['cover']['url']);
-            }
-        }
+        // Process the cover image
+        $this->imagesProcess->processCoverBig($igdbGames);
+
         return $igdbGames;
     }
 
@@ -357,7 +367,7 @@ class IgdbService
         sort first_release_date desc; 
         
         where rating >= 75 & category = (0, 2, 4, 8, 9);
-        limit 50;
+        limit 24;
         ');
 
         // retirer de $games les jeux qui n'on pas de cover
@@ -394,8 +404,8 @@ class IgdbService
             }
         }
 
-        $this->processCoverImages($games);
-
+        // $this->processCoverImages($games);
+        $this->imagesProcess->processCoverBig($games);
         return $games;
     }
 
@@ -408,25 +418,7 @@ class IgdbService
         // Vérifier si tous les sous-éléments de $data sont vides ou null
         if (empty($data['platforms']) && empty($data['themes']) && empty($data['genres']) && empty($data['modes']) && $data['rating']['min'] === null && $data['rating']['max'] === null && $data['released']['min'] === null && $data['released']['max'] === null) {
 
-            // $games = $this->makeRequest('https://api.igdb.com/v4/games', '
-            // fields 
-            // name,
-            // category,
-            // cover.url, 
-            // first_release_date, 
-            // rating, 
-            // platforms.name, 
-            // platforms.abbreviation; 
-
-            // sort first_release_date desc; 
-
-            // where rating >= 75 & category = (0, 2, 4, 8, 9);
-            // limit 50;
-            // ');
-            // $this->processCoverImages($games);
-
-            // return $games;
-
+            // NE SERT A RIEN CAR LA FONCTION EST APPELER UNIQUEMENT SI $data N'EST PAS VIDE
             return null;
         } else {
 
@@ -439,15 +431,9 @@ class IgdbService
             $ratingMax = $data['rating']['max'];
             $releasedMin =  $data['released']['min'];
             $releasedMax = $data['released']['max'];
-            $sortRating = $data['sort']['rating'];
             $sortReleased = $data['sort']['released'];
+            $sortRating = $data['sort']['rating'];
 
-            $sortType = null;
-            if (!empty($data['sort']['rating'])) {
-                $sortType = 'rating';
-            } elseif (!empty($data['sort']['released'])) {
-                $sortType = 'released';
-            }
 
             // 3 : on va créer une requête en fonction des données de $data
             $query = "
@@ -461,12 +447,13 @@ class IgdbService
             genres,
             game_modes,
             first_release_date, 
+            release_dates.*,
             rating;
         ";
-            if (!empty($data['sort']['rating'])) {
-                $query .= "sort rating " . $data['sort']['rating'] . "; ";
-            } elseif (!empty($data['sort']['released'])) {
-                $query .= "sort first_release_date " . $data['sort']['released'] . "; ";
+            if (!empty($sortReleased)) {
+                $query .= "sort first_release_date " . $sortReleased . "; ";
+            } elseif (!empty($sortRating)) {
+                $query .= "sort rating " . $sortRating . "; ";
             } else {
                 $query .= "sort first_release_date desc; ";
             }
@@ -474,19 +461,19 @@ class IgdbService
             if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
                 $query .= "";
             } else {
-                $conditions = ["category = 0"];
+                $conditions = ["category = (0) & version_parent = null & cover != null & rating != null & first_release_date != null"];
 
                 if (!empty($platforms)) {
-                    $conditions[] = "platforms = (" . $platforms . ")";
+                    $conditions[] = "platforms = (" . $platforms . ") & platforms = {" . $platforms . "}";
                 }
                 if (!empty($themes)) {
-                    $conditions[] = "themes = (" . $themes . ")";
+                    $conditions[] = "themes = (" . $themes . ") & themes = {" . $themes . "}";
                 }
                 if (!empty($genres)) {
-                    $conditions[] = "genres = (" . $genres . ")";
+                    $conditions[] = "genres = (" . $genres . ") & genres = {" . $genres . "}";
                 }
                 if (!empty($modes)) {
-                    $conditions[] = "game_modes = {" . $modes . "}";
+                    $conditions[] = "game_modes = (" . $modes . ") & game_modes = {" . $modes . "}" ;
                 }
                 if (!empty($ratingMin)) {
                     $conditions[] = "rating >= " . $ratingMin;
@@ -506,7 +493,8 @@ class IgdbService
                 }
             }
 
-            $query .= "limit 500;";
+            $query .= "limit 104;";
+            // dump($query);
 
             // 4 : on va faire une requête à l'API iGDB
             $dynamicGames = $this->makeRequest('https://api.igdb.com/v4/games', $query);
@@ -576,6 +564,78 @@ class IgdbService
         ');
 
         return $gameModes;
+    }
+
+
+    public function getGamesWithOffset()
+    {
+        $games = [];
+        $limit = 500;
+        $letter = "B";
+        for ($offset = 0; $offset < 1000; $offset += $limit) {
+            $query = "
+                fields name, rating;
+                where name = \"" . $letter . "\"*;
+                limit $limit;
+                offset $offset;
+                sort name;
+
+            ";
+            // Exécutez la requête et ajoutez les résultats à $games
+            $results = $this->makeRequest('https://api.igdb.com/v4/games', $query);
+            $games = array_merge($games, $results);
+        }
+        return $games;
+    }
+
+    public function pagination($page = 1)
+    {
+        $games = [];
+        $limit = 500;
+
+        $offset = ($page - 1) * $limit;
+        for ($i = 0; $i < $limit; $i += 500) {
+            $query = "
+                fields 
+                name,
+                cover.url;
+                limit 500;
+                offset " . ($offset + $i) . ";
+                sort name;
+                where cover != null & rating != null & first_release_date != null;
+            ";
+            // Exécutez la requête et ajoutez les résultats à $games
+            $results = $this->makeRequest('https://api.igdb.com/v4/games', $query);
+            $games = array_merge($games, $results);
+        }
+
+        $this->imagesProcess->processCoverBig($games);
+        return $games;
+    }
+
+
+    public function test()
+    {
+
+        $games = $this->makeRequest('https://api.igdb.com/v4/games', '
+        fields 
+        id,
+        name,
+        rating,
+        first_release_date,
+        cover.url;
+        where category = 0 & release_dates.platform = (167, 6, 14,169, 6, 14,170) & genres = (12, 15, 16, 24, 31) & themes = (1, 17) & game_modes = (1,2,3,4) ;
+        limit 10; 
+        ');
+
+        // $this->imagesProcess->processCoverThumb($games); // Pas recommander car image cropper
+        // $this->imagesProcess->processCoverMicro($games); //  Format tres petit (voir trop petit)
+        // $this->imagesProcess->processCoverSmall($games); // petit format parfait pour les listes
+        $this->imagesProcess->processCoverBig($games); //  format parfait pour les cartes
+        // $this->imagesProcess->processCover720p($games); // parfais pour les pages de détails
+        // $this->imagesProcess->processCover1080p($games); // Pour background
+
+        return $games;
     }
 
 

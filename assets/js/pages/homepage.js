@@ -4,8 +4,10 @@ import { multiRangeSliders } from './multiRangeSliders';
 export function initHomepage() {
     $(document).ready(function () {
         console.log('Homepage js est chargé !');
+
         let currentButton = null;
 
+        //* TABLEAU JSON QUI CONTIENT LES DONNEES DES FILTRES
         let selectedValues = {
             "platforms": [],
             "themes": [],
@@ -16,7 +18,7 @@ export function initHomepage() {
             "sort": { "rating": null, "released": null }
         };
 
-        
+
 
         //* Fonction pour ajouter/modifier/supprimer les valeurs des filtres dans selectedValues
         function updateSelectedValues() {
@@ -76,7 +78,15 @@ export function initHomepage() {
         }
 
 
-        // Envoyer les données de selectedValues dynamiquement au format JSON
+
+        //* VERIFIE SI LA FONCTION HOMEPAGE() EXISTE VIA LA CLASS .homepage_games ETAPE 1
+        let sortButtons = document.querySelector('#games_sort');
+        if (document.querySelector('.homepage_games')) {
+            sortButtons.style.display = 'none';
+        }
+
+
+        //* Envoyer les données de selectedValues dynamiquement au format JSON
         function sendSelectedValues() {
             // pas de données à envoyer si selectedValues est vide
             // if (Object.keys(selectedValues).length === 0) {
@@ -91,6 +101,13 @@ export function initHomepage() {
                 contentType: 'application/json',
                 dataType: 'json',
                 success: function (data) {
+
+                    //* VERIFIE SI LA FONCTION HOMEPAGE() EXISTE VIA LA CLASS .homepage_games ETAPE 2
+                    let sortButtons = document.querySelector('#games_sort');
+                    if (document.querySelector('.homepage_games')) {
+                        sortButtons.style.display = 'block';
+                    }
+
                     // afficher les données reçues dans la console
                     console.log(data);
                     // afficher les données reçues dans le DOM
@@ -98,6 +115,7 @@ export function initHomepage() {
                     result.innerHTML = '';
 
                     if (Array.isArray(data)) {
+                        sortButtons.style.display = 'block';
                         // Créer une nouvelle div games_cards
                         let gamesCards = document.createElement('div');
                         gamesCards.classList.add('games_cards');
@@ -110,7 +128,7 @@ export function initHomepage() {
                                 gameDiv.innerHTML = `
                                     <a href="/game/${game.id}">
                                         <div class="game_card_img">
-                                            <img src="build/images/placeholder.jpg" alt="${game.name}">
+                                            <img src="build/images/placeholder.jpg" alt="${game.name}" loading="lazy">
                                         </div>
                                         <div class="game_card_info">
                                             <h3>${game.name}</h3>
@@ -123,6 +141,9 @@ export function initHomepage() {
                                         <div class="game_card_img">
                                             <img src="${game.cover.url}" alt="${game.name}">
                                         </div>
+                                        <div class="game_card_info">
+                                            <h3>${game.name}</h3>
+                                        </div>
                                     </a>
                                 `;
                             }
@@ -134,6 +155,7 @@ export function initHomepage() {
                         // Ajouter gamesCards à result
                         result.appendChild(gamesCards);
                     } else {
+                        sortButtons.style.display = 'none';
                         // Si data est vide (pas de filtre selectionné ou pas de résultat)
                         result.innerHTML = '';
                     }
@@ -144,18 +166,6 @@ export function initHomepage() {
             });
         }
 
-
-        // //* CONDITON POUR AFFICHER LES BOUTTONS SORT RATING ET RELEASED UNIQUEMENT SI DATA N'EST PAS VIDE
-        // document.addEventListener('DOMContentLoaded', function() {
-
-        //     let gamesDOM = document.querySelector('.games_cards');
-        //     let sortDOM = document.querySelector('#games_sort');
-        //     if (gamesDOM) {
-        //         sortDOM.style.display = 'inline-block';
-        //     } else {
-        //         sortDOM.style.display = 'none';
-        //     }
-        // });
 
         //* Fonction pour selectionner les bouttons de filtres et les afficher dans filter-show
         function filterBtn() {
@@ -339,8 +349,9 @@ export function initHomepage() {
                             categoryAddButton.innerText = `${category.name}`;
                             categoryDiv.appendChild(categoryAddButton);
                             filterShow.appendChild(categoryDiv);
-                            // Initialiser tous les boutons avec display = "none"
-                            // categoryDiv.style.display = "none";
+
+                            // Initialiser tous les boutons avec display = "none" pour platforms
+                            categoryDiv.style.display = "none";
 
                             // AJOUTE LORS DU CLIQUE SUR LE BOUTON ADD DANS .filter_selected
                             // sélectionner l'élément avec la classe '.filter_selected'
@@ -513,12 +524,13 @@ export function initHomepage() {
 
             let sortRating = document.createElement('button');
             sortRating.classList.add('sort_rating');
-            sortRating.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
+            // sortRating.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
             sortRating.setAttribute('data-sort', 'desc');
             sortRating.innerText = 'Sort by rating';
 
             let sortReleased = document.createElement('button');
             sortReleased.classList.add('sort_released');
+            sortReleased.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
             sortReleased.setAttribute('data-sort', 'desc');
             sortReleased.innerText = 'Sort by released';
 
@@ -533,8 +545,8 @@ export function initHomepage() {
             sortReleased.appendChild(sortReleasedImg);
 
 
-            sortDiv.appendChild(sortRating);
             sortDiv.appendChild(sortReleased);
+            sortDiv.appendChild(sortRating);
             gameShowDiv.appendChild(sortDiv);
 
             // Ajouter un écouteur d'événement de clic à sortRating

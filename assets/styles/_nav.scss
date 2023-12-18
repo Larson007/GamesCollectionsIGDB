@@ -66,7 +66,7 @@ header {
                 .active {
                     border: 2px solid tomato;
                     border-radius: 5px;
-                    // background-color: #8a9399d5;
+                    background-color: tomato;
                 }
                 .security {
                     background-color: #8a9399d5;
@@ -76,6 +76,10 @@ header {
     }
     .menu-link {
         border: 2px solid transparent;
+        &:hover {
+            border: 2px solid tomato;
+            border-radius: 5px;
+        }
     }
 
     .menu-link,
@@ -117,6 +121,12 @@ header {
         margin-bottom: 6rem;
         .list_item_user-link {
             width: 100%;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            &:hover {
+                border: 2px solid tomato;
+                border-radius: 5px;
+            }
             .list_item_user-link-login {
                 height: 100%;
                 width: 100%;
@@ -146,10 +156,20 @@ header {
                 }
                 .link-login:hover,
                 .link-register:hover {
-                    background-color: #8a939940;
+                    // background-color: #8a939940;
+                    background-color: tomato;
                 }
             }
         }
+    }
+
+    .link-search {
+            border: 2px solid transparent !important;
+            border-radius: 5px !important;
+            &:hover {
+                border: 2px solid tomato !important;
+                border-radius: 5px !important;
+            }
     }
 
     // Comportement du menu en transtion

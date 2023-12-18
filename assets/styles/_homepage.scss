@@ -9,7 +9,7 @@
             flex-flow: row wrap;
             justify-content: space-around;
             align-items: center;
-            margin: 5rem 0 3rem;
+            margin: 5rem 0 1.5rem;
             button {
                 width: 16.6%;
                 padding: 0.5rem 1rem;
@@ -91,14 +91,14 @@
             display: flex;
             flex-flow: row wrap;
             align-items: center;
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem;
             button {
                 margin: 0.3rem;
                 padding: 0.3rem 0.5rem;
                 border: 1px solid;
                 background-color: transparent;
                 color: #fff;
-                font-size: 0.8rem;
+                font-size: 1rem;
                 text-shadow:
                     2px 0 black,
                     -2px 0 black,
@@ -221,7 +221,7 @@
             display: flex;
             flex-flow: row wrap;
             align-items: center;
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem;
             .result {
                 display: flex;
                 flex-flow: row nowrap;
@@ -370,9 +370,10 @@
 
     #games_list {
         .games_cards {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            grid-gap: 1rem;
+            //* Voire le fichier _gridTemplate.scss pour les différentes tailles d'écran
+            // display: grid;
+            // grid-template-columns: repeat(8, 1fr);
+            // grid-gap: 1rem;
             .game_card {
                 width: 100%;
                 height: 200px;
@@ -383,18 +384,26 @@
                 justify-content: center;
                 align-items: center;
                 // background-color: #DEDEDE;
+                &:hover {
+                    // border: 1px solid white;
+                    // border-radius: 5px;
+                    .game_card_img {
+                        opacity: 0.25;
+                    }
+                    .game_card_info {
+                        opacity: 1;
+                    }
+                }
 
                 .game_card_img {
                     border: 1px solid transparent;
                     max-width: 100%;
                     max-height: 100%;
+                    opacity: 1;
+                    transition: all 0.5s ease-in-out;
                     img {
                         width: 100%;
                         height: 100%;
-                        border-radius: 5px;
-                    }
-                    &:hover {
-                        border: 1px solid white;
                         border-radius: 5px;
                     }
                 }
@@ -403,7 +412,10 @@
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    width: 90%;
+                    width: 100%;
+                    opacity: 0;
+                    transition: all 0.5s ease-in-out;
+
                     h3 {
                         text-align: center;
                         color: $blue;
@@ -460,7 +472,8 @@
                 }
             }
             .sort_rating {
-                margin-right: 0.5rem;
+                margin-left: 0.5rem;
+                // margin-right: 0.5rem;
             }
             .sort-active {
                 background-color: tomato;

@@ -41,6 +41,9 @@
         border-radius: 0 5px 5px 0;
         background-color: $cards;
         color: $text-light;
+        small {
+            font-size: 0.85rem;
+        }
         .category {
             position: absolute;
             top: -12px;
@@ -51,7 +54,17 @@
         .game_body--title {
             width: 100%;
             h2 {
-                font-size: 1.3rem;
+                font-weight: bolder;
+                font-size: 1.2rem;
+                text-shadow:
+                2px 0 black,
+                -2px 0 black,
+                0 2px black,
+                0 -2px black,
+                1px 1px black,
+                -1px -1px black,
+                1px -1px black,
+                -1px 1px black;
                 a {
                     color: $text-light;
                     text-decoration: none;
@@ -75,6 +88,28 @@
             flex-flow: row wrap;
             small {
                 margin: 0 0.2rem 0.2rem 0;
+                background-color: $yellow;
+                color: black;
+            }
+        }
+        .game_body--themes {
+            width: 100%;
+            display: flex;
+            flex-flow: row wrap;
+            small {
+                margin: 0 0.2rem 0.2rem 0;
+                background-color: $green;
+                color: black;
+            }
+        }
+        .game_body--modes {
+            width: 100%;
+            display: flex;
+            flex-flow: row wrap;
+            small {
+                margin: 0 0.2rem 0.2rem 0;
+                background-color: $purple;
+                color: black;
             }
         }
         .game_body--footer {
@@ -156,6 +191,9 @@
     // Fiches de jeux
     .game {
         .game_body {
+            small {
+                font-size: 0.8rem;
+            }
             .game_body--title {
                 h2 {
                     font-size: 1rem;
@@ -164,7 +202,7 @@
             .game_body--platforms {
                 display: block;
             }
-            .game_body--genres {
+            .game_body--genres, .game_body--themes, .game_body--modes {
                 display: none;
             }
         }
@@ -172,6 +210,7 @@
 }
 
 @media screen and (min-width: 780px) and (max-width: 1200px) {
+
 }
 
 @media screen and (min-width: 1200px) {

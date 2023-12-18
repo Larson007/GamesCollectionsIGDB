@@ -5,7 +5,12 @@
 
 {% block body %}
 	<div class="body-content">
-		<div class="container">
+		<div
+			class="container">
+
+			{# <pre>
+												{{ dump(games) }}
+											</pre> #}
 
 			<div class="homepage">
 				<div class="filter">
@@ -22,9 +27,28 @@
 
 					<div class="filter_show"></div>
 				</div>
-				<div id="games_sort">
-			</div>
-				<div id="games_list"></div>
+
+
+					<div id="games_sort"></div>
+
+
+
+				<div id="games_list">
+					<div class="games_cards homepage_games">
+						{% for game in games %}
+							<div class="game_card">
+								<a href="/game/{{game.id}}">
+									<div class="game_card_img">
+										<img src="{{game.cover.url}}" alt="{{game.name}}">
+									</div>
+									<div class="game_card_info">
+										<h3>{{game.name}}</h3>
+									</div>
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
 			</div>
 		</div>
 

@@ -35,7 +35,21 @@
 							<div class="game_body--genres">
 								{% if game.genres is defined %}
 									{% for genre in game.genres %}
-										<small class="badge bg-success">{{ genre.name }}</small>
+										<small class="badge">{{ genre.name }}</small>
+									{% endfor %}
+								{% endif %}
+							</div>
+							<div class="game_body--themes">
+								{% if game.themes is defined %}
+									{% for theme in game.themes %}
+										<small class="badge">{{ theme.name }}</small>
+									{% endfor %}
+								{% endif %}
+							</div>
+							<div class="game_body--modes">
+								{% if game.game_modes is defined %}
+									{% for mode in game.game_modes %}
+										<small class="badge">{{ mode.name }}</small>
 									{% endfor %}
 								{% endif %}
 							</div>

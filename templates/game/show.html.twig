@@ -5,551 +5,585 @@
 {% endblock %}
 
 {% block body %}
-<div class="body-content">
+	<div
+		class="body-content">
 
-	{# <div class="loader"></div> #}
+		{# <div class="loader"></div> #}
 
-	<div class="game-detail">
-		<div class="top-content containers">
-			<div class="top">
-				<div class="top-info">
-					<div class="title">
-						<h1>{{game.name}}</h1>
-					</div>
-					<div class="top-detail">
-						<div class="category">
-							{% if game.category is defined %}
-								<small class="badge text-bg-secondary">{{ game.category }}</small>
-							{% endif %}
+		<div class="game-detail">
+			<div class="top-content containers">
+				<div class="top">
+					<div class="top-info">
+						<div class="title">
+							<h1>{{game.name}}</h1>
 						</div>
-						<div class="released">
-							{% if game.first_release_date is defined %}
-								<small>Date de sortie :
-									<span>{{game.first_release_date | date('d/m/Y')}}</span>
-								</small>
-							{% endif %}
+						<div class="top-detail">
+							<div class="category">
+								{% if game.category is defined %}
+									<small class="badge text-bg-secondary">{{ game.category }}</small>
+								{% endif %}
+							</div>
+							<div class="released">
+								{% if game.first_release_date is defined %}
+									<small>Date de sortie :
+										<span>{{game.first_release_date | date('d/m/Y')}}</span>
+									</small>
+								{% endif %}
+							</div>
 						</div>
 					</div>
-				</div>
-				<div
-					class="collection">
+					<div
+						class="collection">
 
-					{# On verifie si le jeu est dans la collection #}
-					{% set gameCollectionFound = false %}
-					{% set gameAchieved = '' %}
-					{% set gamePlatined = '' %}
+						{# On verifie si le jeu est dans la collection #}
+						{% set gameCollectionFound = false %}
+						{% set gameAchieved = '' %}
+						{% set gamePlatined = '' %}
 
-					{% for collection in collections.games %}
-						{% if collection.id == game.id %}
-							{% set gameCollectionFound = true %}
-							{% set gameAchieved = collection.achieved %}
-							{% set gamePlatined = collection.platined %}
-						{% endif %}
-					{% endfor %}
+						{% for collection in collections.games %}
+							{% if collection.id == game.id %}
+								{% set gameCollectionFound = true %}
+								{% set gameAchieved = collection.achieved %}
+								{% set gamePlatined = collection.platined %}
+							{% endif %}
+						{% endfor %}
 
 
-					{# On affiche les boutons en fonction de si le jeu est dans la collection ou non #}
-					{% set action = (gameCollectionFound ) ? 'remove-from-collection' : 'add-to-collection' %}
-					{% set buttonText = (gameCollectionFound) ? 'Collection' : 'Collection' %}
-					{% set buttonClass = (gameCollectionFound) ? 'btn-warning' : 'btn-primary' %}
-					{% set iconClass = (gameCollectionFound) ? 'close-outline' : 'add-outline' %}
+						{# On affiche les boutons en fonction de si le jeu est dans la collection ou non #}
+						{% set action = (gameCollectionFound ) ? 'remove-from-collection' : 'add-to-collection' %}
+						{% set buttonText = (gameCollectionFound) ? 'Collection' : 'Collection' %}
+						{% set buttonClass = (gameCollectionFound) ? 'btn-warning' : 'btn-primary' %}
+						{% set iconClass = (gameCollectionFound) ? 'close-outline' : 'add-outline' %}
 
-					<div class="collection--toogle">
 						<div class="collection--toogle">
-							<button id="toggleCollection" class="btn {{ buttonClass }}" data-game-id="{{ game.id }}" data-action="{{ action }}">
-								{% if action == 'add-to-collection' %}
-									Collection
+							<div class="collection--toogle">
+								<button id="toggleCollection" class="btn {{ buttonClass }}" data-game-id="{{ game.id }}" data-action="{{ action }}">
+									{% if action == 'add-to-collection' %}
+										Collection
+										<ion-icon name="add-circle-outline" class="button-icon"></ion-icon>
+									{% else %}
+										Collection
+										<ion-icon name="remove-circle-outline" class="button-icon"></ion-icon>
+									{% endif %}
+								</button>
+							</div>
+
+
+						</div>
+
+						{% set action = (gameAchieved) ? 'unachieved' : 'achieved' %}
+						{% set buttonText = (gameAchieved) ? 'Terminer' : 'Terminer' %}
+						{% set buttonClass = (gameAchieved) ? 'btn-danger' : 'btn-success' %}
+
+						<div class="collection--achieved">
+							<button id="toggleAchieved" class="btn {{ buttonClass }}" data-game-id="{{ game.id }}" data-action="{{ action }}">
+								{% if action == 'achieved' %}
+									Terminer
 									<ion-icon name="add-circle-outline" class="button-icon"></ion-icon>
 								{% else %}
-									Collection
+									Terminer
 									<ion-icon name="remove-circle-outline" class="button-icon"></ion-icon>
 								{% endif %}
 							</button>
 						</div>
 
+						{% set action = (gamePlatined) ? 'unplatined' : 'platined' %}
+						{% set buttonText = (gamePlatined) ? 'Platine' : 'Platine' %}
+						{% set buttonClass = (gamePlatined) ? 'btn-danger' : 'btn-success' %}
 
-					</div>
-
-					{% set action = (gameAchieved) ? 'unachieved' : 'achieved' %}
-					{% set buttonText = (gameAchieved) ? 'Terminer' : 'Terminer' %}
-					{% set buttonClass = (gameAchieved) ? 'btn-danger' : 'btn-success' %}
-
-					<div class="collection--achieved">
-						<button id="toggleAchieved" class="btn {{ buttonClass }}" data-game-id="{{ game.id }}" data-action="{{ action }}">
-							{% if action == 'achieved' %}
-								Terminer
-								<ion-icon name="add-circle-outline" class="button-icon"></ion-icon>
-							{% else %}
-								Terminer
-								<ion-icon name="remove-circle-outline" class="button-icon"></ion-icon>
-							{% endif %}
-						</button>
-					</div>
-
-					{% set action = (gamePlatined) ? 'unplatined' : 'platined' %}
-					{% set buttonText = (gamePlatined) ? 'Platine' : 'Platine' %}
-					{% set buttonClass = (gamePlatined) ? 'btn-danger' : 'btn-success' %}
-
-					<div class="collection--platined">
-						<button id="togglePlatined" class="btn {{ buttonClass }}" data-game-id="{{ game.id }}" data-action="{{ action }}">
-							{% if action == 'platined' %}
-								Platine
-								<ion-icon name="add-circle-outline" class="button-icon"></ion-icon>
-							{% else %}
-								Platine
-								<ion-icon name="remove-circle-outline" class="button-icon"></ion-icon>
-							{% endif %}
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="left">
-				<div class="cover">
-					{% if game.cover.url is defined %}
-						<img src="{{ game.cover.url }}" alt="cover de {{game.name}}">
-					{% else %}
-						<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder de {{game.name}}">
-					{% endif %}
-				</div>
-				<div class="platforms card">
-					<h3 class="card-title">platformes</h3>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item">
-							{% if game.platforms is defined %}
-								{% for platform in game.platforms %}
-									{% if platform.abbreviation is defined %}
-										<small class="badge text-bg-secondary">{{ platform.abbreviation }}</small>
-									{% elseif platform.name is defined %}
-										<small class="badge text-bg-secondary">{{ platform.name }}</small>
-									{% else %}
-										<small class="badge text-bg-secondary">N/A</small>
-									{% endif %}
-								{% endfor %}
-							{% else %}
-								<small class="badge text-bg-secondary">N/A</small>
-							{% endif %}
-						</li>
-					</ul>
-				</div>
-				<div class="genres card">
-					<h3 class="card-title">Genres</h3>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item">
-							{% if game.genres is defined %}
-								{% for genre in game.genres %}
-									<small class="badge text-bg-secondary">{{ genre.name }}</small>
-								{% endfor %}
-							{% else %}
-								<small class="badge text-bg-secondary">N/A</small>
-							{% endif %}
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="right">
-				<div class="right-top">
-					<div class="rating card">
-						<h3 class="card-title">Metacritics</h3>
-						<div class="rating-graph card-body">
-							{% if game.rating is defined %}
-								<canvas id="myCanvas" data-rating="{{ game.rating|round }}" width="150" height="150"></canvas>
-								{% if game.rating|round >= 75 %}
-									<p class="rating-green">{{ game.rating|round }}%</p>
-								{% elseif game.rating|round >= 50 %}
-									<p class="rating-blue">{{ game.rating|round }}%</p>
-								{% elseif game.rating|round >= 25 %}
-									<p class="rating-yellow">{{ game.rating|round }}%</p>
+						<div class="collection--platined">
+							<button id="togglePlatined" class="btn {{ buttonClass }}" data-game-id="{{ game.id }}" data-action="{{ action }}">
+								{% if action == 'platined' %}
+									Platine
+									<ion-icon name="add-circle-outline" class="button-icon"></ion-icon>
 								{% else %}
-									<p class="rating-red">{{ game.rating|round }}%</p>
+									Platine
+									<ion-icon name="remove-circle-outline" class="button-icon"></ion-icon>
 								{% endif %}
-							{% else %}
-								<p class="rating-null">N/A</p>
-							{% endif %}
+							</button>
 						</div>
 					</div>
-					<div class="teams card">
-						<h3 class="card-title">Equipes</h3>
-						<ul class="list-group list-group-flush teams-group">
-							{% if game.involved_companies is defined %}
-								<li class="list-group-item teams-developpeur">
-									<p class="card-title">Développeur :</p>
-									{% set developerCompanyFound = false %}
-									{% for companies in game.involved_companies %}
-										{% if companies.developer == true %}
-											<small class="badge text-bg-secondary">
-												{{ companies.company.name|default('N/A') }}
-											</small>
-											{% set developerCompanyFound = true %}
+				</div>
+				<div class="left">
+					<div class="cover">
+						{% if game.cover.url is defined %}
+							<img src="{{ game.cover.url }}" alt="cover de {{game.name}}">
+						{% else %}
+							<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder de {{game.name}}">
+						{% endif %}
+					</div>
+					<div class="platforms card">
+						<h3 class="card-title">platformes</h3>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								{% if game.platforms is defined %}
+									{% for platform in game.platforms %}
+										{% if platform.abbreviation is defined %}
+											<small class="badge text-bg-secondary">{{ platform.abbreviation }}</small>
+										{% elseif platform.name is defined %}
+											<small class="badge text-bg-secondary">{{ platform.name }}</small>
+										{% else %}
+											<small class="badge text-bg-secondary">N/A</small>
 										{% endif %}
 									{% endfor %}
-									{% if not developerCompanyFound %}
-										<small class="badge text-bg-secondary">
-											N/A
-										</small>
-									{% endif %}
-								</li>
-								<li class="list-group-item teams-editeur">
-									<p class="card-title">Éditeur :</p>
-									{% set publisherCompanyFound = false %}
-									{% for companies in game.involved_companies %}
-										{% if companies.publisher == true %}
-											<small class="badge text-bg-secondary">
-												{{ companies.company.name|default('N/A') }}
-											</small>
-											{% set publisherCompanyFound = true %}
-										{% endif %}
+								{% else %}
+									<small class="badge text-bg-secondary">N/A</small>
+								{% endif %}
+							</li>
+						</ul>
+					</div>
+					<div class="genres card">
+						<h3 class="card-title">Genres</h3>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								{% if game.genres is defined %}
+									{% for genre in game.genres %}
+										<small class="badge text-bg-secondary">{{ genre.name }}</small>
 									{% endfor %}
-									{% if not publisherCompanyFound %}
-										<small class="badge text-bg-secondary">
-											N/A
-										</small>
-									{% endif %}
-								</li>
-								<li class="list-group-item teams-portage">
-									<p class="card-title">Portage :</p>
-									{% set portingCompanyFound = false %}
-									{% for companies in game.involved_companies %}
-										{% if companies.porting == true %}
-											<small class="badge text-bg-secondary">
-												{{ companies.company.name|default('N/A') }}
-											</small>
-											{% set portingCompanyFound = true %}
-										{% endif %}
+								{% else %}
+									<small class="badge text-bg-secondary">N/A</small>
+								{% endif %}
+							</li>
+						</ul>
+					</div>
+					<div class="themes card my-3">
+						<h3 class="card-title">Themes</h3>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								{% if game.themes is defined %}
+									{% for theme in game.themes %}
+										<small class="badge text-bg-secondary">{{ theme.name }}</small>
 									{% endfor %}
-									{% if not portingCompanyFound %}
-										<small class="badge text-bg-secondary">
-											N/A
-										</small>
-									{% endif %}
-								</li>
-								<li class="list-group-item teams-support">
-									<p class="card-title">Support :</p>
-									{% set supportingCompanyFound = false %}
-									{% for companies in game.involved_companies %}
-										{% if companies.supporting == true %}
-											<small class="badge text-bg-secondary">
-												{{ companies.company.name|default('N/A') }}
-											</small>
-											{% set supportingCompanyFound = true %}
-										{% endif %}
+								{% else %}
+									<small class="badge text-bg-secondary">N/A</small>
+								{% endif %}
+							</li>
+						</ul>
+					</div>
+					<div class="game_modes card">
+						<h3 class="card-title">Modes</h3>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								{% if game.game_modes is defined %}
+									{% for game_mode in game.game_modes %}
+										<small class="badge text-bg-secondary">{{ game_mode.name }}</small>
 									{% endfor %}
-									{% if not supportingCompanyFound %}
-										<small class="badge text-bg-secondary">
-											N/A
-										</small>
-									{% endif %}
-								</li>
-							{% else %}
-								<li class="list-group-item">
-									<p class="card-title">Développeur :</p>
-									<small class="badge text-bg-secondary">
-										N/A
-									</small>
-								</li>
-								<li class="list-group-item">
-									<p class="card-title">Editeur :</p>
-									<small class="badge text-bg-secondary">
-										N/A
-									</small>
-								</li>
-								<li class="list-group-item">
-									<p class="card-title">Portage :</p>
-									<small class="badge text-bg-secondary">
-										N/A
-									</small>
-								</li>
-								<li class="list-group-item">
-									<p class="card-title">Support :</p>
-									<small class="badge text-bg-secondary">
-										N/A
-									</small>
-								</li>
-							{% endif %}
+								{% else %}
+									<small class="badge text-bg-secondary">N/A</small>
+								{% endif %}
+							</li>
 						</ul>
 					</div>
 				</div>
-				<div class="right-middle">
-					<div class="description card">
-						<h3 class="card-title">Résumer</h3>
-						<div class="card-body">
-							{% if game.summary is defined %}
-								<p class="card-text">{{ game.summary | split(' ') | slice(0, 150) | join(' ') ~ '...'}}</p>
-							{% else %}
-								<p class="card-text">N/A</p>
-							{% endif %}
+				<div class="right">
+					<div class="right-top">
+						<div class="rating card">
+							<h3 class="card-title">Metacritics</h3>
+							<div class="rating-graph card-body">
+								{% if game.rating is defined %}
+									<canvas id="myCanvas" data-rating="{{ game.rating|round }}" width="150" height="150"></canvas>
+									{% if game.rating|round >= 75 %}
+										<p class="rating-green">{{ game.rating|round }}%</p>
+									{% elseif game.rating|round >= 50 %}
+										<p class="rating-blue">{{ game.rating|round }}%</p>
+									{% elseif game.rating|round >= 25 %}
+										<p class="rating-yellow">{{ game.rating|round }}%</p>
+									{% else %}
+										<p class="rating-red">{{ game.rating|round }}%</p>
+									{% endif %}
+								{% else %}
+									<p class="rating-null">N/A</p>
+								{% endif %}
+							</div>
+						</div>
+						<div class="teams card">
+							<h3 class="card-title">Equipes</h3>
+							<ul class="list-group list-group-flush teams-group">
+								{% if game.involved_companies is defined %}
+									<li class="list-group-item teams-developpeur">
+										<p class="card-title">Développeur :</p>
+										{% set developerCompanyFound = false %}
+										{% for companies in game.involved_companies %}
+											{% if companies.developer == true %}
+												<small class="badge text-bg-secondary">
+													{{ companies.company.name|default('N/A') }}
+												</small>
+												{% set developerCompanyFound = true %}
+											{% endif %}
+										{% endfor %}
+										{% if not developerCompanyFound %}
+											<small class="badge text-bg-secondary">
+												N/A
+											</small>
+										{% endif %}
+									</li>
+									<li class="list-group-item teams-editeur">
+										<p class="card-title">Éditeur :</p>
+										{% set publisherCompanyFound = false %}
+										{% for companies in game.involved_companies %}
+											{% if companies.publisher == true %}
+												<small class="badge text-bg-secondary">
+													{{ companies.company.name|default('N/A') }}
+												</small>
+												{% set publisherCompanyFound = true %}
+											{% endif %}
+										{% endfor %}
+										{% if not publisherCompanyFound %}
+											<small class="badge text-bg-secondary">
+												N/A
+											</small>
+										{% endif %}
+									</li>
+									<li class="list-group-item teams-portage">
+										<p class="card-title">Portage :</p>
+										{% set portingCompanyFound = false %}
+										{% for companies in game.involved_companies %}
+											{% if companies.porting == true %}
+												<small class="badge text-bg-secondary">
+													{{ companies.company.name|default('N/A') }}
+												</small>
+												{% set portingCompanyFound = true %}
+											{% endif %}
+										{% endfor %}
+										{% if not portingCompanyFound %}
+											<small class="badge text-bg-secondary">
+												N/A
+											</small>
+										{% endif %}
+									</li>
+									<li class="list-group-item teams-support">
+										<p class="card-title">Support :</p>
+										{% set supportingCompanyFound = false %}
+										{% for companies in game.involved_companies %}
+											{% if companies.supporting == true %}
+												<small class="badge text-bg-secondary">
+													{{ companies.company.name|default('N/A') }}
+												</small>
+												{% set supportingCompanyFound = true %}
+											{% endif %}
+										{% endfor %}
+										{% if not supportingCompanyFound %}
+											<small class="badge text-bg-secondary">
+												N/A
+											</small>
+										{% endif %}
+									</li>
+								{% else %}
+									<li class="list-group-item">
+										<p class="card-title">Développeur :</p>
+										<small class="badge text-bg-secondary">
+											N/A
+										</small>
+									</li>
+									<li class="list-group-item">
+										<p class="card-title">Editeur :</p>
+										<small class="badge text-bg-secondary">
+											N/A
+										</small>
+									</li>
+									<li class="list-group-item">
+										<p class="card-title">Portage :</p>
+										<small class="badge text-bg-secondary">
+											N/A
+										</small>
+									</li>
+									<li class="list-group-item">
+										<p class="card-title">Support :</p>
+										<small class="badge text-bg-secondary">
+											N/A
+										</small>
+									</li>
+								{% endif %}
+							</ul>
 						</div>
 					</div>
-				</div>
-				<div class="right-bottom">
-					<div class="websites card">
-						<h3 class="card-title">Liens internet</h3>
-						<ul class="list-group list-group-flush">
-							{% if game.websites is defined %}
-								<li class="list-group-item websites-icons">
+					<div class="right-middle">
+						<div class="description card">
+							<h3 class="card-title">Résumer</h3>
+							<div class="card-body">
+								{% if game.summary is defined %}
+									<p class="card-text">{{ game.summary | split(' ') | slice(0, 150) | join(' ') ~ '...'}}</p>
+								{% else %}
+									<p class="card-text">N/A</p>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					<div class="right-bottom">
+						<div class="websites card">
+							<h3 class="card-title">Liens internet</h3>
+							<ul class="list-group list-group-flush">
+								{% if game.websites is defined %}
+									<li class="list-group-item websites-icons">
 
-									{% for website in game.websites %}
+										{% for website in game.websites %}
 											<a class="badge bg-light" href="{{website.url}}" target="_blank">
 												<img src="{{ asset(website.icon) }}" alt="{{website.name}} Icon">
 											</a>
-									{% endfor %}
+										{% endfor %}
 
-								</li>
-							{% else %}
-								<li class="list-group-item">
-									<small class="badge text-bg-secondary">
-										N/A
-									</small>
-								</li>
-							{% endif %}
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="middle-content">
-			{% if game.screenshots is defined %}
-				<div class="medias">
-					<div class="carousel-image">
-						{% for screenshot in game.screenshots %}
-							<div class="carousel-image-item mx-2">
-								<img src="{{screenshot.url}}" alt="" height="300">
-							</div>
-						{% endfor %}
-					</div>
-				</div>
-			{% endif %}
-		</div>
-		<div class="bottom-content containers">
-			<div class="expansions">
-				{% if game.expansions is defined %}
-					<h3 class="expansions-title">Extensions</h3>
-					<div class="expansions-template">
-						{% for expansion in game.expansions %}
-							<div class="game">
-								<div class="game_image">
-									{% if expansion.cover is defined %}
-										<a href="{{ path('game', {id: expansion.id}) }}"><img src="{{ expansion.cover.url }}" alt="{{ expansion.name }} cover"></a>
-									{% else %}
-										<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
-									{% endif %}
-								</div>
-								<div class="game_body">
-									<div class="game_body--title">
-										<h2>
-											<a href="{{ path('game', {id: expansion.id}) }}">{{ expansion.name }}</a>
-										</h2>
-									</div>
-									<div class="game_body--platforms">
-										{% if expansion.platforms is defined %}
-											{% for platform in expansion.platforms %}
-												{% if platform.abbreviation is defined %}
-													<small class="badge bg-primary">{{ platform.abbreviation }}</small>
-												{% elseif platform.name is defined %}
-													<small class="badge bg-primary">{{ platform.name }}</small>
-												{% else %}
-													<small class="badge bg-primary">N/A</small>
-												{% endif %}
-											{% endfor %}
-										{% endif %}
-									</div>
-									<div class="game_body--genres">
-										{% if expansion.genres is defined %}
-											{% for genre in expansion.genres %}
-												<small class="badge bg-success">{{ genre.name }}</small>
-											{% endfor %}
-										{% endif %}
-									</div>
-									<div class="game_body--footer">
-										<div class="game_body--footer--release">
-											{% if expansion.first_release_date is defined %}
-												<p>
-													<span class="badge bg-secondary">{{ expansion.first_release_date|date('d/m/Y') }}</span>
-												</p>
-											{% endif %}
-										</div>
-										<div class="game_body--footer--rating">
-											{% if expansion.rating is defined %}
-												<p>
-													{% if expansion.rating|round >= 75 %}
-														<span class="score score-green">{{ expansion.rating|round }}%</span>
-													{% elseif expansion.rating|round >= 50 %}
-														<span class="score score-blue">{{ expansion.rating|round }}%</span>
-													{% elseif expansion.rating|round >= 25 %}
-														<span class="score score-yellow">{{ expansion.rating|round }}%</span>
-													{% else %}
-														<span class="score score-red">{{ expansion.rating|round }}%</span>
-													{% endif %}
-												</p>
-											{% endif %}
-										</div>
-									</div>
-								</div>
-							</div>
-						{% endfor %}
-					</div>
-				{% endif %}
-			</div>
-
-			<div class="dlcs">
-				{% if game.dlcs is defined %}
-					<h3 class="dlcs-title">Dlc</h3>
-					<div class="dlcs-template">
-						{% for dlcs in game.dlcs %}
-							<div class="game">
-								<div class="game_image">
-									{% if dlcs.cover is defined %}
-										<a href="{{ path('game', {id: dlcs.id}) }}"><img src="{{ dlcs.cover.url }}" alt="{{ dlcs.name }} cover"></a>
-									{% else %}
-										<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
-									{% endif %}
-								</div>
-								<div class="game_body">
-									<div class="game_body--title">
-										<h2>
-											<a href="{{ path('game', {id: dlcs.id}) }}">{{ dlcs.name }}</a>
-										</h2>
-									</div>
-									<div class="game_body--platforms">
-										{% if dlcs.platforms is defined %}
-											{% for platform in dlcs.platforms %}
-												{% if platform.abbreviation is defined %}
-													<small class="badge bg-primary">{{ platform.abbreviation }}</small>
-												{% elseif platform.name is defined %}
-													<small class="badge bg-primary">{{ platform.name }}</small>
-												{% else %}
-													<small class="badge bg-primary">N/A</small>
-												{% endif %}
-											{% endfor %}
-										{% endif %}
-									</div>
-									<div class="game_body--genres">
-										{% if dlcs.genres is defined %}
-											{% for genre in dlcs.genres %}
-												<small class="badge bg-success">{{ genre.name }}</small>
-											{% endfor %}
-										{% endif %}
-									</div>
-									<div class="game_body--footer">
-										<div class="game_body--footer--release">
-											{% if dlcs.first_release_date is defined %}
-												<p>
-													<span class="badge bg-secondary">{{ dlcs.first_release_date|date('d/m/Y') }}</span>
-												</p>
-											{% endif %}
-										</div>
-										<div class="game_body--footer--rating">
-											{% if dlcs.rating is defined %}
-												<p>
-													{% if dlcs.rating|round >= 75 %}
-														<span class="score score-green">{{ dlcs.rating|round }}%</span>
-													{% elseif dlcs.rating|round >= 50 %}
-														<span class="score score-blue">{{ dlcs.rating|round }}%</span>
-													{% elseif dlcs.rating|round >= 25 %}
-														<span class="score score-yellow">{{ dlcs.rating|round }}%</span>
-													{% else %}
-														<span class="score score-red">{{ dlcs.rating|round }}%</span>
-													{% endif %}
-												</p>
-											{% endif %}
-										</div>
-									</div>
-								</div>
-							</div>
-						{% endfor %}
-					</div>
-				{% endif %}
-			</div>
-
-			<div class="franchises">
-				{% if game.franchises is defined %}
-					<h3 class="text-center">Franchises</h3>
-					<div class="franchises-name">
-						{% for franchise in game.franchises %}
-							<div class="card franchises-card" style="width: 12rem;">
-								<div class="card-body">
-									<h5 class="card-title">{{franchise.name}}</h5>
-									<p class="card-text">Nombre de jeux :
-										<small class="badge text-bg-secondary">{{ franchise.games|length }}</small>
-									</p>
-
-									<button id="toggleButton{{ loop.index }}" class="btn btn-primary" onclick="toggleDisplay('games-{{ loop.index }}', 'toggleButton{{ loop.index }}')">Afficher les jeux</button>
-								</div>
-							</div>
-						{% endfor %}
-					</div>
-					{% for franchise in game.franchises %}
-						<div id="games-{{ loop.index }}" style="display: none;">
-							<div class="franchises-template">
-								{% for franchise in franchise.games %}
-									<div class="game">
-										<div class="game_image">
-											{% if franchise.cover is defined %}
-												<a href="{{ path('game', {id: franchise.id}) }}"><img src="{{ franchise.cover.url }}" alt="{{ franchise.name }} cover"></a>
-											{% else %}
-												<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
-											{% endif %}
-										</div>
-										<div class="game_body">
-																	<small class="badge text-bg-secondary category">{{ game.category }}</small>
-											<div class="game_body--title">
-												<h2>
-													<a href="{{ path('game', {id: franchise.id}) }}">{{ franchise.name }}</a>
-												</h2>
-											</div>
-											<div class="game_body--platforms">
-												{% if franchise.platforms is defined %}
-													{% for platform in franchise.platforms %}
-														{% if platform.abbreviation is defined %}
-															<small class="badge bg-primary">{{ platform.abbreviation }}</small>
-														{% elseif platform.name is defined %}
-															<small class="badge bg-primary">{{ platform.name }}</small>
-														{% endif %}
-													{% endfor %}
-												{% endif %}
-											</div>
-											<div class="game_body--genres">
-												{% if franchise.genres is defined %}
-													{% for genre in franchise.genres %}
-														<small class="badge bg-success">{{ genre.name }}</small>
-													{% endfor %}
-												{% endif %}
-											</div>
-											<div class="game_body--footer">
-												<div class="game_body--footer--release">
-													{% if franchise.first_release_date is defined %}
-														<p>
-															<span class="badge bg-secondary">{{ franchise.first_release_date|date('d/m/Y') }}</span>
-														</p>
-													{% endif %}
-												</div>
-												<div class="game_body--footer--rating">
-													{% if franchise.rating is defined %}
-														<p>
-															{% if franchise.rating|round >= 75 %}
-																<span class="score score-green">{{ franchise.rating|round }}%</span>
-															{% elseif franchise.rating|round >= 50 %}
-																<span class="score score-blue">{{ franchise.rating|round }}%</span>
-															{% elseif franchise.rating|round >= 25 %}
-																<span class="score score-yellow">{{ franchise.rating|round }}%</span>
-															{% else %}
-																<span class="score score-red">{{ franchise.rating|round }}%</span>
-															{% endif %}
-
-														</p>
-
-													{% endif %}
-												</div>
-											</div>
-										</div>
-									</div>
-								{% endfor %}
-							</div>
+									</li>
+								{% else %}
+									<li class="list-group-item">
+										<small class="badge text-bg-secondary">
+											N/A
+										</small>
+									</li>
+								{% endif %}
+							</ul>
 						</div>
-					{% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="middle-content">
+				{% if game.screenshots is defined %}
+					<div class="medias">
+						<div class="carousel-image">
+							{% for screenshot in game.screenshots %}
+								<div class="carousel-image-item mx-2">
+									<img src="{{screenshot.url}}" alt="" height="300">
+								</div>
+							{% endfor %}
+						</div>
+					</div>
 				{% endif %}
 			</div>
+			<div class="bottom-content containers">
+				<div class="expansions">
+					{% if game.expansions is defined %}
+						<h3 class="expansions-title">Extensions</h3>
+						<div class="expansions-template">
+							{% for expansion in game.expansions %}
+								<div class="game">
+									<div class="game_image">
+										{% if expansion.cover is defined %}
+											<a href="{{ path('game', {id: expansion.id}) }}"><img src="{{ expansion.cover.url }}" alt="{{ expansion.name }} cover"></a>
+										{% else %}
+											<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
+										{% endif %}
+									</div>
+									<div class="game_body">
+										<div class="game_body--title">
+											<h2>
+												<a href="{{ path('game', {id: expansion.id}) }}">{{ expansion.name }}</a>
+											</h2>
+										</div>
+										<div class="game_body--platforms">
+											{% if expansion.platforms is defined %}
+												{% for platform in expansion.platforms %}
+													{% if platform.abbreviation is defined %}
+														<small class="badge bg-primary">{{ platform.abbreviation }}</small>
+													{% elseif platform.name is defined %}
+														<small class="badge bg-primary">{{ platform.name }}</small>
+													{% else %}
+														<small class="badge bg-primary">N/A</small>
+													{% endif %}
+												{% endfor %}
+											{% endif %}
+										</div>
+										<div class="game_body--genres">
+											{% if expansion.genres is defined %}
+												{% for genre in expansion.genres %}
+													<small class="badge bg-success">{{ genre.name }}</small>
+												{% endfor %}
+											{% endif %}
+										</div>
+										<div class="game_body--footer">
+											<div class="game_body--footer--release">
+												{% if expansion.first_release_date is defined %}
+													<p>
+														<span class="badge bg-secondary">{{ expansion.first_release_date|date('d/m/Y') }}</span>
+													</p>
+												{% endif %}
+											</div>
+											<div class="game_body--footer--rating">
+												{% if expansion.rating is defined %}
+													<p>
+														{% if expansion.rating|round >= 75 %}
+															<span class="score score-green">{{ expansion.rating|round }}%</span>
+														{% elseif expansion.rating|round >= 50 %}
+															<span class="score score-blue">{{ expansion.rating|round }}%</span>
+														{% elseif expansion.rating|round >= 25 %}
+															<span class="score score-yellow">{{ expansion.rating|round }}%</span>
+														{% else %}
+															<span class="score score-red">{{ expansion.rating|round }}%</span>
+														{% endif %}
+													</p>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+
+				<div class="dlcs">
+					{% if game.dlcs is defined %}
+						<h3 class="dlcs-title">Dlc</h3>
+						<div class="dlcs-template">
+							{% for dlcs in game.dlcs %}
+								<div class="game">
+									<div class="game_image">
+										{% if dlcs.cover is defined %}
+											<a href="{{ path('game', {id: dlcs.id}) }}"><img src="{{ dlcs.cover.url }}" alt="{{ dlcs.name }} cover"></a>
+										{% else %}
+											<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
+										{% endif %}
+									</div>
+									<div class="game_body">
+										<div class="game_body--title">
+											<h2>
+												<a href="{{ path('game', {id: dlcs.id}) }}">{{ dlcs.name }}</a>
+											</h2>
+										</div>
+										<div class="game_body--platforms">
+											{% if dlcs.platforms is defined %}
+												{% for platform in dlcs.platforms %}
+													{% if platform.abbreviation is defined %}
+														<small class="badge bg-primary">{{ platform.abbreviation }}</small>
+													{% elseif platform.name is defined %}
+														<small class="badge bg-primary">{{ platform.name }}</small>
+													{% else %}
+														<small class="badge bg-primary">N/A</small>
+													{% endif %}
+												{% endfor %}
+											{% endif %}
+										</div>
+										<div class="game_body--genres">
+											{% if dlcs.genres is defined %}
+												{% for genre in dlcs.genres %}
+													<small class="badge bg-success">{{ genre.name }}</small>
+												{% endfor %}
+											{% endif %}
+										</div>
+										<div class="game_body--footer">
+											<div class="game_body--footer--release">
+												{% if dlcs.first_release_date is defined %}
+													<p>
+														<span class="badge bg-secondary">{{ dlcs.first_release_date|date('d/m/Y') }}</span>
+													</p>
+												{% endif %}
+											</div>
+											<div class="game_body--footer--rating">
+												{% if dlcs.rating is defined %}
+													<p>
+														{% if dlcs.rating|round >= 75 %}
+															<span class="score score-green">{{ dlcs.rating|round }}%</span>
+														{% elseif dlcs.rating|round >= 50 %}
+															<span class="score score-blue">{{ dlcs.rating|round }}%</span>
+														{% elseif dlcs.rating|round >= 25 %}
+															<span class="score score-yellow">{{ dlcs.rating|round }}%</span>
+														{% else %}
+															<span class="score score-red">{{ dlcs.rating|round }}%</span>
+														{% endif %}
+													</p>
+												{% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+
+				<div class="franchises">
+					{% if game.franchises is defined %}
+						<h3 class="text-center">Franchises</h3>
+						<div class="franchises-name">
+							{% for franchise in game.franchises %}
+								{% if franchise.games is defined %}
+									<div class="card franchises-card" style="width: 12rem;">
+										<div class="card-body">
+											<h5 class="card-title">{{franchise.name}}</h5>
+
+											<p class="card-text">Nombre de jeux :
+												<small class="badge text-bg-secondary">{{ franchise.games|length }}</small>
+											</p>
+
+											<button id="toggleButton{{ loop.index }}" class="btn btn-primary" onclick="toggleDisplay('games-{{ loop.index }}', 'toggleButton{{ loop.index }}')">Afficher les jeux</button>
+										</div>
+									</div>
+								{% endif %}
+							{% endfor %}
+						</div>
+						{% for franchise in game.franchises %}
+							<div id="games-{{ loop.index }}" style="display: none;">
+								<div class="franchises-template">
+									{% if franchise.games is defined %}
+										{% for franchise in franchise.games %}
+											<div class="game">
+												<div class="game_image">
+													{% if franchise.cover is defined %}
+														<a href="{{ path('game', {id: franchise.id}) }}"><img src="{{ franchise.cover.url }}" alt="{{ franchise.name }} cover"></a>
+													{% else %}
+														<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
+													{% endif %}
+												</div>
+												<div class="game_body">
+													<small class="badge text-bg-secondary category">{{ game.category }}</small>
+													<div class="game_body--title">
+														<h2>
+															<a href="{{ path('game', {id: franchise.id}) }}">{{ franchise.name }}</a>
+														</h2>
+													</div>
+													<div class="game_body--platforms">
+														{% if franchise.platforms is defined %}
+															{% for platform in franchise.platforms %}
+																{% if platform.abbreviation is defined %}
+																	<small class="badge bg-primary">{{ platform.abbreviation }}</small>
+																{% elseif platform.name is defined %}
+																	<small class="badge bg-primary">{{ platform.name }}</small>
+																{% endif %}
+															{% endfor %}
+														{% endif %}
+													</div>
+													<div class="game_body--genres">
+														{% if franchise.genres is defined %}
+															{% for genre in franchise.genres %}
+																<small class="badge">{{ genre.name }}</small>
+															{% endfor %}
+														{% endif %}
+													</div>
+													<div class="game_body--footer">
+														<div class="game_body--footer--release">
+															{% if franchise.first_release_date is defined %}
+																<p>
+																	<span class="badge bg-secondary">{{ franchise.first_release_date|date('d/m/Y') }}</span>
+																</p>
+															{% endif %}
+														</div>
+														<div class="game_body--footer--rating">
+															{% if franchise.rating is defined %}
+																<p>
+																	{% if franchise.rating|round >= 75 %}
+																		<span class="score score-green">{{ franchise.rating|round }}%</span>
+																	{% elseif franchise.rating|round >= 50 %}
+																		<span class="score score-blue">{{ franchise.rating|round }}%</span>
+																	{% elseif franchise.rating|round >= 25 %}
+																		<span class="score score-yellow">{{ franchise.rating|round }}%</span>
+																	{% else %}
+																		<span class="score score-red">{{ franchise.rating|round }}%</span>
+																	{% endif %}
+
+																</p>
+
+															{% endif %}
+														</div>
+													</div>
+												</div>
+											</div>
+										{% endfor %}
+									{% endif %}
+								</div>
+							</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
 		</div>
-	</div>
 	</div>
 
 	<script>

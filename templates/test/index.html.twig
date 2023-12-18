@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TEST
+{% endblock %}
+
+{% block body %}
+	<div class="body-content">
+		<div class="container">
+			<style>
+				.test {
+					display: flex;
+					flex-flow: row wrap;
+				}
+				p {
+					margin: 0 0.6rem 0.6rem 0;
+					padding: 0.5rem 1rem;
+					border: 1px solid #fff;
+				}
+				span {
+					color: tomato;
+				}
+			</style>
+
+
+			<h3 class="mt-5">Games</h3>
+
+                <small>{{ games|length }}</small>
+
+			<div class="test my-5">
+				{% for game in games %}
+					<p>{{game.id}}
+						-
+						<span>{{game.name}}</span>
+					</p>
+				{% endfor %}
+			</div>
+			{# 
+						<h3 class="mt-5">Genres</h3>
+						<div class="test my-5">
+							{% for genre in genres %}
+								<p>{{genre.id}} -
+									{{genre.name}}
+								</p>
+							{% endfor %}
+						</div>
+						<h3 class="mt-5">Themes</h3>
+						<div class="test my-5">
+							{% for theme in themes %}
+								<p>{{theme.id}} -
+									{{theme.name}}
+								</p>
+							{% endfor %}
+						</div>
+						<h3 class="mt-5">Modes</h3>
+						<div class="test my-5">
+							{% for mode in modes %}
+								<p>{{mode.id}} -
+									{{mode.name}}
+								</p>
+							{% endfor %}
+						</div>
+						<h3 class="mt-1 mb-5">Platforms</h3>
+						<div class="test my-5">
+							{% for platform in platforms %}
+								<p>{{platform.id}} -
+									{{platform.name}}
+								</p>
+							{% endfor %}
+						</div>
+			 #}
+
+		</div>
+	</div>
+{% endblock %}

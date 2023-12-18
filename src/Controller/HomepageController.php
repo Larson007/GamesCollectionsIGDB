@@ -32,13 +32,14 @@ class HomepageController extends AbstractController
 
         // if (empty($data)) {
             // $games = $this->igdbService->homepage();
-        // } else {
-            // $games = $this->igdbService->dynamiqueSearch($data);
-        // }
-
+            // } else {
+                // $games = $this->igdbService->dynamiqueSearch($data);
+                // }
+                
+                $games = $this->igdbService->homepage();
 
         return $this->render('homepage/index.html.twig', [
-            // 'games' => $games
+            'games' => $games
         ]);
     }
 

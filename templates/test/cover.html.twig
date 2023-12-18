@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TEST COVER
+{% endblock %}
+
+{% block body %}
+
+<style>
+img {
+    border: 1px solid red;
+}
+</style>
+
+	<div class="body-content">
+		<div class="container">
+
+
+			{% for game in games %}
+				{% if game.cover is defined %}
+
+					<img src="{{game.cover.url}}" alt="">
+				{% endif %}
+			{% endfor %}
+
+
+		</div>
+	</div>
+{% endblock %}
