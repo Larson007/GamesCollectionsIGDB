@@ -1,16 +1,14 @@
 .homepage {
-    // * {
-    //     border: 1px solid red;
-    // }
-
     .filter {
         .filter_btn {
             display: flex;
             flex-flow: row wrap;
             justify-content: space-around;
             align-items: center;
-            margin: 5rem 0 1.5rem;
+            margin-bottom: 1.5rem;
             button {
+                font-size: 1.2rem;
+                font-weight: bolder;
                 width: 16.6%;
                 padding: 0.5rem 1rem;
                 border: none;
@@ -510,10 +508,6 @@
 }
 
 // /* Cible la gamme de sélection du slider */
-.noUi-connect {
-    // background: $blue;
-}
-
 .noUi-tooltip {
     font-size: 0.75rem;
 }

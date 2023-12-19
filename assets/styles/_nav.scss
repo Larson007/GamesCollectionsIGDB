@@ -76,6 +76,7 @@ header {
                     border: 2px solid $nav-item-active-border;
                     border-radius: 5px;
                     background-color: $nav-item-active-bg;
+                    color: $nav-item-active-texte;
                 }
                 .security {
                     background-color: #8a9399d5;
@@ -88,6 +89,7 @@ header {
         &:hover {
             border: 2px solid $nav-item-hover-border;
             border-radius: 5px;
+            color: $nav-item-hover-text;
         }
     }
 

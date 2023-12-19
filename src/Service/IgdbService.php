@@ -368,7 +368,15 @@ class IgdbService
     {
         // Faites une requête à l'API iGDB
         $igdbGames = $this->makeRequest('https://api.igdb.com/v4/games', "
-            fields name, genres.name, cover.url, first_release_date, rating, platforms.name, platforms.abbreviation;
+            fields 
+            name,
+            genres.name, 
+            cover.url, 
+            first_release_date, 
+            rating, 
+            platforms.name, platforms.abbreviation,
+            themes.name,
+            game_modes.name;
             where id = ($gameIdsString);
         ");
 

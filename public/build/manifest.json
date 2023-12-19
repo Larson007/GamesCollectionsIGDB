@@ -48,5 +48,6 @@
   "build/images/close-outline.svg": "/build/images/close-outline.svg",
   "build/images/add-outline.svg": "/build/images/add-outline.svg",
   "build/images/icons/nav/chevron-back-outline.svg": "/build/images/icons/nav/chevron-back-outline.svg",
-  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg"
+  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg",
+  "build/images/avatar/placeholder.jpg": "/build/images/avatar/placeholder.jpg"
 }

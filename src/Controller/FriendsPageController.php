@@ -57,15 +57,22 @@ class FriendsPageController extends AbstractController
 
         foreach ($friends as $friendId) {
             $friend = $this->entityManager->getRepository(User::class)->find($friendId);
+            $collection = [];
 
-            if ($friend) {
-                $friendsData[] = [
-                    'id' => $friend->getId(),
-                    'pseudo' => $friend->getPseudo(),
-                    'avatar' => $friend->getAvatar(),
-                    'collection' => $friend->getCollection()->getGames()
-                ];
+            // On vérifie que l'utilisateur récupéré existe bien et qu'il a une collection
+            if ($friend !== null) {
+                $collectionObject = $friend->getCollection();
+                if ($collectionObject !== null && $collectionObject->getGames() !== null) {
+                    $collection = $collectionObject->getGames();
+                }
             }
+
+            $friendsData[] = [
+                'id' => $friend->getId(),
+                'pseudo' => $friend->getPseudo(),
+                'avatar' => $friend->getAvatar(),
+                'collection' => $collection
+            ];
         }
 
         return $this->render('friends/friends.html.twig', [
@@ -180,9 +187,13 @@ class FriendsPageController extends AbstractController
         $pseudo = $user->getPseudo();
 
         // recuprer les id de chaque jeux dans la collection de l'utilisateur au format : 12457, 45741, 14567
-        $collection = $user->getCollection();
+        $collectionObject = $user->getCollection();
 
-        $collection = $collection->getGames();
+        if ($collectionObject !== null) {
+            $collection = $collectionObject->getGames();
+        } else {
+            $collection = [];
+        }
 
         if (!empty($collection)) {
 
