@@ -1,39 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage
+{% block title %}Filter Games
 {% endblock %}
 
 {% block body %}
 	<div class="body-content">
 		<div class="container">
-
 			<div class="homepage">
-				<div class="filter">
-					<div class="filter_btn">
-						<button id="platforms" class="filter-btn">platforms</button>
-						<button id="themes" class="filter-btn">themes</button>
-						<button id="genres" class="filter-btn">genres</button>
-						<button id="modes" class="filter-btn">modes</button>
-						<button id="rating" class="filter-btn">rating</button>
-						<button id="released" class="filter-btn">released</button>
-					</div>
-
-					<div class="filter_selected"></div>
-
-					<div class="filter_show"></div>
-				</div>
-
-
-				<div id="games_sort">
-					<div class="sort_games">
-						<button class="sort_released" data-sort="desc">Sort by released<img src="{{asset('build/images/caret-down-outline.svg')}}" alt=""></button>
-						<button class="sort_rating" data-sort="desc">Sort by rating<img src="{{asset('build/images/caret-down-outline.svg')}}" alt=""></button>
-					</div>
-				</div>
-
-				<div id="games_list">
-					{% include 'homepage/_homepage_games.html.twig' %}
-				</div>
+				<h1>Homepage</h1>
 			</div>
 		</div>
 

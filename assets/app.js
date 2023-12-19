@@ -41,9 +41,10 @@ import { notifications } from './js/notifications.js';
 import { initGameDetails } from './js/pages/gameDetails.js';
 import { initSearchFriends } from './js/pages/searchFriends.js';
 import { initDashboard } from './js/pages/dashboard.js';
-import { initHomepage } from './js/pages/homepage.js';
+import { initFilter } from './js/pages/filterGames.js';
 import { initGamesPopular } from './js/pages/gamesPopular.js';
 import navMenu from './js/navMenu.js';
+import { initHomepage } from './js/pages/homepage.js';
 
 // Start the application
 console.log('Hello from app.js');
@@ -65,6 +66,9 @@ if (document.querySelector('.recherche-amis')) {
 }
 if (document.querySelector('.dashboard')) {
     initDashboard();
+}
+if (document.querySelector('.filter-page')) {
+    initFilter();
 }
 if (document.querySelector('.homepage')) {
     initHomepage();

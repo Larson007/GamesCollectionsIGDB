@@ -448,7 +448,7 @@ class IgdbService
 
 
 
-    public function dynamiqueSearch($data)
+    public function filterGames($data)
     {
 
         // // 1 : on va si data est bien un tableau et si il contient bien les clés attendues     

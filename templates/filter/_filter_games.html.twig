@@ -1,6 +1,7 @@
-<div class="games_cards homepage_games">
+<div class="games_cards">
 	{% for game in games %}
 		<div class="game_card">
+			<button class="add-collection"><svg class="icon-add" viewBox="0 0 512 512"><path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 112v288M400 256H112"/></svg></button>
 			<a href="/game/{{game.id}}">
 				<div class="game_card_img">
 					{% if game.cover is defined %}
@@ -10,12 +11,9 @@
 					{% endif %}
 				</div>
 				<div class="game_card_info">
-					{% if game.rating is defined %}
-						<h3>{{game.rating}}</h3>
-					{% endif %}
-					{% if game.first_release_date is defined %}
-						<h3>{{ game.first_release_date|date('d/m/Y') }}</h3>
-					{% endif %}
+					<div class="game_card_info-content">
+
+					</div>
 				</div>
 			</a>
 		</div>
