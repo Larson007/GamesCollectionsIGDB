@@ -29,6 +29,12 @@
 						<span class="link-title">Accueil</span>
 					</a>
 				</li>
+				{# <li class="list_item">
+					<a class="list_item-link menu-link {{ path('filter') == app.request.pathinfo ? 'active' : '' }}" href="{{path('filter')}}">
+						<img src="{{ asset('build/images/icons/nav/filter.svg') }}" alt="icon filter">
+						<span class="link-title">Filtres</span>
+					</a>
+				</li> #}
 				<li class="list_item">
 					<a class="list_item-link menu-link {{ path('app_newgames') == app.request.pathinfo ? 'active' : '' }}" href="{{path('app_newgames')}}">
 						<img src="{{ asset('build/images/icons/nav/new.png') }}" alt="icon acceuil">

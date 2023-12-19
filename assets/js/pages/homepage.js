@@ -79,11 +79,11 @@ export function initHomepage() {
 
 
 
-        //* VERIFIE SI LA FONCTION HOMEPAGE() EXISTE VIA LA CLASS .homepage_games ETAPE 1
-        let sortButtons = document.querySelector('#games_sort');
-        if (document.querySelector('.homepage_games')) {
-            sortButtons.style.display = 'none';
-        }
+        // //* VERIFIE SI LA FONCTION HOMEPAGE() EXISTE VIA LA CLASS .homepage_games ETAPE 1
+        // let sortButtons = document.querySelector('#games_sort');
+        // if (document.querySelector('.homepage_games')) {
+        //     sortButtons.style.display = 'none';
+        // }
 
 
         //* Envoyer les données de selectedValues dynamiquement au format JSON
@@ -95,71 +95,14 @@ export function initHomepage() {
 
             // envoyer les données de selectedValues au format JSON
             $.ajax({
-                url: '/dynamiqueSearch',
+                url: '/',
                 type: 'POST',
                 data: JSON.stringify(selectedValues),
                 contentType: 'application/json',
-                dataType: 'json',
+                dataType: 'html',
                 
-                success: function (data) {
-
-                    //* VERIFIE SI LA FONCTION HOMEPAGE() EXISTE VIA LA CLASS .homepage_games ETAPE 2
-                    let sortButtons = document.querySelector('#games_sort');
-                    if (document.querySelector('.homepage_games')) {
-                        sortButtons.style.display = 'block';
-                    }
-
-                    // afficher les données reçues dans la console
-                    console.log(data);
-                    // afficher les données reçues dans le DOM
-                    let result = document.querySelector('#games_list');
-                    result.innerHTML = '';
-
-                    if (Array.isArray(data)) {
-                        sortButtons.style.display = 'block';
-                        // Créer une nouvelle div games_cards
-                        let gamesCards = document.createElement('div');
-                        gamesCards.classList.add('games_cards');
-
-                        data.forEach(game => {
-                            let gameDiv = document.createElement('div');
-                            gameDiv.classList.add('game_card');
-
-                            if (game.cover == undefined || !game.cover.url.includes('t_cover_big')) {
-                                gameDiv.innerHTML = `
-                                    <a href="/game/${game.id}">
-                                        <div class="game_card_img">
-                                            <img src="build/images/placeholder.jpg" alt="${game.name}" loading="lazy">
-                                        </div>
-                                        <div class="game_card_info">
-                                            <h3>${game.name}</h3>
-                                        </div>
-                                    </a>
-                                `;
-                            } else {
-                                gameDiv.innerHTML = `
-                                    <a href="/game/${game.id}">
-                                        <div class="game_card_img">
-                                            <img src="${game.cover.url}" alt="${game.name}">
-                                        </div>
-                                        <div class="game_card_info">
-                                            <h3>${game.name}</h3>
-                                        </div>
-                                    </a>
-                                `;
-                            }
-
-                            // Ajouter gameDiv à gamesCards
-                            gamesCards.appendChild(gameDiv);
-                        });
-
-                        // Ajouter gamesCards à result
-                        result.appendChild(gamesCards);
-                    } else {
-                        sortButtons.style.display = 'none';
-                        // Si data est vide (pas de filtre selectionné ou pas de résultat)
-                        result.innerHTML = '';
-                    }
+                success: function (response) {
+                    $('#games_list').html(response);
                 },
                 error: function (error) {
                     console.log(error);
@@ -206,6 +149,7 @@ export function initHomepage() {
 
                     // vider filterShow lorsqu'on clique sur un autre bouton
                     filterShow.innerHTML = '';
+
 
                     //* POUR LES BOUTTON DE FILTRES RATING ET RELEASED
                     if (currentButton == 'rating' || currentButton == 'released') {
@@ -519,36 +463,12 @@ export function initHomepage() {
 
         //* FONCTION POUR LES BOUTTONS SORT RATING ET RELEASED
         function sortResult() {
-            let gameShowDiv = document.querySelector('#games_sort');
-            let sortDiv = document.createElement('div');
-            sortDiv.classList.add('sort_games');
-
-            let sortRating = document.createElement('button');
-            sortRating.classList.add('sort_rating');
-            // sortRating.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
-            sortRating.setAttribute('data-sort', 'desc');
-            sortRating.innerText = 'Sort by rating';
-
-            let sortReleased = document.createElement('button');
-            sortReleased.classList.add('sort_released');
-            sortReleased.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
-            sortReleased.setAttribute('data-sort', 'desc');
-            sortReleased.innerText = 'Sort by released';
-
-            // Ajouter une image à sortRating 
-            let sortRatingImg = document.createElement('img');
-            sortRatingImg.src = 'build/images/caret-down-outline.svg';
-            sortRating.appendChild(sortRatingImg);
-
-            // Ajouter une image à sortReleased 
-            let sortReleasedImg = document.createElement('img');
-            sortReleasedImg.src = 'build/images/caret-down-outline.svg';
-            sortReleased.appendChild(sortReleasedImg);
-
-
-            sortDiv.appendChild(sortReleased);
-            sortDiv.appendChild(sortRating);
-            gameShowDiv.appendChild(sortDiv);
+            let sortRating = document.querySelector('.sort_rating');
+            let sortRatingImg = sortRating.querySelector('img');
+            
+            let sortReleased = document.querySelector('.sort_released');
+            sortReleased.classList.add('sort-active');
+            let sortReleasedImg = sortReleased.querySelector('img');
 
             // Ajouter un écouteur d'événement de clic à sortRating
             sortRating.addEventListener('click', function () {

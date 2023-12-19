@@ -18,26 +18,43 @@ class HomepageController extends AbstractController
         $this->igdbService = $igdbService;
     }
 
-    #[Route('/', name: 'homepage', methods: "GET")]
+    #[Route('/', name: 'homepage', methods: ["GET", "POST"])]
     public function index(Request $request): Response
     {
-
-        $games = $this->igdbService->homepage();
-
-        return $this->render('homepage/index.html.twig', [
-            'games' => $games
-        ]);
-    }
-
-    #[Route('/dynamiqueSearch', name: 'dynamiqueSearch', methods: "POST")]
-    public function dynamic(Request $request): Response
-    {
-        // Récupérer les données JSON
-        $data = json_decode($request->getContent(), true);
-
+        $data = $request->isMethod('POST') ? json_decode($request->getContent(), true) : null;
         $games = $this->igdbService->dynamiqueSearch($data);
 
-        // Renvoyer une réponse JSON
-        return new JsonResponse($games);
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('homepage/_homepage_games.html.twig', [
+                'games' => $games,
+            ]);
+        } else {
+            return $this->render('homepage/homepage.html.twig', [
+                'games' => $games,
+            ]);
+        }
     }
+
+        // #[Route('/', name: 'homepage', methods: "GET")]
+    // public function index(Request $request): Response
+    // {
+
+    //     $games = $this->igdbService->homepage();
+
+    //     return $this->render('homepage/homepage.html.twig', [
+    //         'games' => $games
+    //     ]);
+    // }
+
+    // #[Route('/dynamiqueSearch', name: 'dynamiqueSearch', methods: "POST")]
+    // public function dynamic(Request $request): Response
+    // {
+    //     // Récupérer les données JSON
+    //     $data = json_decode($request->getContent(), true);
+
+    //     $games = $this->igdbService->dynamiqueSearch($data);
+
+    //     // Renvoyer une réponse JSON
+    //     return new JsonResponse($games);
+    // }
 }

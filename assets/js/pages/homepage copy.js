@@ -4,8 +4,10 @@ import { multiRangeSliders } from './multiRangeSliders';
 export function initHomepage() {
     $(document).ready(function () {
         console.log('Homepage js est chargé !');
+
         let currentButton = null;
 
+        //* TABLEAU JSON QUI CONTIENT LES DONNEES DES FILTRES
         let selectedValues = {
             "platforms": [],
             "themes": [],
@@ -15,6 +17,8 @@ export function initHomepage() {
             "released": { "min": null, "max": null },
             "sort": { "rating": null, "released": null }
         };
+
+
 
         //* Fonction pour ajouter/modifier/supprimer les valeurs des filtres dans selectedValues
         function updateSelectedValues() {
@@ -75,18 +79,19 @@ export function initHomepage() {
 
 
 
+        //* VERIFIE SI LA FONCTION HOMEPAGE() EXISTE VIA LA CLASS .homepage_games ETAPE 1
+        let sortButtons = document.querySelector('#games_sort');
+        if (document.querySelector('.homepage_games')) {
+            sortButtons.style.display = 'none';
+        }
 
 
-
-        // Envoyer les données de selectedValues dynamiquement au format JSON
+        //* Envoyer les données de selectedValues dynamiquement au format JSON
         function sendSelectedValues() {
             // pas de données à envoyer si selectedValues est vide
             // if (Object.keys(selectedValues).length === 0) {
             //     return;
             // }
-
-            // Obtenir l'élément games_sort
-            let sort = document.querySelector('#games_sort');
 
             // envoyer les données de selectedValues au format JSON
             $.ajax({
@@ -95,17 +100,23 @@ export function initHomepage() {
                 data: JSON.stringify(selectedValues),
                 contentType: 'application/json',
                 dataType: 'json',
+                
                 success: function (data) {
+
+                    //* VERIFIE SI LA FONCTION HOMEPAGE() EXISTE VIA LA CLASS .homepage_games ETAPE 2
+                    let sortButtons = document.querySelector('#games_sort');
+                    if (document.querySelector('.homepage_games')) {
+                        sortButtons.style.display = 'block';
+                    }
+
                     // afficher les données reçues dans la console
                     console.log(data);
                     // afficher les données reçues dans le DOM
                     let result = document.querySelector('#games_list');
-                    sort.style.display = 'inline-block';
-                    result.appendChild(sort);
                     result.innerHTML = '';
 
                     if (Array.isArray(data)) {
-                        result.appendChild(sort);
+                        sortButtons.style.display = 'block';
                         // Créer une nouvelle div games_cards
                         let gamesCards = document.createElement('div');
                         gamesCards.classList.add('games_cards');
@@ -118,7 +129,7 @@ export function initHomepage() {
                                 gameDiv.innerHTML = `
                                     <a href="/game/${game.id}">
                                         <div class="game_card_img">
-                                            <img src="build/images/placeholder.jpg" alt="${game.name}">
+                                            <img src="build/images/placeholder.jpg" alt="${game.name}" loading="lazy">
                                         </div>
                                         <div class="game_card_info">
                                             <h3>${game.name}</h3>
@@ -131,6 +142,9 @@ export function initHomepage() {
                                         <div class="game_card_img">
                                             <img src="${game.cover.url}" alt="${game.name}">
                                         </div>
+                                        <div class="game_card_info">
+                                            <h3>${game.name}</h3>
+                                        </div>
                                     </a>
                                 `;
                             }
@@ -142,6 +156,7 @@ export function initHomepage() {
                         // Ajouter gamesCards à result
                         result.appendChild(gamesCards);
                     } else {
+                        sortButtons.style.display = 'none';
                         // Si data est vide (pas de filtre selectionné ou pas de résultat)
                         result.innerHTML = '';
                     }
@@ -151,7 +166,6 @@ export function initHomepage() {
                 }
             });
         }
-
 
 
         //* Fonction pour selectionner les bouttons de filtres et les afficher dans filter-show
@@ -336,8 +350,9 @@ export function initHomepage() {
                             categoryAddButton.innerText = `${category.name}`;
                             categoryDiv.appendChild(categoryAddButton);
                             filterShow.appendChild(categoryDiv);
-                            // Initialiser tous les boutons avec display = "none"
-                            // categoryDiv.style.display = "none";
+
+                            // Initialiser tous les boutons avec display = "none" pour platforms
+                            categoryDiv.style.display = "none";
 
                             // AJOUTE LORS DU CLIQUE SUR LE BOUTON ADD DANS .filter_selected
                             // sélectionner l'élément avec la classe '.filter_selected'
@@ -510,12 +525,13 @@ export function initHomepage() {
 
             let sortRating = document.createElement('button');
             sortRating.classList.add('sort_rating');
-            sortRating.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
+            // sortRating.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
             sortRating.setAttribute('data-sort', 'desc');
             sortRating.innerText = 'Sort by rating';
 
             let sortReleased = document.createElement('button');
             sortReleased.classList.add('sort_released');
+            sortReleased.classList.add('sort-active'); // Ajouter la classe 'sort-active' à sortRating
             sortReleased.setAttribute('data-sort', 'desc');
             sortReleased.innerText = 'Sort by released';
 
@@ -530,8 +546,8 @@ export function initHomepage() {
             sortReleased.appendChild(sortReleasedImg);
 
 
-            sortDiv.appendChild(sortRating);
             sortDiv.appendChild(sortReleased);
+            sortDiv.appendChild(sortRating);
             gameShowDiv.appendChild(sortDiv);
 
             // Ajouter un écouteur d'événement de clic à sortRating
@@ -580,94 +596,3 @@ export function initHomepage() {
 }
 
 
-
-
-// function sendSelectedValues() {
-//     // pas de données à envoyer si selectedValues est vide
-//     // if (Object.keys(selectedValues).length === 0) {
-//     //     return;
-//     // }
-
-//     // Obtenir l'élément games_sort
-//     let sort = document.querySelector('#games_sort');
-
-//     // envoyer les données de selectedValues au format JSON
-//     $.ajax({
-//         url: '/dynamiqueSearch',
-//         type: 'POST',
-//         data: JSON.stringify(selectedValues),
-//         contentType: 'application/json',
-//         dataType: 'json',
-//         success: function (data) {
-//             // afficher les données reçues dans la console
-//             console.log(data);
-//             // afficher les données reçues dans le DOM
-//             let result = document.querySelector('#games_list');
-//             if (sort) {
-//                 // si sort existe, mettre à jour le style
-//                 sort.style.display = 'inline-block';
-//                 result.appendChild(sort);
-//                 result.innerHTML = '';
-//             } else {
-//                 // sinon, afficher un message d'erreur
-//                 console.log('sort does not exist');
-//                 // créer un nouvel élément div
-//                 sort = document.createElement('div');
-//                 // ajouter l'id 'games_sort' à sort
-//                 sort.setAttribute('id', 'games_sort');
-//                 // ajouter le style 'display: inline-block' à sort
-//                 sort.style.display = 'inline-block';
-//                 result.appendChild(sort);
-//                 result.innerHTML = '';
-//             }
-//             // sort.style.display = 'inline-block';
-//             // result.appendChild(sort);
-//             // result.innerHTML = '';
-
-//             if (Array.isArray(data)) {
-//                 result.appendChild(sort);
-//                 // Créer une nouvelle div games_cards
-//                 let gamesCards = document.createElement('div');
-//                 gamesCards.classList.add('games_cards');
-
-//                 data.forEach(game => {
-//                     let gameDiv = document.createElement('div');
-//                     gameDiv.classList.add('game_card');
-
-//                     if (game.cover == undefined || !game.cover.url.includes('t_cover_big')) {
-//                         gameDiv.innerHTML = `
-//                             <a href="/game/${game.id}">
-//                                 <div class="game_card_img">
-//                                     <img src="build/images/placeholder.jpg" alt="${game.name}">
-//                                 </div>
-//                                 <div class="game_card_info">
-//                                     <h3>${game.name}</h3>
-//                                 </div>
-//                             </a>
-//                         `;
-//                     } else {
-//                         gameDiv.innerHTML = `
-//                             <a href="/game/${game.id}">
-//                                 <div class="game_card_img">
-//                                     <img src="${game.cover.url}" alt="${game.name}">
-//                                 </div>
-//                             </a>
-//                         `;
-//                     }
-
-//                     // Ajouter gameDiv à gamesCards
-//                     gamesCards.appendChild(gameDiv);
-//                 });
-
-//                 // Ajouter gamesCards à result
-//                 result.appendChild(gamesCards);
-//             } else {
-//                 // Si data est vide (pas de filtre selectionné ou pas de résultat)
-//                 result.innerHTML = '';
-//             }
-//         },
-//         error: function (error) {
-//             console.log(error);
-//         }
-//     });
-// }

@@ -450,29 +450,31 @@ class IgdbService
 
     public function dynamiqueSearch($data)
     {
-        // 1 : on vérifie si $data est vide ou non
-        // Vérifier si tous les sous-éléments de $data sont vides ou null
-        if (empty($data['platforms']) && empty($data['themes']) && empty($data['genres']) && empty($data['modes']) && $data['rating']['min'] === null && $data['rating']['max'] === null && $data['released']['min'] === null && $data['released']['max'] === null) {
 
-            // NE SERT A RIEN CAR LA FONCTION EST APPELER UNIQUEMENT SI $data N'EST PAS VIDE
-            return null;
-        } else {
-
-            // 2 : on va récupérer les données de $data pour les stocker dans des variables
-            $platforms =  implode(",", $data['platforms']);
-            $genres = implode(",", $data['genres']);
-            $themes = implode(",", $data['themes']);
-            $modes = implode(",", $data['modes']);
-            $ratingMin = $data['rating']['min'];
-            $ratingMax = $data['rating']['max'];
-            $releasedMin =  $data['released']['min'];
-            $releasedMax = $data['released']['max'];
-            $sortReleased = $data['sort']['released'];
-            $sortRating = $data['sort']['rating'];
+        // // 1 : on va si data est bien un tableau et si il contient bien les clés attendues     
+        // if (!is_array($data) || empty($data['platforms']) && empty($data['themes']) && empty($data['genres']) && empty($data['modes']) && $data['rating']['min'] === null && $data['rating']['max'] === null && $data['released']['min'] === null && $data['released']['max'] === null) {
+        //     return $this->homepage();
+        // }
 
 
-            // 3 : on va créer une requête en fonction des données de $data
-            $query = "
+        // 2 : on va vérifier que $data contient bien les clés attendues
+        $platforms = isset($data['platforms']) ? implode(",", $data['platforms']) : '';
+        $genres = isset($data['genres']) ? implode(",", $data['genres']) : '';
+        $themes = isset($data['themes']) ? implode(",", $data['themes']) : '';
+        $modes = isset($data['modes']) ? implode(",", $data['modes']) : '';
+        $ratingMin = isset($data['rating']['min']) ? $data['rating']['min'] : null;
+        $ratingMax = isset($data['rating']['max']) ? $data['rating']['max'] : null;
+        $releasedMin = isset($data['released']['min']) ? $data['released']['min'] : null;
+        $releasedMax = isset($data['released']['max']) ? $data['released']['max'] : null;
+        $sortReleased = isset($data['sort']['released']) ? $data['sort']['released'] : null;
+        $sortRating = isset($data['sort']['rating']) ? $data['sort']['rating'] : null;
+
+        $thisYear = strtotime(date('Y-01-01'));
+        $today = strtotime(date('Y-m-d'));
+
+
+        // 3 : on va créer une requête en fonction des données de $data
+        $query = "
             fields
             id, 
             name, 
@@ -485,7 +487,18 @@ class IgdbService
             first_release_date, 
             release_dates.*,
             rating;
-        ";
+            ";
+        if (!empty($sortReleased)) {
+            $query .= "sort first_release_date " . $sortReleased . "; ";
+        } elseif (!empty($sortRating)) {
+            $query .= "sort rating " . $sortRating . "; ";
+        } else {
+            $query .= "sort first_release_date desc; ";
+        }
+
+        if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
+            // Requête de la base pour la page d'accueil
+            $query .= " where category = (0) & version_parent = null & cover != null & rating != null & first_release_date != null & rating >= 75 & category = (0, 2, 4, 8, 9) & first_release_date >= ".$thisYear." & first_release_date <= ".$today.";";
             if (!empty($sortReleased)) {
                 $query .= "sort first_release_date " . $sortReleased . "; ";
             } elseif (!empty($sortRating)) {
@@ -493,54 +506,67 @@ class IgdbService
             } else {
                 $query .= "sort first_release_date desc; ";
             }
+        } else {
+            // Requête de la page d'accueil avec filtres
+            $conditions = ["category = (0) & version_parent = null & cover != null & rating != null & first_release_date != null"];
 
-            if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
-                $query .= "";
-            } else {
-                $conditions = ["category = (0) & version_parent = null & cover != null & rating != null & first_release_date != null"];
-
-                if (!empty($platforms)) {
-                    $conditions[] = "platforms = [" . $platforms . "]";
-                }
-                if (!empty($themes)) {
-                    $conditions[] = "themes = (" . $themes . ")";
-                }
-                if (!empty($genres)) {
-                    $conditions[] = "genres = (" . $genres . ")";
-                }
-                if (!empty($modes)) {
-                    $conditions[] = "game_modes = [" . $modes . "]";
-                }
-                if (!empty($ratingMin)) {
-                    $conditions[] = "rating >= " . $ratingMin;
-                }
-                if (!empty($ratingMax)) {
-                    $conditions[] = "rating <= " . $ratingMax + 1;
-                }
-                if (!empty($releasedMin)) {
-                    $conditions[] = "first_release_date >= " . strtotime($releasedMin . '-01-01');
-                }
-                if (!empty($releasedMax)) {
-                    $conditions[] = "first_release_date <= " . strtotime($releasedMax . '-12-31');
-                }
-
-                if (!empty($conditions)) {
-                    $query .= "where " . implode(" & ", $conditions) . "; ";
+            if (!empty($platforms)) {
+                $conditions[] = "platforms = [" . $platforms . "]";
+            }
+            if (!empty($themes)) {
+                $conditions[] = "themes = (" . $themes . ")";
+            }
+            if (!empty($genres)) {
+                $conditions[] = "genres = (" . $genres . ")";
+            }
+            if (!empty($modes)) {
+                $conditions[] = "game_modes = [" . $modes . "]";
+            }
+            if (!empty($ratingMin) && !empty($ratingMax)) {
+                if ($ratingMin == $ratingMax) {
+                    $conditions[] = "rating > " . ($ratingMax - 1) . "";
+                    $conditions[] = "rating < " . ($ratingMax + 1) . "";
+                } else {
+                    $conditions[] = "rating >= " . $ratingMin . "";
+                    $conditions[] = "rating <= " . $ratingMax . "";
                 }
             }
+            if (!empty($releasedMin)) {
+                $conditions[] = "first_release_date >= " . strtotime($releasedMin . '-01-01');
+            }
+            if (!empty($releasedMax)) {
+                $conditions[] = "first_release_date <= " . strtotime($releasedMax . '-12-31');
+            }
 
-            $query .= "limit 500;";
-            // dump($query);
-
-            // 4 : on va faire une requête à l'API iGDB
-            $dynamicGames = $this->makeRequest('https://api.igdb.com/v4/games', $query);
-
-            // 5 : on va traiter les données reçues de l'API iGDB
-            $this->imagesProcess->processCoverSmall($dynamicGames);
-
-            // 6 : on va retourner les données traitées
-            return $dynamicGames;
+            if (!empty($conditions)) {
+                $query .= "where " . implode(" & ", $conditions) . "; ";
+            }
         }
+
+        $query .= "limit 100;";
+
+        // 4 : on va faire une requête à l'API iGDB
+        $games = $this->makeRequest('https://api.igdb.com/v4/games', $query);
+
+        // 5 : on va traiter les données reçues de l'API iGDB
+        $this->imagesProcess->processCoverSmall($games);
+
+        // 6 : On va arrondir les notes et ne garder que celles qui sont égales à $ratingMin/Max lorsqu'il sont egault à eux même dans le filtre
+        if (!empty($ratingMin) && !empty($ratingMax)) {
+            if ($ratingMin == $ratingMax) {
+                $games = array_filter($games, function($game) use ($ratingMin, $ratingMax) {
+                    $roundedRating = round($game['rating']);
+                    return $roundedRating == $ratingMin;
+                });
+            }
+        }
+
+        // Optionnel: Voir la requête envoyée à l'API iGDB
+        // dump($query);
+        // dump($games);
+
+        // 6 : on va retourner les données traitées
+        return $games;
     }
 
 

@@ -1,0 +1,23 @@
+<div class="games_cards homepage_games">
+	{% for game in games %}
+		<div class="game_card">
+			<a href="/game/{{game.id}}">
+				<div class="game_card_img">
+					{% if game.cover is defined %}
+						<img src="{{game.cover.url}}" alt="{{game.name}}">
+					{% else %}
+						<img src="{{ asset('build/images/placeholder.jpg') }}" alt="{{game.name}}">
+					{% endif %}
+				</div>
+				<div class="game_card_info">
+					{% if game.rating is defined %}
+						<h3>{{game.rating}}</h3>
+					{% endif %}
+					{% if game.first_release_date is defined %}
+						<h3>{{ game.first_release_date|date('d/m/Y') }}</h3>
+					{% endif %}
+				</div>
+			</a>
+		</div>
+	{% endfor %}
+</div>
