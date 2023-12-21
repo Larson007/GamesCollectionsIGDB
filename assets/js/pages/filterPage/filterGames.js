@@ -97,6 +97,7 @@ export function initFilter() {
 
                 success: function (response) {
                     $('#games_list').html(response);
+                    filterCollectionsToggle();
                 },
                 error: function (error) {
                     console.log(error);

@@ -861,3 +861,48 @@
         }
     }
 }
+
+
+@media screen and (max-width: 780px) {
+    .filter_btn {
+        flex-flow: column wrap !important;
+        justify-content:space-between !important;
+        button {
+            width: 100% !important;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+        }
+        #platforms {
+            border: 2px solid $blue !important;
+        }
+        #themes {
+            border: 2px solid $green !important;
+        }
+        #genres {
+            border: 2px solid $yellow !important;
+        }
+        #modes {
+            border: 2px solid $purple !important;
+        }
+        #rating {
+            border: 2px solid $light-blue !important;
+        }
+        #released {
+            border: 2px solid $red !important;
+        }
+    }
+    .filter_show {
+        .slider {
+            width: 100% !important;
+            // margin-bottom: 1rem;
+        }
+    }
+}
+
+@media screen and (min-width: 780px) and (max-width: 1200px) {
+
+}
+
+@media screen and (min-width: 1200px) {
+
+}

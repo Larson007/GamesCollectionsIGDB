@@ -29,10 +29,15 @@ class FilterController extends AbstractController
         // Récupérez des ID des jeux de l'utilisateur
         $userGames = $user->getCollection();
         $collection = $userGames->getGames();
-        $collectionIds = array_map(function($game) {
+        $collectionIds = array_map(function ($game) {
             return $game['id'];
         }, $collection);
 
+        // Récupérez les ID des jeux que l'utilisateur aime
+        $likes = $user->getLikes();
+
+        // Récupérez les ID des jeux que l'utilisateur souhaite
+        $wishes = $user->getWish();
 
         // Gestion de la requête AJAX pour le filtre
         $data = $request->isMethod('POST') ? json_decode($request->getContent(), true) : null;
@@ -41,12 +46,16 @@ class FilterController extends AbstractController
         if ($request->isXmlHttpRequest()) {
             return $this->render('filter/_filter_games.html.twig', [
                 'games' => $games,
+                'collectionIds' => $collectionIds,
+                'likeIds' => $likes,
+                'wishIds' => $wishes
             ]);
         } else {
             return $this->render('filter/filter.html.twig', [
                 'games' => $games,
                 'collectionIds' => $collectionIds,
-                'collection' => $collection,
+                'likeIds' => $likes,
+                'wishIds' => $wishes
 
             ]);
         }

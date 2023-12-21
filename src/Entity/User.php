@@ -42,6 +42,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?array $friends = [];
 
+    #[ORM\Column(nullable: true)]
+    private ?array $likes = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $wish = null;
+
 
     public function getId(): ?int
     {
@@ -157,6 +163,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFriends(?array $friends): static
     {
         $this->friends = $friends;
+
+        return $this;
+    }
+
+    public function getLikes(): ?array
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(?array $likes): static
+    {
+        $this->likes = $likes;
+
+        return $this;
+    }
+
+    public function getWish(): ?array
+    {
+        return $this->wish;
+    }
+
+    public function setWish(?array $wish): static
+    {
+        $this->wish = $wish;
 
         return $this;
     }
