@@ -28,9 +28,9 @@
 			<a class="game_card-link" href="/game/{{game.id}}">
 				<div class="game_card_img">
 					{% if game.cover is defined %}
-						<img src="{{game.cover.url}}" alt="{{game.name}}">
+						<img src="{{game.cover.url}}" alt="{{game.name}}" loading="lazy">
 					{% else %}
-						<img src="{{ asset('build/images/placeholder.jpg') }}" alt="{{game.name}}">
+						<img src="{{ asset('build/images/placeholder.jpg') }}" alt="{{game.name}}" loading="lazy">
 					{% endif %}
 				</div>
 				<div class="game-category">
@@ -48,7 +48,7 @@
 								<h6 class="">{{game.first_release_date|date('d/m/Y')}}</h6>
 							</div>
 							<div class="game_card_body_footer-rating">
-								{% if game.rating is defined %}
+								{% if game.rating is defined and game.rating is not null %}
 									<p>
 										{% if game.rating|round >= 75 %}
 											<span class="score score-green">{{ game.rating|round }}%</span>
@@ -59,10 +59,11 @@
 										{% else %}
 											<span class="score score-red">{{ game.rating|round }}%</span>
 										{% endif %}
-
 									</p>
-
+								{% else %}
+									<span class="score score-null">N/A</span>
 								{% endif %}
+
 							</div>
 						</div>
 					</div>

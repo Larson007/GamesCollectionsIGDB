@@ -508,7 +508,7 @@ class IgdbService
             }
         } else {
             // Requête de la page d'accueil avec filtres
-            $conditions = ["version_parent = null & cover != null & rating != null & first_release_date != null & category = (0,1,2,4,6,8,9,10,11)"];
+            $conditions = ["version_parent = null & cover != null & first_release_date != null & category = (0,1,2,4,6,8,9,10,11)"];
 
             if (!empty($platforms)) {
                 $platformsArray = explode(',', $platforms);
@@ -527,20 +527,31 @@ class IgdbService
             if (!empty($modes)) {
                 $conditions[] = "game_modes = [" . $modes . "]";
             }
-            if (!empty($ratingMin) && !empty($ratingMax)) {
+            if (!empty($ratingMin) || !empty($ratingMax)) {
+                $conditions[] = "rating != null";
                 if ($ratingMin == $ratingMax) {
-                    $conditions[] = "rating > " . ($ratingMax - 1) . "";
-                    $conditions[] = "rating < " . ($ratingMax + 1) . "";
+                    $conditions[] = "rating > " . ($ratingMax - 1);
+                    $conditions[] = "rating < " . ($ratingMax + 1);
                 } else {
-                    $conditions[] = "rating >= " . $ratingMin . "";
-                    $conditions[] = "rating <= " . $ratingMax . "";
+                    if (!empty($ratingMin)) {
+                        $conditions[] = "rating >= " . $ratingMin;
+                    }
+                    if (!empty($ratingMax)) {
+                        $conditions[] = "rating <= " . $ratingMax;
+                    }
                 }
             }
             if (!empty($releasedMin)) {
                 $conditions[] = "first_release_date >= " . strtotime($releasedMin . '-01-01');
+            } else {
+                $conditions[] = "first_release_date >= " . strtotime('1970-01-01');
             }
+
+            $currentYear = date("Y");
             if (!empty($releasedMax)) {
                 $conditions[] = "first_release_date <= " . strtotime($releasedMax . '-12-31');
+            } else {
+                $conditions[] = "first_release_date <= " . strtotime($currentYear . '-12-31');
             }
 
             if (!empty($conditions)) {
@@ -548,10 +559,16 @@ class IgdbService
             }
         }
 
-        $query .= "limit 500;";
-
-        // 4 : on va faire une requête à l'API iGDB
-        $games = $this->makeRequest('https://api.igdb.com/v4/games', $query);
+        $games = [];
+        $limit = 500;
+        for ($offset = 0; $offset < 1000; $offset += $limit) {
+            $queryCopy = $query; // Créer une copie de la requête pour ne pas modifier la requête originale
+            $queryCopy .= "limit $limit; offset $offset;";
+        
+            // Exécutez la requête et ajoutez les résultats à $games
+            $results = $this->makeRequest('https://api.igdb.com/v4/games', $queryCopy);
+            $games = array_merge($games, $results);
+        }
 
         // 5 : on va traiter les données reçues de l'API iGDB
         $this->imagesProcess->processCoverSmall($games);

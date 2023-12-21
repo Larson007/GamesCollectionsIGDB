@@ -159,7 +159,7 @@ export function initFilter() {
                         categoryDivSlider.classList.add(`slider_${currentButton}`);
                         // on verifie si on est sur released ou rating pour pour appelé la fonction multiRangeSliders
                         if (currentButton == 'released') {
-                            multiRangeSliders(categoryDivSlider, 1970, 2025, 1970, 2023);
+                            multiRangeSliders(categoryDivSlider, 1970, 2030, 1970, 2030);
                             // let min = categoryDivSlider.noUiSlider.get()[0];
                             // let max = categoryDivSlider.noUiSlider.get()[1];
                         } else {
