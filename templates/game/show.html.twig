@@ -347,6 +347,17 @@
 						</div>
 					</div>
 				{% endif %}
+				{% if game.artworks is defined %}
+					<div class="medias">
+						<div class="carousel-image">
+							{% for artwork in game.artworks %}
+								<div class="carousel-image-item mx-2">
+									<img src="{{artwork.url}}" alt="" height="300">
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				{% endif %}
 			</div>
 			<div class="bottom-content containers">
 				<div class="expansions">

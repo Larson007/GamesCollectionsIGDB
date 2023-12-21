@@ -754,10 +754,10 @@
                         left: 0px;
                         width: 100%;
                         .game-category-text {
-                            display: block;
+                            display: inline-block;
                             margin: 0;
                             color: #fff;
-                            font-size: 0.8rem;
+                            font-size: 0.7rem;
                             font-weight: bold;
                             text-shadow: $text-shadow;
                             padding: 0.3rem 0.5rem;

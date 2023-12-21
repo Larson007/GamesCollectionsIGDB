@@ -284,7 +284,7 @@ class IgdbService
         $this->imagesProcess->processCoverDetail($game, "cover");
 
         // Process the screenshots
-        $this->imagesProcess->processScreenshotSmall($game, "screenshots");
+        $this->imagesProcess->processScreenshotBig($game, "screenshots");
 
         // Process the cover dlcs
         $this->imagesProcess->processDlcsExpansionsBig($game, "dlcs");
@@ -508,10 +508,15 @@ class IgdbService
             }
         } else {
             // Requête de la page d'accueil avec filtres
-            $conditions = ["version_parent = null & cover != null & rating != null & first_release_date != null"];
+            $conditions = ["version_parent = null & cover != null & rating != null & first_release_date != null & category = (0,1,2,4,6,8,9,10,11)"];
 
             if (!empty($platforms)) {
-                $conditions[] = "platforms = [" . $platforms . "]";
+                $platformsArray = explode(',', $platforms);
+                if (count($platformsArray) > 1) {
+                    $conditions[] = "platforms = [" . $platforms . "]";
+                } else {
+                    $conditions[] = "platforms = " . $platforms;
+                }
             }
             if (!empty($themes)) {
                 $conditions[] = "themes = (" . $themes . ")";
@@ -543,7 +548,7 @@ class IgdbService
             }
         }
 
-        $query .= "limit 16;";
+        $query .= "limit 500;";
 
         // 4 : on va faire une requête à l'API iGDB
         $games = $this->makeRequest('https://api.igdb.com/v4/games', $query);
