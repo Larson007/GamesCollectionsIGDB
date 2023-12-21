@@ -56,15 +56,19 @@ header {
         }
 
         .menu_content {
+            box-sizing: border-box;
             height: 100%;
+            width: 100%;
             .menu-logo {
                 margin-bottom: 3rem;
             }
             .menu_content-list {
+                box-sizing: border-box;
                 display: flex;
                 flex-direction: column;
                 width: 100%;
-                height: 100%;
+                height: 90%;
+                margin: 0;
                 .list_item {
                     display: flex;
                     flex-flow: row nowrap;
@@ -96,6 +100,7 @@ header {
     .menu-link,
     .list_item_user-link,
     .link-search {
+        box-sizing: border-box;
         font-size: 0.95rem;
         font-weight: bolder;
         position: relative;
@@ -129,11 +134,12 @@ header {
     // Login button
     .list_item_user {
         margin-top: auto;
-        margin-bottom: 6rem;
         .list_item_user-link {
             width: 100%;
             border: 2px solid transparent;
             border-radius: 5px;
+            margin-top: auto;
+            margin-bottom: 0;
             &:hover {
                 border: 2px solid $nav-item-hover-border;
                 border-radius: 5px;
@@ -260,7 +266,6 @@ header {
 // Position du menu etant logger
 .bottom-list {
     margin-top: auto;
-    padding-bottom: 5rem;
 }
 // Avatar Item
 .menu-link-avatar {
@@ -279,7 +284,7 @@ header {
             transform: translateX(-100%);
             transition: transform 0.3s ease-in-out;
             .list_item_user {
-                margin-bottom: 8rem;
+                margin-top: auto;
             }
         }
 

@@ -36,6 +36,7 @@
   "build/images/icons/nav/avatar.png": "/build/images/icons/nav/avatar.png",
   "build/images/icons/websites/reddit.svg": "/build/images/icons/websites/reddit.svg",
   "build/fonts/slick.woff": "/build/fonts/slick.29518378.woff",
+  "build/images/icons/collection/star.svg": "/build/images/icons/collection/star.svg",
   "build/images/icons/websites/steam.svg": "/build/images/icons/websites/steam.svg",
   "build/images/icons/nav/new.svg": "/build/images/icons/nav/new.svg",
   "build/images/icons/platforms/PC_horizontal.svg": "/build/images/icons/platforms/PC_horizontal.svg",
@@ -48,9 +49,11 @@
   "build/images/icons/websites/twitter.svg": "/build/images/icons/websites/twitter.svg",
   "build/images/icons/nav/search.svg": "/build/images/icons/nav/search.svg",
   "build/images/icons/websites/twitch.svg": "/build/images/icons/websites/twitch.svg",
+  "build/images/icons/collection/heart.svg": "/build/images/icons/collection/heart.svg",
   "build/images/icons/nav/collections.png": "/build/images/icons/nav/collections.png",
   "build/images/caret-up-outline.svg": "/build/images/caret-up-outline.svg",
   "build/images/caret-down-outline.svg": "/build/images/caret-down-outline.svg",
+  "build/images/icons/collection/banner.svg": "/build/images/icons/collection/banner.svg",
   "build/images/icons/websites/youtube.svg": "/build/images/icons/websites/youtube.svg",
   "build/images/icons/nav/home.svg": "/build/images/icons/nav/home.svg",
   "build/images/icons/nav/logout.svg": "/build/images/icons/nav/logout.svg",
@@ -59,8 +62,5 @@
   "build/images/close-outline.svg": "/build/images/close-outline.svg",
   "build/images/add-outline.svg": "/build/images/add-outline.svg",
   "build/images/icons/nav/chevron-back-outline.svg": "/build/images/icons/nav/chevron-back-outline.svg",
-  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg",
-  "build/images/icons/collection/banner.svg": "/build/images/icons/collection/banner.svg",
-  "build/images/icons/collection/heart.svg": "/build/images/icons/collection/heart.svg",
-  "build/images/icons/collection/star.svg": "/build/images/icons/collection/star.svg"
+  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg"
 }
