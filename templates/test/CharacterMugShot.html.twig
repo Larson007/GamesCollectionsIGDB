@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TEST Characters
+{% endblock %}
+
+{% block body %}
+
+<style>
+img {
+    border: 1px solid red;
+    background-color: #333;
+}
+</style>
+
+	<div class="body-content">
+		<div class="container">
+
+
+			{% for game in games %}
+				{% if game.mug_shot.url is defined %}
+                <p>{{game.name}}</p>
+                <a href="{{game.url}}">url</a>
+					<img src="{{game.mug_shot.url}}" alt="" loading="lazy">
+				{% endif %}
+			{% endfor %}
+
+
+		</div>
+	</div>
+{% endblock %}

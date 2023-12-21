@@ -486,7 +486,10 @@ class IgdbService
             game_modes.id,
             first_release_date, 
             release_dates.*,
-            rating;
+            rating,
+            total_rating,
+            total_rating_count,
+            rating_count;
             ";
         if (!empty($sortReleased)) {
             $query .= "sort first_release_date " . $sortReleased . "; ";
@@ -498,7 +501,7 @@ class IgdbService
 
         if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
             // Requête de la base pour la page d'accueil
-            $query .= " where category = (0, 2, 4, 8, 9) & version_parent = null & cover != null & rating != null & first_release_date != null & rating >= 25 & first_release_date >= ".$thisYear." & first_release_date <= ".$today.";";
+            $query .= " where category = (0, 2, 4, 8, 9) & version_parent = null & cover != null & rating != null & first_release_date != null & rating >= 25 & first_release_date >= " . $thisYear . " & first_release_date <= " . $today . ";";
             if (!empty($sortReleased)) {
                 $query .= "sort first_release_date " . $sortReleased . "; ";
             } elseif (!empty($sortRating)) {
@@ -564,7 +567,7 @@ class IgdbService
         for ($offset = 0; $offset < 1000; $offset += $limit) {
             $queryCopy = $query; // Créer une copie de la requête pour ne pas modifier la requête originale
             $queryCopy .= "limit $limit; offset $offset;";
-        
+
             // Exécutez la requête et ajoutez les résultats à $games
             $results = $this->makeRequest('https://api.igdb.com/v4/games', $queryCopy);
             $games = array_merge($games, $results);
@@ -576,7 +579,7 @@ class IgdbService
         // 6 : On va arrondir les notes et ne garder que celles qui sont égales à $ratingMin/Max lorsqu'il sont egault à eux même dans le filtre
         if (!empty($ratingMin) && !empty($ratingMax)) {
             if ($ratingMin == $ratingMax) {
-                $games = array_filter($games, function($game) use ($ratingMin, $ratingMax) {
+                $games = array_filter($games, function ($game) use ($ratingMin, $ratingMax) {
                     $roundedRating = round($game['rating']);
                     return $roundedRating == $ratingMin;
                 });
@@ -723,6 +726,35 @@ class IgdbService
         // $this->imagesProcess->processCover720p($games); // parfais pour les pages de détails
         // $this->imagesProcess->processCover1080p($games); // Pour background
 
+        return $games;
+    }
+
+    public function character()
+    {
+
+        $games = $this->makeRequest('https://api.igdb.com/v4/characters', '
+        fields 
+        *, mug_shot.url;
+        where mug_shot != null;
+        limit 500; 
+        ');
+
+        // $this->imagesProcess->processCoverThumb($games); // Pas recommander car image cropper
+        // $this->imagesProcess->processCoverMicro($games); //  Format tres petit (voir trop petit)
+        // $this->imagesProcess->processCoverSmall($games); // petit format parfait pour les listes
+        // $this->imagesProcess->processCoverBig($games); //  format parfait pour les cartes
+        // $this->imagesProcess->processCover720p($games); // parfais pour les pages de détails
+        // $this->imagesProcess->processCover1080p($games); // Pour background
+
+        foreach ($games as &$cover) {
+            if (isset($cover['mug_shot'])) {
+                $cover['mug_shot']['url'] = str_replace('t_thumb', 't_cover_big', $cover['mug_shot']['url']);
+                $pathInfo = pathinfo($cover['mug_shot']['url']);
+                if ($pathInfo['extension'] !== 'png') {
+                    $cover['mug_shot']['url'] = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '.png';
+                }
+            }
+        }
         return $games;
     }
 

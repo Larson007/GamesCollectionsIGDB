@@ -65,4 +65,14 @@ class TestAPiController extends AbstractController
             'page' => $page,
         ]);
     }
+    #[Route('/CharacterMugShot', name: 'CharacterMugShot')]
+    public function CharacterMugShot(): Response
+    {
+        $games = $this->igdbService->character();
+
+        return $this->render('test/CharacterMugShot.html.twig', [
+            'games' => $games,
+        ]);
+    }
+
 }
