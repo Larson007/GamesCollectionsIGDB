@@ -529,9 +529,9 @@
     #games_list {
         margin-bottom: 3rem;
         .games_cards {
-            //* Voire _gridTemplate.scss
+            //* Grid Temaplte : _gridTemplate.scss
             .game_card {
-                // position: relative;
+                position: relative;
                 width: 100%;
                 height: 100%;
                 // overflow: hidden;
@@ -539,16 +539,18 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                //* Link to Game Detail
-                .game_card-link {
-                    width: 100%;
-                    height: 100%;
-                    position: relative;
-                    &:hover {
+                //* Hover de la carte
+                &:hover {
+                    .add-collection, .add-like, .add-wishlist {
+                        z-index: 200;
+                        opacity: 1;
+                    }
+                    .remove-collection, .add-like, .add-wishlist {
+                        z-index: 200;
+                        opacity: 1;
+                    }
+                    .game_card-link {
                         .game_card_img {
-                            opacity: 1;
-                        }
-                        .collection_buttons {
                             opacity: 1;
                         }
                         .game-category {
@@ -556,161 +558,178 @@
                         }
                         .game_card_body {
                             opacity: 1;
-                            background-color: #3a3a3a49;
-                        }
-                        .remove-collection {
-                            opacity: 1;
                         }
                     }
-                    //* Collection Remove Button
-                    .collection_remove {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
+                }
+                //* Collection Buttons
+                .collection_button {
+                    transition: all 0.5s ease-in-out;
+                    position: absolute;
+                    top: 2.5%;
+                    // left: 5px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    overflow: visible;
+                    padding: 0;
+                    margin: 0;
+                    width: 1.75rem;
+                    height: 1.75rem;
+                    background-color: $cards;
+                    border-radius: 50%;
+                    border: none;
+                    .collection_icon {
+                        width: 50%;
                         height: 50%;
-                        .collection_remove-position {
-                            position: relative;
-                            width: 100%;
-                            height: 100%;
-                            .collection_button-remove {
-                                position: absolute;
-                                top: 7.5%;
-                                // left: 5px;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                overflow: visible;
-                                z-index: 99;
-                                padding: 0;
-                                margin: 0;
-                                width: 1.75rem;
-                                height: 1.75rem;
-                                background-color: $cards;
-                                border-radius: 50%;
-                                border: none;
-                                .collection_icon {
-                                    width: 50%;
-                                    height: 50%;
-                                }
-                            }
-                            .remove-collection {
-                                left: 5%;
-                                .icon-remove-collection {
-                                    stroke-linecap: round;
-                                    stroke-linejoin: round;
-                                    stroke-miterlimit: 10;
-                                    .icon-remove-collection-path {
-                                        fill: $blue;
-                                        stroke: $blue;
-                                    }
-                                }
-                            }
-                            .remove-like {
-                                left: 50%;
-                                transform: translateX(-50%);
-                                .icon-remove-like {
-                                    stroke-width: 2;
-                                    stroke-miterlimit: 10;
-                                    .icon-remove-like-path {
-                                        fill: $red;
-                                        stroke: $red;
-                                    }
-                                }
-                            }
-                            .remove-wishlist {
-                                right: 5%;
-                                .icon-remove-wishlist-path {
-                                    fill: $yellow;
-                                    stroke: $yellow;
-                                }
-                            }
+                    }
+                    &:hover {
+                        cursor: crosshair;
+                        .pophover {
+                            display: inline-block;
                         }
                     }
-                    //* Collection Add Buttons
-                    .collection_buttons {
-                        opacity: 0;
-                        transition: all 0.5s ease-in-out;
+                    .pophover {
+                        display: none;
                         position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 50%;
-                        display: flex;
-                        flex-flow: row nowrap;
-                        justify-content: space-between;
-                        background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-                        border-radius: 5px 5px 0 0;
-                        .collection_buttons-position {
-                            position: relative;
-                            width: 100%;
-                            height: 100%;
-                            .collection_button {
-                                position: absolute;
-                                top: 7.5%;
-                                // left: 5px;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-                                overflow: visible;
-                                z-index: 99;
-                                padding: 0;
-                                margin: 0;
-                                width: 1.75rem;
-                                height: 1.75rem;
-                                background-color: $cards;
-                                border-radius: 50%;
-                                border: none;
-                                .collection_icon {
-                                    width: 50%;
-                                    height: 50%;
-                                    fill: #ffffff80;
-                                    stroke: #ffffff80;
-                                }
-                                .collection_icon-path {
-                                    fill: #ffffff80;
-                                    stroke: #ffffff80;
-                                }
-                            }
-                            .add-collection {
-                                left: 5%;
-                                .icon-add-path {
-                                    stroke-linecap: round;
-                                    stroke-linejoin: round;
-                                    stroke-miterlimit: 10;
-                                }
-                            }
-                            .add-collection:hover {
-                                .icon-add-path {
-                                    fill: $blue;
-                                    stroke: $blue;
-                                }
-                            }
-                            .add-like {
-                                left: 50%;
-                                transform: translateX(-50%);
-                                .icon-add-like {
-                                    stroke-width: 2;
-                                    stroke-miterlimit: 10;
-                                }
-                            }
-                            .add-like:hover {
-                                .icon-add-like-path {
-                                    fill: $red;
-                                    stroke: $red;
-                                }
-                            }
-                            .add-wishlist {
-                                right: 5%;
-                            }
-                            .add-wishlist:hover {
-                                .icon-add-wishlist-path {
-                                    fill: $yellow;
-                                    stroke: $yellow;
-                                }
+                        bottom: -27px; /* Positionnez la popover en dessous du bouton */
+                        left: 50%; /* Centrez la popover */
+                        transform: translateX(-50%); /* Décalez la popover pour la centrer correctement */
+                        color: #fff;
+                        text-shadow: $text-shadow;
+                        padding: 0rem 0.5rem; /* Espacement à l'intérieur de la popover */
+                        border-radius: 5px;
+                        font-size: 0.9rem;
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            bottom: 100%; /* Positionnez le triangle au-dessus de la popover */
+                            left: 50%; /* Centrez le triangle */
+                            transform: translateX(-50%); /* Décalez le triangle pour le centrer correctement */
+                            border-width: 5px;
+                            border-style: solid;
+                            border-color: transparent transparent #eee transparent;
+                        }
+                    }
+                    .pophover-collection{
+                        background-color: $blue;  
+                        &::after {
+                            border-color: transparent transparent $blue transparent;
+                        }                      
+                    }
+                    .pophover-like{
+                        background-color: $red;   
+                        &::after {
+                            border-color: transparent transparent $red transparent;
+                        }                       
+                    }
+                    .pophover-wishlist{
+                        background-color: $yellow;
+                        &::after {
+                            border-color: transparent transparent $yellow transparent;
+                        }  
+                    }
+                }
+                .collection-position {
+                    left: 5px;
+                }
+                .like-position {
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+                .wishlist-position {
+                    right: 5%;
+                }
+                .add-collection {
+                    z-index: -1;
+                    opacity: 0;
+                    .icon-collection {
+                        .icon-collection-path {
+                            fill: #ffffff4f;
+                            stroke: #ffffff4f;
+                        }
+                    }
+                    &:hover {
+                        .icon-collection {
+                            .icon-collection-path {
+                                fill: $blue;
+                                stroke: $blue;
                             }
                         }
                     }
+                }
+                .remove-collection {
+                    z-index: 200;
+                    opacity: 1;
+                        .icon-collection {
+                            .icon-collection-path {
+                                fill: $blue;
+                                stroke: $blue;
+                            }
+                        }
+                }
+                .add-like {
+                    z-index: -1;
+                    opacity: 0;
+                    .icon-like {
+                        .icon-like-path {
+                            fill: #ffffff4f;
+                            stroke: #ffffff4f;
+                        }
+                    }
+                    &:hover {
+                        .icon-like {
+                            .icon-like-path {
+                                fill: $red;
+                                stroke: $red;
+                            }
+                        }
+                    }
+                }
+                .remove-like {
+                    z-index: 200;
+                    opacity: 1;
+                    .icon-like {
+                        .icon-like-path {
+                            fill: $red;
+                            stroke: $red;
+                        }
+                    }
+                }
+                .add-wishlist {
+                    z-index: -1;
+                    opacity: 0;
+                    .icon-wishlist {
+                        .icon-wishlist-path {
+                            fill: #ffffff4f;
+                            stroke: #ffffff4f;
+                        }
+                    }
+                    &:hover {
+                        .icon-wishlist {
+                            .icon-wishlist-path {
+                                fill: $yellow;
+                                stroke: $yellow;
+                            }
+                        }
+                    }
+                }
+                .remove-wishlist {
+                    z-index: 200;
+                    opacity: 1;
+                    .icon-wishlist {
+                        .icon-wishlist-path {
+                            fill: $yellow;
+                            stroke: $yellow;
+                        }
+                    }
+                }
+
+                //* Link to Game Detail
+                .game_card-link {
+                    width: 100%;
+                    height: 100%;
+                    position: relative;
+
                     //* Game Card Image
                     .game_card_img {
                         transition: all 0.5s ease-in-out;
@@ -741,10 +760,10 @@
                             font-size: 0.8rem;
                             font-weight: bold;
                             text-shadow: $text-shadow;
-                            padding: 0.1rem 0.2rem;
+                            padding: 0.3rem 0.5rem;
                             text-transform: uppercase;
                             border-radius: 0 0 0 3px;
-                            border: 2px solid $playsation;
+                            // border: 2px solid $playsation;
                             background-color: $playsation;
                             width: fit-content;
                         }
@@ -760,6 +779,7 @@
                         height: 100%;
                         border-radius: 5px;
                         .game_card_body-position {
+                            background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0));
                             position: relative;
                             height: 100%;
                             width: 100%;

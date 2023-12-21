@@ -15,8 +15,8 @@ import 'toastr/toastr.scss';
 window.toastr = toastr;
 
 // Import noUiSlider
-import noUiSlider from 'nouislider';
-import 'nouislider/dist/nouislider.css';
+// import noUiSlider from 'nouislider';
+// import 'nouislider/dist/nouislider.css';
 
 
 // Import Bootstrap
@@ -41,7 +41,7 @@ import { notifications } from './js/notifications.js';
 import { initGameDetails } from './js/pages/gameDetails.js';
 import { initSearchFriends } from './js/pages/searchFriends.js';
 import { initDashboard } from './js/pages/dashboard.js';
-import { initFilter } from './js/pages/filterGames.js';
+import { initFilter } from './js/pages/filterPage/filterGames.js';
 import { initGamesPopular } from './js/pages/gamesPopular.js';
 import navMenu from './js/navMenu.js';
 import { initHomepage } from './js/pages/homepage.js';

@@ -543,7 +543,7 @@ class IgdbService
             }
         }
 
-        $query .= "limit 80;";
+        $query .= "limit 16;";
 
         // 4 : on va faire une requête à l'API iGDB
         $games = $this->makeRequest('https://api.igdb.com/v4/games', $query);

@@ -1,5 +1,7 @@
-import jsonData from '../json/searchFilter.json';
+import jsonData from '../../json/searchFilter.json';
 import { multiRangeSliders } from './multiRangeSliders';
+import {filterCollectionsToggle} from './filterCollections.js';
+import {overlay} from '../../overlay.js';
 
 export function initFilter() {
     $(document).ready(function () {
@@ -564,6 +566,8 @@ export function initFilter() {
         //* APPEL DES FONCTIONS
         filterBtn();
         sortResult();
+        filterCollectionsToggle();
+        overlay();
 
     });
 }
