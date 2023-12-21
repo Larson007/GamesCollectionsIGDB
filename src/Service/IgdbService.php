@@ -43,17 +43,17 @@ class IgdbService
 
     // Define the game types
     private $gameTypes = [
-        0 => 'main_game',
-        1 => 'dlc_addon',
-        2 => 'expansion',
+        0 => 'jeu de base',
+        1 => 'dlc addon',
+        2 => 'extension',
         3 => 'bundle',
-        4 => 'standalone_expansion',
+        4 => 'standalone extension',
         5 => 'mod',
         6 => 'episode',
         7 => 'season',
         8 => 'remake',
         9 => 'remaster',
-        10 => 'expanded_game',
+        10 => 'expanded game',
         11 => 'port',
         12 => 'fork',
         13 => 'pack',
@@ -498,7 +498,7 @@ class IgdbService
 
         if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
             // Requête de la base pour la page d'accueil
-            $query .= " where category = (0) & version_parent = null & cover != null & rating != null & first_release_date != null & rating >= 75 & category = (0, 2, 4, 8, 9) & first_release_date >= ".$thisYear." & first_release_date <= ".$today.";";
+            $query .= " where category = (0, 2, 4, 8, 9) & version_parent = null & cover != null & rating != null & first_release_date != null & rating >= 25 & first_release_date >= ".$thisYear." & first_release_date <= ".$today.";";
             if (!empty($sortReleased)) {
                 $query .= "sort first_release_date " . $sortReleased . "; ";
             } elseif (!empty($sortRating)) {
@@ -508,7 +508,7 @@ class IgdbService
             }
         } else {
             // Requête de la page d'accueil avec filtres
-            $conditions = ["category = (0) & version_parent = null & cover != null & rating != null & first_release_date != null"];
+            $conditions = ["version_parent = null & cover != null & rating != null & first_release_date != null"];
 
             if (!empty($platforms)) {
                 $conditions[] = "platforms = [" . $platforms . "]";
@@ -543,7 +543,7 @@ class IgdbService
             }
         }
 
-        $query .= "limit 100;";
+        $query .= "limit 80;";
 
         // 4 : on va faire une requête à l'API iGDB
         $games = $this->makeRequest('https://api.igdb.com/v4/games', $query);
@@ -561,11 +561,19 @@ class IgdbService
             }
         }
 
+        // 7 : Process the game category
+        foreach ($games as $key => $game) {
+            if (isset($game['category']) && isset($this->gameTypes[$game['category']])) {
+                $games[$key]['category'] = $this->gameTypes[$game['category']];
+            }
+        }
+
+
         // Optionnel: Voir la requête envoyée à l'API iGDB
         // dump($query);
         // dump($games);
 
-        // 6 : on va retourner les données traitées
+        // 8 : on va retourner les données traitées
         return $games;
     }
 

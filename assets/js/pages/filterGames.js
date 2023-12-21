@@ -92,7 +92,7 @@ export function initFilter() {
                 data: JSON.stringify(selectedValues),
                 contentType: 'application/json',
                 dataType: 'html',
-                
+
                 success: function (response) {
                     $('#games_list').html(response);
                 },
@@ -253,6 +253,7 @@ export function initFilter() {
                             resultRemoveCategory.addEventListener('click', function () {
                                 // supprimer categoryDiv de .filter_selected lorsque cliqué
                                 filterSelected.removeChild(categoryDiv);
+                                this.classList.remove('active-result');
 
                                 // appeler updateSelectedValues après avoir supprimé un élément
                                 updateSelectedValues();
@@ -268,10 +269,17 @@ export function initFilter() {
                         // Créer un champ de recherche
                         let inputDiv = document.createElement('div');
                         inputDiv.classList.add('input-platforms');
+                        // Forumlaire de recherche
                         let searchInput = document.createElement('input');
                         searchInput.setAttribute('type', 'search');
                         searchInput.setAttribute('placeholder', 'Rechercher par nom...');
+
+                        // Div qui contient les boutons de platforms populaires
+                        let popularPlatforms = document.createElement('div');
+                        popularPlatforms.classList.add('popular-platforms');
+
                         inputDiv.appendChild(searchInput);
+                        inputDiv.appendChild(popularPlatforms);
                         filterShow.appendChild(inputDiv);
 
                         // Trier les add_button par ordre alphabétique
@@ -287,6 +295,44 @@ export function initFilter() {
                             categoryDiv.appendChild(categoryAddButton);
                             filterShow.appendChild(categoryDiv);
 
+                            // Boutton de platforms populaires
+                            // Ajouter les boutons dans la div popularPlatforms si data-id = 6, 48, 167, 49, 169 et 130
+                            if (category.id == 6 || category.id == 48 || category.id == 167 || category.id == 49 || category.id == 169 || category.id == 130) {
+                                // Ajouter la class platform-${category.id} pour pouvoir les cibler
+                                categoryAddButton.classList.add(`platform-${category.id}`);
+                                // categoryAddButton.classList.remove(`add_button-${currentButton}`);
+
+
+                                // Ajouter les images dans les boutons
+                                let addImgPopularPlatform = document.createElement('img');
+                                addImgPopularPlatform.classList.add('add-img-popular-platform');
+                                addImgPopularPlatform.src = 'build/images/add-outline.svg';
+                                // Vider le inner text du bouton 'add' pour pouvoir ajouter l'image
+                                categoryAddButton.innerText = '';
+                                if (category.id == 6) {
+                                    addImgPopularPlatform.src = 'build/images/icons/platforms/PC_horizontal.svg';
+                                    // ajouter un alt pour l'image
+                                    addImgPopularPlatform.alt = `${category.name}`;
+                                } else if (category.id == 48) {
+                                    addImgPopularPlatform.src = 'build/images/icons/platforms/PS4_horizontal.svg';
+                                    addImgPopularPlatform.alt = `${category.name}`;
+                                } else if (category.id == 167) {
+                                    addImgPopularPlatform.src = 'build/images/icons/platforms/PS5_horizontal.svg';
+                                    addImgPopularPlatform.alt = `${category.name}`;
+                                } else if (category.id == 49) {
+                                    addImgPopularPlatform.src = 'build/images/icons/platforms/Xbox_One_horizontal.svg';
+                                    addImgPopularPlatform.alt = `${category.name}`;
+                                } else if (category.id == 169) {
+                                    addImgPopularPlatform.src = 'build/images/icons/platforms/Xbox_Series_horizontal.svg';
+                                    addImgPopularPlatform.alt = `${category.name}`;
+                                } else if (category.id == 130) {
+                                    addImgPopularPlatform.src = 'build/images/icons/platforms/Nintendo_Switch_horizontal.svg';
+                                    addImgPopularPlatform.alt = `${category.name}`;
+                                }
+                                categoryAddButton.appendChild(addImgPopularPlatform);
+                                popularPlatforms.appendChild(categoryAddButton);
+                            }
+
                             // Initialiser tous les boutons avec display = "none" pour platforms
                             categoryDiv.style.display = "none";
 
@@ -297,7 +343,9 @@ export function initFilter() {
                             // ajouter un écouteur d'événements de clic au bouton 'add'
                             categoryAddButton.addEventListener('click', function () {
                                 // vérifier si le innerText du bouton 'add' est déjà présent dans filterSelected
-                                if (!filterSelected.textContent.includes(this.innerText)) {
+                                // Obtenir l'id de la catégorie
+                                let categoryId = category.id;
+                                if (!filterSelected.querySelector(`[data-id="${categoryId}"]`)) {
                                     // div qui contiendra le innerText du bouton 'add'
                                     let resultDivCategory = document.createElement('div');
                                     resultDivCategory.classList.add('result', `result-${currentButton}`);
@@ -307,7 +355,10 @@ export function initFilter() {
                                     // p qui contiendra le innerText
                                     let resultTextCategory = document.createElement('p');
                                     resultTextCategory.classList.add('result-text');
-                                    resultTextCategory.textContent = this.innerText;
+                                    // affecter a resultTextCategory.textContent ${category.name}
+
+                                    resultTextCategory.textContent = `${category.name}`;
+                                    // resultTextCategory.textContent = this.innerText;
 
                                     // bouton 'remove'
                                     let resultRemoveCategory = document.createElement('button');
@@ -334,7 +385,8 @@ export function initFilter() {
                                             if (categoryDiv.parentElement) {
                                                 // supprimer categoryDiv de .filter_selected
                                                 categoryDiv.parentElement.removeChild(categoryDiv);
-
+                                                // retirer la classe 'active-result' au bouton 'add'
+                                                categoryAddButton.classList.remove('active-result');
                                                 // appeler updateSelectedValues après avoir supprimé un élément
                                                 updateSelectedValues();
                                             }
@@ -358,10 +410,18 @@ export function initFilter() {
                                 let filter = this.value.toUpperCase();
                                 data.forEach(category => {
                                     let btn = filterShow.querySelector(`.add_button-${currentButton}[data-id="${category.id}"]`);
-                                    if (btn.innerText.toUpperCase().includes(filter)) {
-                                        btn.parentElement.style.display = "";
-                                    } else {
-                                        btn.parentElement.style.display = "none";
+                                    // Vérifier si le bouton est dans la div 'popular-platforms'
+                                    if (!btn.closest('.popular-platforms')) {
+                                        if (filter) {
+                                            if (btn.innerText.toUpperCase().includes(filter)) {
+                                                btn.parentElement.style.display = "";
+                                            } else {
+                                                btn.parentElement.style.display = "none";
+                                            }
+                                        } else {
+                                            // Si le filtre est vide, masquer le bouton
+                                            btn.parentElement.style.display = "none";
+                                        }
                                     }
                                 });
                             }, 500); // Délai de 500 ms
@@ -428,6 +488,7 @@ export function initFilter() {
                                             if (categoryDiv && categoryDiv.parentElement) {
                                                 // supprimer categoryDiv de .filter_selected
                                                 categoryDiv.parentElement.removeChild(categoryDiv);
+                                                categoryAddButton.classList.remove('active-result');
 
                                                 // appeler updateSelectedValues après avoir supprimé un élément
                                                 updateSelectedValues();
@@ -457,7 +518,7 @@ export function initFilter() {
         function sortResult() {
             let sortRating = document.querySelector('.sort_rating');
             let sortRatingImg = sortRating.querySelector('img');
-            
+
             let sortReleased = document.querySelector('.sort_released');
             sortReleased.classList.add('sort-active');
             let sortReleasedImg = sortReleased.querySelector('img');

@@ -1,4 +1,13 @@
 @media screen and (max-width: 768px) {
+    // Filter Template
+    #games_list {
+        .games_cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            // grid-auto-rows: 0;
+            grid-gap: 0.5rem;
+        }
+    }
     // New Games Template
     .new-game-template {
         display: grid;
@@ -92,11 +101,12 @@
 }
 
 @media screen and (min-width: 1200px) {
-    // Home Page Template
+    // Filter Template
     #games_list {
         .games_cards {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
+            // grid-auto-rows: 0;
             grid-gap: 1rem;
         }
     }

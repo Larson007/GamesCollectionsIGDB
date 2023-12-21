@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Service\IgdbService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +23,11 @@ class GamePopularController extends AbstractController
     #[Route('/popular', name: 'popular_games', methods: ['GET', 'POST'])]
     public function lastPopularGames(Request $request): Response
     {
+
+        // Récuperation de la date d'il y a 3 mois
+        $threeMonthsAgo = strtotime(date('Y-m-d', strtotime('-3 months')));
+        $formattedDate = date('d-m-Y', $threeMonthsAgo);
+
         $buttonId = $request->isMethod('POST') ? $request->request->get('buttonId') : null;
         $games = $this->igdbService->getRecentPopularGames($buttonId);
 
@@ -32,6 +38,7 @@ class GamePopularController extends AbstractController
         } else {
             return $this->render('game/popular/last_popular_games.html.twig', [
                 'games' => $games,
+                'date' => $formattedDate,
             ]);
         }
     }

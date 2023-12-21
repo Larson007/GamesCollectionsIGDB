@@ -11,7 +11,10 @@
 
 		</button>
 		<div class="menu_content">
-			<a class="menu-logo menu-link" href="#">Logo</a>
+			<a class="menu-logo menu-link" href="{{path('homepage')}}">
+			<img src="{{asset('build/images/icons/platforms/all_platforms.svg')}}" alt="">
+			<span class="link-title">Good Games Collections</span>
+			</a>
 			<ul class="menu_content-list">
 				<li class="list_item">
 					<a class="list_item-link menu-link {{ path('homepage') == app.request.pathinfo ? 'active' : '' }}" href="{{path('homepage')}}">
