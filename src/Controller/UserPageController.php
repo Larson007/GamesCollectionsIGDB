@@ -10,6 +10,7 @@ use App\Service\IgdbService;
 use App\Entity\PasswordUpdate;
 use Imagine\Image\ImageInterface;
 use App\Form\PasswordUpdateFormType;
+use App\IGDB\Models\UserGame;
 use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,14 +23,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class UserPageController extends AbstractController
 {
-    private $igdbService;
+    private $userGame;
     private $entityManager;
     private $params;
     private $passwordEncoder;
 
-    public function __construct(IgdbService $igdbService, EntityManagerInterface $entityManager, ParameterBagInterface $params, UserPasswordHasherInterface $passwordEncoder)
+    public function __construct(UserGame $userGame, EntityManagerInterface $entityManager, ParameterBagInterface $params, UserPasswordHasherInterface $passwordEncoder)
     {
-        $this->igdbService = $igdbService;
+        $this->userGame = $userGame;
         $this->entityManager = $entityManager;
         $this->params = $params;
         $this->passwordEncoder = $passwordEncoder;
@@ -196,7 +197,7 @@ class UserPageController extends AbstractController
                 ];
             }, $collection);
 
-            $games = $this->igdbService->userCollection($gameIdsString);
+            $games = $this->userGame->userCollection($gameIdsString);
 
             foreach ($games as &$game) {
                 foreach ($gameStatus as $status) {

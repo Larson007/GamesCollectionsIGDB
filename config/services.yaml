@@ -23,7 +23,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
 
-    App\Service\IgdbService:
+    App\IGDB\Service\IGDBService:
         arguments:
             $clientId: '%env(IGDB_CLIENT_ID)%'
             $apiToken: '%env(IGDB_API_TOKEN)%'

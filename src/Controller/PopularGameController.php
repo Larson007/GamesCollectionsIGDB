@@ -2,22 +2,19 @@
 
 namespace App\Controller;
 
-use DateTime;
-use App\Service\IgdbService;
+use App\IGDB\Models\PopularGame;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Json;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class GamePopularController extends AbstractController
-{
-    private $igdbService;
+class PopularGameController extends AbstractController {
 
-    public function __construct(IgdbService $igdbService)
+    private $popularGame;
+
+    public function __construct(PopularGame $popularGame)
     {
-        $this->igdbService = $igdbService;
+        $this->popularGame = $popularGame;
     }
 
     #[Route('/popular', name: 'popular_games', methods: ['GET', 'POST'])]
@@ -28,8 +25,8 @@ class GamePopularController extends AbstractController
         $threeMonthsAgo = strtotime(date('Y-m-d', strtotime('-3 months')));
         $formattedDate = date('d-m-Y', $threeMonthsAgo);
 
-        $buttonId = $request->isMethod('POST') ? $request->request->get('buttonId') : null;
-        $games = $this->igdbService->getRecentPopularGames($buttonId);
+        $platform = $request->isMethod('POST') ? $request->request->get('buttonId') : null;
+        $games = $this->popularGame->popularGame($platform);
 
         if ($request->isXmlHttpRequest()) {
             return $this->render('game/popular/_last_popular_games_platforms.html.twig', [
@@ -43,3 +40,4 @@ class GamePopularController extends AbstractController
         }
     }
 }
+

@@ -2,21 +2,21 @@
 
 namespace App\Controller;
 
-use App\Service\IgdbService;
-use Symfony\Bundle\SecurityBundle\Security;
+use App\IGDB\Models\FilterGame;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class FilterController extends AbstractController
+class FilterGameController extends AbstractController
 {
-    private $igdbService;
+    private $filter;
     private $security;
 
-    public function __construct(Security $security, IgdbService $igdbService)
+    public function __construct(FilterGame $filter, Security $security,)
     {
-        $this->igdbService = $igdbService;
+        $this->filter = $filter;
         $this->security = $security;
     }
 
@@ -26,22 +26,29 @@ class FilterController extends AbstractController
         // Récupérez l'utilisateur connecté
         $user = $this->security->getUser();
 
-        // Récupérez des ID des jeux de l'utilisateur
-        $userGames = $user->getCollection();
-        $collection = $userGames->getGames();
-        $collectionIds = array_map(function ($game) {
-            return $game['id'];
-        }, $collection);
-
-        // Récupérez les ID des jeux que l'utilisateur aime
-        $likes = $user->getLikes();
-
-        // Récupérez les ID des jeux que l'utilisateur souhaite
-        $wishes = $user->getWish();
+        if ($user) {
+            // Récupérez des ID des jeux de l'utilisateur
+            $userGames = $user->getCollection();
+            $collection = $userGames->getGames();
+            $collectionIds = array_map(function ($game) {
+                return $game['id'];
+            }, $collection);
+        
+            // Récupérez les ID des jeux que l'utilisateur aime
+            $likes = $user->getLikes();
+        
+            // Récupérez les ID des jeux que l'utilisateur souhaite
+            $wishes = $user->getWish();
+        } else {
+            // Définissez des valeurs par défaut pour les variables relatives à l'utilisateur
+            $collectionIds = [];
+            $likes = [];
+            $wishes = [];
+        }
 
         // Gestion de la requête AJAX pour le filtre
         $data = $request->isMethod('POST') ? json_decode($request->getContent(), true) : null;
-        $games = $this->igdbService->filterGames($data);
+        $games = $this->filter->filter($data);
 
         if ($request->isXmlHttpRequest()) {
             return $this->render('filter/_filter_games.html.twig', [
@@ -56,7 +63,6 @@ class FilterController extends AbstractController
                 'collectionIds' => $collectionIds,
                 'likeIds' => $likes,
                 'wishIds' => $wishes
-
             ]);
         }
     }

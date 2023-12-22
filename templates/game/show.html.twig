@@ -7,7 +7,7 @@
 {% block body %}
 	<div
 		class="body-content">
-
+		
 		{# <div class="loader"></div> #}
 
 		<div class="game-detail">
@@ -30,77 +30,6 @@
 									</small>
 								{% endif %}
 							</div>
-						</div>
-					</div>
-					<div
-						class="collection">
-
-						{# On verifie si le jeu est dans la collection #}
-						{% set gameCollectionFound = false %}
-						{% set gameAchieved = '' %}
-						{% set gamePlatined = '' %}
-
-						{% for collection in collections.games %}
-							{% if collection.id == game.id %}
-								{% set gameCollectionFound = true %}
-								{% set gameAchieved = collection.achieved %}
-								{% set gamePlatined = collection.platined %}
-							{% endif %}
-						{% endfor %}
-
-
-						{# On affiche les boutons en fonction de si le jeu est dans la collection ou non #}
-						{% set action = (gameCollectionFound ) ? 'remove-from-collection' : 'add-to-collection' %}
-						{% set buttonText = (gameCollectionFound) ? 'Collection' : 'Collection' %}
-						{% set buttonClass = (gameCollectionFound) ? 'btn-warning' : 'btn-primary' %}
-						{% set iconClass = (gameCollectionFound) ? 'close-outline' : 'add-outline' %}
-
-						<div class="collection--toogle">
-							<div class="collection--toogle">
-								<button id="toggleCollection" class="btn {{ buttonClass }}" data-game-id="{{ game.id }}" data-action="{{ action }}">
-									{% if action == 'add-to-collection' %}
-										Collection
-										<ion-icon name="add-circle-outline" class="button-icon"></ion-icon>
-									{% else %}
-										Collection
-										<ion-icon name="remove-circle-outline" class="button-icon"></ion-icon>
-									{% endif %}
-								</button>
-							</div>
-
-
-						</div>
-
-						{% set action = (gameAchieved) ? 'unachieved' : 'achieved' %}
-						{% set buttonText = (gameAchieved) ? 'Terminer' : 'Terminer' %}
-						{% set buttonClass = (gameAchieved) ? 'btn-danger' : 'btn-success' %}
-
-						<div class="collection--achieved">
-							<button id="toggleAchieved" class="btn {{ buttonClass }}" data-game-id="{{ game.id }}" data-action="{{ action }}">
-								{% if action == 'achieved' %}
-									Terminer
-									<ion-icon name="add-circle-outline" class="button-icon"></ion-icon>
-								{% else %}
-									Terminer
-									<ion-icon name="remove-circle-outline" class="button-icon"></ion-icon>
-								{% endif %}
-							</button>
-						</div>
-
-						{% set action = (gamePlatined) ? 'unplatined' : 'platined' %}
-						{% set buttonText = (gamePlatined) ? 'Platine' : 'Platine' %}
-						{% set buttonClass = (gamePlatined) ? 'btn-danger' : 'btn-success' %}
-
-						<div class="collection--platined">
-							<button id="togglePlatined" class="btn {{ buttonClass }}" data-game-id="{{ game.id }}" data-action="{{ action }}">
-								{% if action == 'platined' %}
-									Platine
-									<ion-icon name="add-circle-outline" class="button-icon"></ion-icon>
-								{% else %}
-									Platine
-									<ion-icon name="remove-circle-outline" class="button-icon"></ion-icon>
-								{% endif %}
-							</button>
 						</div>
 					</div>
 				</div>
@@ -318,7 +247,7 @@
 
 										{% for website in game.websites %}
 											<a class="badge bg-light" href="{{website.url}}" target="_blank">
-												<img src="{{ asset(website.icon) }}" alt="{{website.name}} Icon">
+												<img src="{{ asset(website.image) }}" alt="{{website.category}} Icon">
 											</a>
 										{% endfor %}
 

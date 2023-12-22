@@ -11,12 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HomepageController extends AbstractController
 {
-    private $igdbService;
 
-    public function __construct(IgdbService $igdbService)
-    {
-        $this->igdbService = $igdbService;
-    }
 
     #[Route('/', name: 'homepage', methods: ["GET", "POST"])]
     public function index(): Response

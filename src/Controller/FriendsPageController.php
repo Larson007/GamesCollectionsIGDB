@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Service\IgdbService;
 use App\Form\SearchUsersType;
+use App\IGDB\Models\UserGame;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,12 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FriendsPageController extends AbstractController
 {
-    private $igdbService;
+    private $userGame;
     private $entityManager;
 
-    public function __construct(IgdbService $igdbService, EntityManagerInterface $entityManager)
+    public function __construct(UserGame $userGame, EntityManagerInterface $entityManager)
     {
-        $this->igdbService = $igdbService;
+        $this->userGame = $userGame;
         $this->entityManager = $entityManager;
     }
     
@@ -65,14 +66,14 @@ class FriendsPageController extends AbstractController
                 if ($collectionObject !== null && $collectionObject->getGames() !== null) {
                     $collection = $collectionObject->getGames();
                 }
-            }
 
-            $friendsData[] = [
-                'id' => $friend->getId(),
-                'pseudo' => $friend->getPseudo(),
-                'avatar' => $friend->getAvatar(),
-                'collection' => $collection
-            ];
+                $friendsData[] = [
+                    'id' => $friend->getId(),
+                    'pseudo' => $friend->getPseudo(),
+                    'avatar' => $friend->getAvatar(),
+                    'collection' => $collection
+                ];
+            }
         }
 
         return $this->render('friends/friends.html.twig', [
@@ -213,7 +214,7 @@ class FriendsPageController extends AbstractController
             }, $collection);
 
 
-            $games = $this->igdbService->userCollection($gameIdsString);
+            $games = $this->userGame->userCollection($gameIdsString);
 
 
             return $this->render('friends/friendCollection.html.twig', [

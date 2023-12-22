@@ -62,6 +62,5 @@
   "build/images/close-outline.svg": "/build/images/close-outline.svg",
   "build/images/add-outline.svg": "/build/images/add-outline.svg",
   "build/images/icons/nav/chevron-back-outline.svg": "/build/images/icons/nav/chevron-back-outline.svg",
-  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg",
-  "build/vendors-node_modules_toastr_toastr_scss-node_modules_toastr_toastr_js-node_modules_core-js_mo-d7e23d.js": "/build/vendors-node_modules_toastr_toastr_scss-node_modules_toastr_toastr_js-node_modules_core-js_mo-d7e23d.js"
+  "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg"
 }

@@ -2,25 +2,25 @@
 
 namespace App\Controller;
 
-use App\Service\IgdbService;
+
+use App\IGDB\Models\NewGame;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class GameNewController extends AbstractController
-{
-    private $igdbService;
+class NewGameController extends AbstractController {
+    private $newGame;
 
-    public function __construct(IgdbService $igdbService)
+    public function __construct(NewGame $newGame)
     {
-        $this->igdbService = $igdbService;
+        $this->newGame = $newGame;
     }
-    
+
     #[Route('/newgames', name: 'app_newgames')]
     public function index(): Response
     {
 
-        $games = $this->igdbService->getGamesReleasedThisMonth();
+        $games = $this->newGame->newGame();
 
 
         return $this->render('game/new_games.html.twig', [
