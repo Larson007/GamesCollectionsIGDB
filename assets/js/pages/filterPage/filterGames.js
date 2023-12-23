@@ -8,6 +8,8 @@ export function initFilter() {
         console.log('Filter js est chargé !');
 
         let currentButton = null;
+        let releasedDateMaxSelected = new Date().getFullYear();
+        let releasedDateMax = releasedDateMaxSelected + 5;
 
         //* TABLEAU JSON QUI CONTIENT LES DONNEES DES FILTRES
         let selectedValues = {
@@ -159,7 +161,7 @@ export function initFilter() {
                         categoryDivSlider.classList.add(`slider_${currentButton}`);
                         // on verifie si on est sur released ou rating pour pour appelé la fonction multiRangeSliders
                         if (currentButton == 'released') {
-                            multiRangeSliders(categoryDivSlider, 1970, 2030, 1970, 2030);
+                            multiRangeSliders(categoryDivSlider, 1970, releasedDateMax, 1970, releasedDateMaxSelected);
                             // let min = categoryDivSlider.noUiSlider.get()[0];
                             // let max = categoryDivSlider.noUiSlider.get()[1];
                         } else {

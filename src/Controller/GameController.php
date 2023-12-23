@@ -24,7 +24,7 @@ class GameController extends AbstractController
         $game = $this->game->game($id);
         // dump($game);
 
-        return $this->render('game/show.html.twig', [
+        return $this->render('game/game.html.twig', [
             'game' => $game
         ]);
     }
