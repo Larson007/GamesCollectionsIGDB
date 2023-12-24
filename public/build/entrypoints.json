@@ -3,11 +3,11 @@
     "app": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-c86318.js",
+        "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9e704d.js",
         "/build/app.js"
       ],
       "css": [
-        "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-c86318.css",
+        "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9e704d.css",
         "/build/app.css"
       ]
     }

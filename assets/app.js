@@ -45,6 +45,7 @@ import { initFilter } from './js/pages/filterPage/filterGames.js';
 import { initGamesPopular } from './js/pages/gamesPopular.js';
 import navMenu from './js/navMenu.js';
 import { initHomepage } from './js/pages/homepage.js';
+import { initGame } from './js/pages/game/game.js';
 
 // Start the application
 console.log('Hello from app.js');
@@ -72,6 +73,9 @@ if (document.querySelector('.filter-page')) {
 }
 if (document.querySelector('.homepage')) {
     initHomepage();
+}
+if (document.querySelector('.game-details')) {
+    initGame();
 }
 
 // Vider l'input Search Game lors du chargement de la page

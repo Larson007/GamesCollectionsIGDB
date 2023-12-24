@@ -14,6 +14,7 @@
 @import "filter.scss";
 @import "popular.scss";
 @import "friends.scss";
+@import "game.scss";
 @import "detail.scss";
 @import "auth.scss";
 @import "dashboard.scss";
@@ -37,8 +38,8 @@ body {
     min-height: 100vh;
     background-color: $background !important;
     color: $text-light;
-    margin: 0;
-    padding-top: 3rem;
+    // margin: 0;
+    // padding: 0;
 }
 
 p {

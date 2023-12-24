@@ -46,7 +46,7 @@ class Game
         bundles.*, bundles.cover.url, bundles.genres.name, bundles.platforms.name, bundles.themes.name, bundles.game_modes.name, 
         dlcs.*,
         expansions.*,
-        franchises.*, franchises.games.*,
+        franchises.*, franchises.games.*, franchises.games.cover.url, franchises.games.platforms.*,
         similar_games.*,
 
         game_modes.name,
@@ -106,14 +106,41 @@ class Game
         if (isset($game['artworks'])) {
             foreach ($game['artworks'] as &$image) {
                 if (isset($image['url'])) {
-                    $image['url'] = $this->getImageUrl($image['url'], Size::SCREENSHOT_MEDIUM, true);
+                    $image['url'] = $this->getImageUrl($image['url'], Size::SCREENSHOT_HUGE, false);
+                }
+            }
+        }
+
+        if (isset($game['franchises'])) {
+            foreach ($game['franchises'] as &$franchises) {
+                if (isset($franchises['games'])) {
+                    foreach ($franchises['games'] as &$franchise) {
+                        if (isset($franchise['cover']['url'])) {
+                            $franchise['cover']['url'] = $this->getImageUrl($franchise['cover']['url'], Size::COVER_BIG, false);
+                        }
+                    }
                 }
             }
         }
 
         return $game;
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /** AJOUTER LES DETAILS DES JEUX QUE L'ON VEUT RECUPERER
 bundles
