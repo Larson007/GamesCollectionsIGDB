@@ -22,10 +22,20 @@ class GameController extends AbstractController
 
         // Get the game from the IGDB API by its ID
         $game = $this->game->game($id);
-        // dump($game);
+        
+        $collection = $this->game->gameCollection($id);
+
+        $franchiseGame = false; // Initialiser la variable à false
+
+        // Vérifier si 'franchises' existe dans $collection et si le premier élément contient 'games'
+        if (isset($collection['franchises'][0]['games']) && count($collection['franchises'][0]['games']) > 0) {
+            $franchiseGame = true; // Si game.franchises[0] contient des jeux, définir la variable à true
+        }
 
         return $this->render('game/game.html.twig', [
-            'game' => $game
+            'game' => $game,
+            'collection' => $collection,
+            'franchiseGame' => $franchiseGame
         ]);
     }
 

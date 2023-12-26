@@ -142,7 +142,7 @@ class FilterGame
         // 3 : on va traiter les données récupérées
             foreach ($games as &$game) {
                 if (isset($game['cover']['url'])) {
-                    $bigImageUrl = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, false);
+                    $bigImageUrl = $this->getImageUrl($game['cover']['url'], Size::HD_READY, false);
                     $headers = @get_headers($bigImageUrl);
 
                     if ($headers && $headers[0] != 'HTTP/1.1 404 Not Found') {

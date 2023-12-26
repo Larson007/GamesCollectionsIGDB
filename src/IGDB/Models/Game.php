@@ -28,7 +28,7 @@ class Game
 
         $game = $this->igdbService->makeRequest('games', "
         fields  
-        
+        *,
         name,
         slug,
         storyline,
@@ -44,9 +44,14 @@ class Game
         
         collection.name,collection.games.*,
         bundles.*, bundles.cover.url, bundles.genres.name, bundles.platforms.name, bundles.themes.name, bundles.game_modes.name, 
+
+        franchises.*, 
+        franchises.games.*, franchises.games.cover.url, franchises.games.platforms.*,
+
         dlcs.*,
+        dlcs.cover.url, dlcs.platforms.*,
         expansions.*,
-        franchises.*, franchises.games.*, franchises.games.cover.url, franchises.games.platforms.*,
+
         similar_games.*,
 
         game_modes.name,
@@ -76,12 +81,27 @@ class Game
         ;
         ");
 
+
         $game = $game[0];
 
-
         if (isset($game['cover']['url'])) {
-            $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, true);
+            $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, false);
         }
+
+
+        // if (isset($game['cover']['url'])) {
+        //     $bigImageUrl = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, false);
+        //     $headers = @get_headers($bigImageUrl);
+
+        //     if ($headers && $headers[0] != 'HTTP/1.1 404 Not Found') {
+        //         // L'image de grande taille existe
+        //         $game['cover']['url'] = $bigImageUrl;
+        //     } else {
+        //         $smallImageUrl = $this->getImageUrl($game['cover']['url'], Size::COVER_SMALL, true);
+        //         $game['cover']['url'] = $smallImageUrl;
+        //     }
+        // }
+
         if (isset($game['category'])) {
             $game['category'] = $this->getCategoryName($game['category']);
         }
@@ -122,10 +142,86 @@ class Game
                 }
             }
         }
+        
+        if (isset($game['dlcs'])) {
+            foreach ($game['dlcs'] as &$dlc) {
+                if (isset($dlc['cover']['url'])) {
+                    $dlc['cover']['url'] = $this->getImageUrl($dlc['cover']['url'], Size::COVER_BIG, false);
+                }
+            }
+        }
 
         return $game;
     }
 
+    public function gameCollection($gameId) {
+
+        $game = $this->igdbService->makeRequest('games', "
+        fields  
+        
+        name,
+
+        franchises.name, 
+        franchises.games.name, franchises.games.summary,franchises.games.category, franchises.games.cover.url, franchises.games.platforms.*,
+        franchises.games.version_parent,
+
+        collection.name, 
+        collection.games.name, collection.games.summary,collection.games.category, collection.games.cover.url, collection.games.platforms.*,
+        collection.games.version_parent,
+
+        dlcs.name, dlcs.summary, dlcs.category, dlcs.cover.url, dlcs.platforms.*,
+
+        expansions.name, expansions.summary, expansions.category, expansions.cover.url, expansions.platforms.*;
+
+        where id = " . $gameId . " & franchises.games.version_parent = null
+        ;
+        ");
+
+        $game =  $game[0];
+
+        if (isset($game['franchises'])) {
+            foreach ($game['franchises'] as &$franchises) {
+                if (isset($franchises['games'])) {
+                    foreach ($franchises['games'] as &$franchise) {
+                        if (isset($franchise['cover']['url'])) {
+                            $franchise['cover']['url'] = $this->getImageUrl($franchise['cover']['url'], Size::COVER_BIG, false);
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (isset($game['dlcs'])) {
+            foreach ($game['dlcs'] as &$dlc) {
+                if (isset($dlc['cover']['url'])) {
+                    $dlc['cover']['url'] = $this->getImageUrl($dlc['cover']['url'], Size::COVER_BIG, false);
+                }
+            }
+        }
+
+        if (isset($game['expansions'])) {
+            foreach ($game['expansions'] as &$expansion) {
+                if (isset($expansion['cover']['url'])) {
+                    $expansion['cover']['url'] = $this->getImageUrl($expansion['cover']['url'], Size::COVER_BIG, false);
+                }
+            }
+        }
+
+        // collection
+        if (isset($game['collection'])) {
+            foreach ($game['collection'] as &$collection) {
+                if (isset($collection['games'])) {
+                    foreach ($collection['games'] as &$game) {
+                        if (isset($game['cover']['url'])) {
+                            $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, false);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $game;
+    }
 }
 
 

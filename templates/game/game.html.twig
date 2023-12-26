@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{game.name}}
+{% block title %}
+	{{game.name}}
 {% endblock %}
 
 {% block body %}
 	<div class="body-content">
+
 
 		<div class="background_top">
 			{% if game.artworks is defined %}
@@ -94,281 +96,48 @@
 				</div>
 			</div>
 
-			<div class="game_collection container">
-				<div class="collection_header">
-					<nav class="collection_nav">
-						<button class="collection_nav-link collection_nav-link-active">collections</button>
-						<button class="collection_nav-link">dlcs</button>
-						<button class="collection_nav-link">extansions</button>
+
+			{% if franchiseGame == true or game.dlcs is defined or game.expansions is defined  %}
+				<div class="game_collection container">
+					<nav class="collection_header">
+						{% if game.franchises is defined %}
+							<button id="collection_button-franchises" class="collection_nav-link collection_nav-link-active">franchises</button>
+						{% endif %}
+						{% if game.dlcs is defined %}
+							<button id="collection_button-dlcs" class="collection_nav-link">dlcs</button>
+						{% endif %}
+						{% if game.expansions is defined %}
+							<button id="collection_button-expansions" class="collection_nav-link">extansions</button>
+						{% endif %}
 					</nav>
-				</div>
-
-
-				<div class="collection_body" id="franchises-data" data-franchises="{{ game.franchises|json_encode|e('html_attr') }}">
-					{% for franchises in game.franchises %}
-						<div class="collection_body-content">
-							<div class="collection_body-collection">
-								<div class="collection-infos">
-									<div class="collection_games-cover">
-										{% for game in franchises.games %}
-											{% if loop.first %}
-												<img class="cover_collection-active" src="{{game.cover.url}}" alt="cover de {{game.name}}">
-											{% else %}
-												<img class="cover_collection" src="{{game.cover.url}}" alt="cover de {{game.name}}">
-											{% endif %}
-										{% endfor %}
-									</div>
-									<div class="collection_images-cover-next"></div>
-									<div class="collection-infos-content">
-										<p class="collection_title">{{franchises.games[0].name}}</p>
-									</div>
-									<div class="collection-infos-platforms">
-										<h3>Platformes Disponibles :</h3>
-										<div class="collection_platforms">
-											{% for platform in franchises.games[0].platforms %}
-												<p>{{ platform.name }}</p>
-											{% endfor %}
-										</div>
-									</div>
-								</div>
-								<div class="collection-images">
-									<div class="collection_images-background">
-										<img class="background_image" src="{{franchises.games[0].cover.url}}" alt="cover de {{franchises.games[0].name}}">
-									</div>
-								</div>
+					<div class="collection_body" data-collection="{{ collection|json_encode|e('html_attr') }}">
+						<div class="collection_body-left">
+							<div
+								class="left_informations">{# <h3 class="collection_title"></h3> #}
+							</div>
+							<div class="left_covers">
+								<div class="collection_cover-active"></div>
+								<div class="collection_covers"></div>
+							</div>
+							<div class="left_platforms">
+								<h3>Platformes Displonibles :</h3>
+								<div class="collections_platforms"></div>
 							</div>
 						</div>
-						<nav class="collection_buttons">
-							<button id="previous-category">
-								<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
-							</button>
-							<button id="next-category">
-								<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
-							</button>
-						</nav>
-					{% endfor %}
+						<div class="collection_body-right">
+							<div class="right_background">
+								<div class="collection_cover-background"></div>
+							</div>
+							<div class="buttons_group">
+								<button id="collection-previous">
+									<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+								</button>
+								<button id="collection-next">
+									<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
+								</button>
+							</div>
+						</div>
+					</div>
 				</div>
-
-			</div>
-
-
-			{# <div class="containers">
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_title my-5">
-																																																																																															{{game.name}}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_artworks my-5">
-																																																																																															{% if game.artworks is defined %}
-																																																																																																{% for artwork in game.artworks %}
-																																																																																																	<div class="game_artwork">
-																																																																																																		<img src="{{artwork.url}}" alt="artwork de {{game.name}}" width="150px" height="auto">
-																																																																																																	</div>
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_bundles my-5">
-																																																																																															{% if game.bundles is defined %}
-																																																																																																{% for bundle in game.bundles %}
-																																																																																																	{{bundle.name}}
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_category my-5">
-																																																																																															{% if game.category is defined %}
-																																																																																																{{game.category}}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_cover my-5">
-																																																																																															<img src="{{game.cover.url}}" alt="cover de {{game.name}}" width="150px" height="auto">
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_dlcs my-5">
-																																																																																															{% if game.dlcs is defined %}
-																																																																																																{% for dlc in game.dlcs %}
-																																																																																																	{{dlc.name}}
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_expansions my-5">
-																																																																																															{% if game.expansions is defined %}
-																																																																																																{% for expansion in game.expansions %}
-																																																																																																	{{expansion.name}}
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_relased my-5">
-																																																																																															{{game.first_release_date|date("d/m/Y")}}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_franchises my-5">
-																																																																																															{% if game.franchises is defined %}
-																																																																																																{% for franchise in game.franchises %}
-																																																																																																	{{franchise.name}}
-																																																																																																	<div class="franchise_game">
-																																																																																																		{% if franchise.games is defined %}
-																																																																																																			{% for franchiseGame in franchise.games %}
-																																																																																																				{{franchiseGame.name}}
-																																																																																																			{% endfor %}
-																																																																																																		{% endif %}
-																																																																																																	</div>
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_engines my-5">
-																																																																																															{% if game.game_engines is defined %}
-																																																																																																{% for game_engine in game.game_engines %}
-																																																																																																	<div class="game_engine">
-																																																																																																		{{game_engine.name}}
-																																																																																																	</div>
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_modes my-5">
-																																																																																															{% if game.game_modes is defined %}
-																																																																																																{% for gameMode in game.game_modes %}
-																																																																																																	{{gameMode.name}}
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_genres my-5">
-																																																																																															{% if game.genres is defined %}
-																																																																																																{% for genre in game.genres %}
-																																																																																																	{{genre.name}}
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_companies my-5">
-																																																																																															{% if game.involved_companies is defined %}
-																																																																																																{% for company in game.involved_companies %}
-																																																																																																	{{company.id}}
-																																																																																																	{% if company.company is defined %}
-																																																																																																		{{company.company.name}}
-																																																																																																	{% endif %}
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_platforms my-5">
-																																																																																															{% if game.platforms is defined %}
-																																																																																																{% for platform in game.platforms %}
-																																																																																																	{{platform.name}}
-																																																																																																	{% if platform.abbreviation is defined %}
-																																																																																																		{{platform.abbreviation}}
-																																																																																																	{% endif %}
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_perspectives my-5">
-																																																																																															{% if game.player_perspectives is defined %}
-																																																																																																{% for perspective in game.player_perspectives %}
-																																																																																																	{{perspective.name}}
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_rating my-5">
-																																																																																															{% if game.rating is defined %}
-																																																																																																{{game.rating}}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_rating_count my-5">
-																																																																																															{% if game.rating_count is defined %}
-																																																																																																{{game.rating_count}}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_screenshots my-5">
-																																																																																															{% if game.screenshots is defined %}
-																																																																																																{% for screenshot in game.screenshots %}
-																																																																																																	<div class="game_screenshot">
-																																																																																																		<img src="{{screenshot.url}}" alt="screenshot de {{game.name}}" width="150px" height="auto">
-																																																																																																	</div>
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_similar_games my-5">
-																																																																																															{% if game.similar_games %}
-																																																																																																{% for similarGame in game.similar_games %}
-																																																																																																	{{similarGame.name}}
-																																																																																																{% endfor %}
-																																																																																															{% endif %}
-																																																																																														</div>
-																																																																																											
-																																																																																											
-																																																																																														<div class="game_storyline my-5">
-																																																																																															{% if game.storyline is defined %}
-																																																																																																{{game.storyline}}
-																																																																																															{% endif %}
-																																																																																											
-																																																																																											
-																																																																																															<div class="game_summary my-5">
-																																																																																																{% if game.summary is defined %}
-																																																																																																	{{game.summary}}
-																																																																																																{% endif %}
-																																																																																															</div>
-																																																																																											
-																																																																																											
-																																																																																															<div class="game_themes my-5">
-																																																																																																{% if game.themes is defined %}
-																																																																																																	{% for theme in game.themes %}
-																																																																																																		{{theme.name}}
-																																																																																																	{% endfor %}
-																																																																																																{% endif %}
-																																																																																															</div>
-																																																																																											
-																																																																																											
-																																																																																															<div class="game_videos my-5">
-																																																																																																{% if game.videos is defined %}
-																																																																																																	{% for videos in game.videos %}
-																																																																																																		{{videos.name}}
-																																																																																																		{{videos.video_id}}
-																																																																																																	{% endfor %}
-																																																																																																{% endif %}
-																																																																																															</div>
-																																																																																											
-																																																																																											
-																																																																																															<div class="game_websites my-5">
-																																																																																																{% if game.websites is defined %}
-																																																																																																	{% for website in game.websites %}
-																																																																																																		{{website.category}}
-																																																																																																		{{website.url}}
-																																																																																																	{% endfor %}
-																																																																																																{% endif %}
-																																																																																											
-																																																																																															</div>
-																																																																																											
-																																																																																														</div>
-																																																																																													</div> #}
+			{% endif %}
 		{% endblock %}

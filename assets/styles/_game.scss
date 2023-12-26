@@ -162,150 +162,184 @@
             }
         }
     }
+}
 
-    .game_collection {
-        background-color: #eee;
+.game_collection {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    margin-bottom: 10rem;
+    .collection_header {
+        height: 100px;
         width: 100%;
-        padding: 0;
-        margin-bottom: 10rem;
-        .collection_header {
-            width: 100%;
-            height: 100px;
-            padding-left: 20px;
-            .collection_nav {
+        background-color: #eee;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        padding: 0 0 0 2rem;
+        .collection_nav-link {
+            font-size: 1.125rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0;
+            padding-bottom: 5px;
+            background-color: transparent;
+            border: none;
+            margin-right: 1rem;
+            color: #3a3a3a;
+            border-bottom: 1px solid #eee;
+            text-decoration: none;
+            padding-bottom: 5px;
+        }
+        .collection_nav-link-active {
+            border-bottom: 1px solid #3a3a3a;
+            text-decoration: none;
+            padding-bottom: 5px;
+        }
+    }
+    .collection_body {
+        width: 100%;
+        height: 660px;
+        display: flex;
+        flex-flow: row wrap;
+        overflow: hidden;
+        .collection_body-left {
+            width: 55%;
+            height: 660px;
+            position: relative;
+            .left_informations {
+                background-color: #eee;
+                color: #3a3a3a;
+                width: 100%;
+                height: 480px;
+                display: flex;
+                flex-flow: column nowrap;
+                padding: 4rem 13rem 2rem 4rem;
+                .collection_franchises-title{
+                    color: #888;
+                    font-weight: bolder;
+                    font-size: 1.25rem;
+                    text-transform: uppercase;
+                }
+                .collection_franchises-name{
+                    
+                    font-size: 2rem;
+                    font-weight: bolder;
+                }
+                .collection_title{
+                    margin-top: 2rem;
+                }
+                .collection_summary {
+                    color: #888;
+                    font-size: 0.85rem;
+                }
+            }
+            .left_covers {
+                z-index: 99;
+                position: absolute;
+                top: 10%;
+                left: 75%;
+                height: auto;
                 display: flex;
                 flex-flow: row nowrap;
+                justify-content: space-between;
                 align-items: center;
-                height: 100%;
-                width: 100%;
-                padding-left: 1.3rem;
-                .collection_nav-link {
-                    font-size: 1.125rem;
-                    font-weight: bold;
-                    text-transform: uppercase;
-                    padding: 0;
-                    padding-bottom: 5px;
-                    background-color: transparent;
-                    border: none;
-                    margin-right: 1rem;
-                    color: #3a3a3a;
+                .collection_cover-active {
+                    width: 340px;
+                    height: auto;
+                    img {
+                        width: 100%;
+                        height: auto;
+                        border-radius: 3px;
+                    }
                 }
-                .collection_nav-link-active {
-                    border-bottom: 1px solid #3a3a3a;
-                    text-decoration: none;
-                    padding-bottom: 5px;
+                .collection_covers {
+                    display: flex;
+                    flex-flow: row nowrap;
+                    img {
+                        width: 280px;
+                        height: auto;
+                        padding-left: 3rem;
+                        filter: brightness(0.3) contrast(0.8);
+                        border-radius: 5px;
+                    }
+                }
+            }
+            .left_platforms {
+                background-color: #3a3a3a;
+                width: 100%;
+                height: 180px;
+                padding: 3rem 4rem;
+                h3 {
+                    display: inline-block;
+                    width: 100%;
+                    font-size: 1.5rem;
+                    margin-bottom: 1rem;
+                    color: #eee;
+                }
+                .collections_platforms  {
+                    display: flex;
+                    flex-flow: row nowrap;
+                    align-items: center;
+                    p {
+                        margin-right: 1rem;
+                        color: #eee;
+                        font-size: 1rem;
+                        font-weight: bolder;
+                    }
                 }
             }
         }
-        .collection_body {
+        .collection_body-right {
+            width: 45%;
+            height: 660px;
             position: relative;
-            overflow: hidden;
-            .collection_body-content {
-                .collection_body-collection {
-                    display: flex;
-                    flex-flow: row nowrap;
+            .right_background {
+                max-height: 680px;
+                width: 100%;
+                .collection_cover-background {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
                     width: 100%;
                     height: 100%;
-                    position: relative;
-                    .collection-infos {
-                        width: 55%;
-                        display: flex;
-                        flex-flow: row wrap;
-                        .collection_games-cover {
-                            // overflow: visible;
-                            z-index: 99;
-                            position: absolute;
-                            top: 25%;
-                            left: 45%;
-                            display: flex;
-                            flex-flow: row nowrap;
-                            align-items: center;
-                            img {
-                                width: 30%;
-                                height: 100%;
-                                margin-right: 3rem;
-                            }
-                            .cover_collection-active {
-                                width: 50%;
-                                height: auto;
-                            }
-                        }
-                        .collection-infos-content {
-                            background-color: #eee;
-                            color: #3a3a3a;
-                            width: 100%;
-                            padding: 2rem 12rem 2rem 4rem;
-                            height: 480px;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        }
-                        .collection-infos-platforms {
-                            background-color: #3a3a3a;
-                            color: #eee;
-                            width: 100%;
-                            height: auto;
-                            // padding: 2rem 4rem;
-                            padding: 2rem 0 2rem 4rem;
-                            h3 {
-                                font-size: 1rem;
-                                font-weight: bold;
-                                margin-bottom: 1.5rem;
-                            }
-                            .collection_platforms {
-                                display: flex;
-                                flex-flow: row nowrap;
-                                p {
-                                    display: inline-block;
-                                    font-size: 1rem;
-                                    margin: 0 1rem 0 0;
-                                }
-                            }
-                        }
+                    img {
+                        width: 100%;
+                        height: auto;
+                        filter: grayscale(100%) brightness(0.8) contrast(1);
                     }
-                    .collection-images {
-                        width: 45%;
-                        min-height: 100%;
-                        position: relative;
-                        overflow: hidden;
-                        .collection_images-background {
-                            position: absolute;
-                            top: -25%;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            img {
-                                width: 100%;
-                                height: auto;
-                                // filter: blur(3px) grayscale(100%);
-                            }
-                            &::after {
-                                content: "";
-                                position: absolute;
-                                top: 25%;
-                                left: 0;
-                                width: 100%;
-                                height: 100%;
-                                background-image: linear-gradient(to top right, rgba(58, 58, 58, 1) 0%, rgba(58, 58, 58, 1) 10%, rgba(58, 58, 58, 0.9) 50%, rgba(58, 58, 58, 0.8) 100%);
-                            }
-                        }
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-image: linear-gradient(
+                            to top right,
+                            #3a3a3a 0%,
+                            #3a3a3a 10%,
 
-                        .collection-images-cover-next {
-                            position: absolute;
-                        }
+                            rgba(58, 58, 58, 0.8) 50%,
+                            rgba(58, 58, 58, 0.8) 100%
+                        );
                     }
                 }
             }
-            .collection_buttons {
+            .buttons_group {
                 position: absolute;
                 bottom: 0;
                 right: 0;
+                z-index: 10;
                 height: 65px;
+                width: 35%;
+                z-index: 10;
+                background-color: $yellow;
                 display: flex;
                 flex-flow: row nowrap;
-                justify-content: flex-end;
+                justify-content: end;
                 align-items: center;
-                background-color: $yellow;
                 button {
                     background-color: $yellow;
                     width: 65px;
@@ -320,8 +354,8 @@
                         height: auto;
                     }
                 }
-                .next {
-                    border-left: 1px solid #3a3a3a;
+                #collection-previous {
+                    border-right: 1px solid #3a3a3a;
                 }
             }
         }
