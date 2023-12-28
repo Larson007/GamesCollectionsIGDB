@@ -32,10 +32,13 @@ class GameController extends AbstractController
             $franchiseGame = true; // Si game.franchises[0] contient des jeux, définir la variable à true
         }
 
+        $medias = $this->game->gameMedias($id);
+
         return $this->render('game/game.html.twig', [
             'game' => $game,
             'collection' => $collection,
-            'franchiseGame' => $franchiseGame
+            'franchiseGame' => $franchiseGame,
+            'medias' => $medias
         ]);
     }
 

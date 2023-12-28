@@ -23,10 +23,10 @@ window.toastr = toastr;
 import './styles/bootstrap.min.scss';
 import './js/bootstrap.bundle.min.js';
 
-// Import Slick
-import './slick/slick.scss';
-import './slick/slick-theme.scss';
-import './slick/slick.min.js';
+// // Import Slick
+// import './slick/slick.scss';
+// import './slick/slick-theme.scss';
+// import './slick/slick.min.js';
 
 // CSS
 import './styles/app.scss';

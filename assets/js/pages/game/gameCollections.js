@@ -81,18 +81,20 @@ export function gameCollections() {
         switch (collectionType) {
             case 'franchises':
                 
-                collectionData.franchises[0].games = collectionData.franchises[0].games.filter(game => game.category === 0 && !('version_parent' in game));
+                collectionData.franchises[0].games = collectionData.franchises[0].games
+                    .filter(game => game.category === 0 && !('version_parent' in game))
+                    .sort((a, b) => b.first_release_date - a.first_release_date);
 
                 data = collectionData.franchises[0].games;
-                console.log(data);
+                // console.log(data);
                 break;
             case 'dlcs':
                 data = collectionData.dlcs;
-                console.log(data);
+                // console.log(data);
                 break;
             case 'expansions':
                 data = collectionData.expansions;
-                console.log(data);
+                // console.log(data);
                 break;
         }
 
@@ -227,15 +229,20 @@ export function gameCollections() {
 
         // Autres images
         collectionCovers.innerHTML = '';
-        for (let i = 0; i < 2; i++) {
-            const index = (currentIndexCollection + i + 1) % data.length;
-            const collectionCover = document.createElement('img');
-            collectionCover.src = data[index].cover.url;
-            collectionCover.onerror = function () {
-                this.onerror = null; // Pour éviter une boucle infinie si l'image de remplacement n'existe pas non plus
-                this.src = '/build/images/placeholder.jpg';
-            };
-            collectionCovers.appendChild(collectionCover);
+        if (data.length > 1) {
+            collectionCovers.style.display = '';
+            for (let i = 0; i < 2; i++) {
+                const index = (currentIndexCollection + i + 1) % data.length;
+                const collectionCover = document.createElement('img');
+                collectionCover.src = data[index].cover.url;
+                collectionCover.onerror = function () {
+                    this.onerror = null; // Pour éviter une boucle infinie si l'image de remplacement n'existe pas non plus
+                    this.src = '/build/images/placeholder.jpg';
+                };
+                collectionCovers.appendChild(collectionCover);
+            }
+        } else {
+            collectionCovers.style.display = 'none';
         }
 
 

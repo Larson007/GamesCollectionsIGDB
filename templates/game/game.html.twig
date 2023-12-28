@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+
 	<div class="body-content">
 
 
@@ -15,6 +16,7 @@
 			{% endif %}
 		</div>
 
+
 		<div class="fil_ariane">
 			<ul class="fil_ariane_list">
 				<li class="fil_ariane_list-item">détails du jeu</li>
@@ -23,7 +25,9 @@
 			</ul>
 		</div>
 
+
 		<div class="game-details">
+
 
 			<div class="game_presentation container p-0">
 				<div class="game_cover">
@@ -41,6 +45,8 @@
 					</div>
 				</div>
 			</div>
+
+
 			<div class="game_informations">
 				<div class="container p-0 game_informations-content">
 					<div class="game_rating">
@@ -140,4 +146,65 @@
 					</div>
 				</div>
 			{% endif %}
+
+
+			{% if medias.videos is defined or medias.screenshots is defined %}
+				<div class="game_medias container">
+					<nav class="medias_header">
+						{% if medias.videos is defined %}
+							<button id="media_button-video" class="media_nav-link media_nav-link-active">Vidéos</button>
+						{% endif %}
+						{% if medias.screenshots is defined %}
+							<button id="media_button-screenshot" class="media_nav-link">Capture d'écran</button>
+						{% endif %}
+					</nav>
+					<div class="medias_body">
+
+						{% if medias.videos is defined %}
+							<div class="media_videos">
+								<iframe src="https://www.youtube.com/embed/{{medias.videos[0].video_id}}" frameborder="0" allowfullscreen></iframe>
+							</div>
+
+							<div class="media_thumbnails">
+								{% for video in medias.videos %}
+									{% set videoId = video.video_id %}
+									{% set thumbnailUrl = "https://img.youtube.com/vi/" ~ videoId ~ "/0.jpg" %}
+									<div class="thumbnail {% if loop.index0 == 0 %}video_active{% endif %}" data-video-id="{{ video.video_id }}">
+										<img src="{{ thumbnailUrl }}" alt="Video thumbnail">
+										<h4>{{ video.name }}</h4>
+									</div>
+								{% endfor %}
+							</div>
+						{% endif %}
+
+						{% if medias.screenshots is defined %}
+							<div class="media_screenshots">
+								{% for screenshot in game.screenshots %}
+								<div class="screenshot">
+									<img id="item-{{ loop.index0 }}"  src={{ screenshot.url }} loading="lazy">
+								</div>
+								{% endfor %}
+							</div>
+						{% endif %}
+					</div>
+					<div class="videos_buttons">
+						<button id="video-previous">
+							<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+						</button>
+						<button id="video-next">
+							<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
+						</button>
+					</div>
+					{# <div class="screenshots_buttons">
+						<button id="screenshots-previous">
+							<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+						</button>
+						<button id="screenshots-next">
+							<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
+						</button>
+					</div> #}
+				</div>
+
+			{% endif %}
+
 		{% endblock %}

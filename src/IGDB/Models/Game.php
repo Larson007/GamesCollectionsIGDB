@@ -118,7 +118,7 @@ class Game
         if (isset($game['screenshots'])) {
             foreach ($game['screenshots'] as &$image) {
                 if (isset($image['url'])) {
-                    $image['url'] = $this->getImageUrl($image['url'], Size::SCREENSHOT_MEDIUM, true);
+                    $image['url'] = $this->getImageUrl($image['url'], Size::SCREENSHOT_BIG, false);
                 }
             }
         }
@@ -163,15 +163,15 @@ class Game
 
         franchises.name, 
         franchises.games.name, franchises.games.summary,franchises.games.category, franchises.games.cover.url, franchises.games.platforms.*,
-        franchises.games.version_parent,
+        franchises.games.version_parent, franchises.games.first_release_date,
 
         collection.name, 
         collection.games.name, collection.games.summary,collection.games.category, collection.games.cover.url, collection.games.platforms.*,
-        collection.games.version_parent,
+        collection.games.version_parent, collection.games.first_release_date,
 
-        dlcs.name, dlcs.summary, dlcs.category, dlcs.cover.url, dlcs.platforms.*,
+        dlcs.name, dlcs.summary, dlcs.category, dlcs.cover.url, dlcs.platforms.*, dlcs.first_release_date,
 
-        expansions.name, expansions.summary, expansions.category, expansions.cover.url, expansions.platforms.*;
+        expansions.name, expansions.summary, expansions.category, expansions.cover.url, expansions.platforms.*, expansions.first_release_date;
 
         where id = " . $gameId . " & franchises.games.version_parent = null
         ;
@@ -219,6 +219,35 @@ class Game
                 }
             }
         }
+
+        return $game;
+    }
+
+    public function gameMedias($gameId) {
+
+        $game = $this->igdbService->makeRequest('games', "
+        fields  
+        
+        name,
+
+        screenshots.*,
+        videos.name, videos.video_id;
+
+        where id = " . $gameId . "
+        ;
+        ");
+
+        $game =  $game[0];
+
+        // screenshots
+        if (isset($game['screenshots'])) {
+            foreach ($game['screenshots'] as &$image) {
+                if (isset($image['url'])) {
+                    $image['url'] = $this->getImageUrl($image['url'], Size::SCREENSHOT_HUGE, false);
+                }
+            }
+        }
+
 
         return $game;
     }
