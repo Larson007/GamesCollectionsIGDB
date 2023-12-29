@@ -25,20 +25,23 @@ class GameController extends AbstractController
         
         $collection = $this->game->gameCollection($id);
 
-        $franchiseGame = false; // Initialiser la variable à false
+        $collectionGame = false; // Initialiser la variable à false
 
         // Vérifier si 'franchises' existe dans $collection et si le premier élément contient 'games'
-        if (isset($collection['franchises'][0]['games']) && count($collection['franchises'][0]['games']) > 0) {
-            $franchiseGame = true; // Si game.franchises[0] contient des jeux, définir la variable à true
+        if (isset($collection['collection'][0]['games']) && count($collection['collection'][0]['games']) > 0) {
+            $collectionGame = true; // Si game.franchises[0] contient des jeux, définir la variable à true
         }
 
         $medias = $this->game->gameMedias($id);
 
+        $franchises = $this->game->gameFranchises($id);
+
         return $this->render('game/game.html.twig', [
             'game' => $game,
             'collection' => $collection,
-            'franchiseGame' => $franchiseGame,
-            'medias' => $medias
+            'collectionGame' => $collectionGame,
+            'medias' => $medias,
+            'franchises' => $franchises
         ]);
     }
 

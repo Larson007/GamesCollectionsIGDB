@@ -1,13 +1,5 @@
 export function gameCollections() {
 
-
-    // verfier sir la div avec la class game_collection existe
-    const gameCollection = document.querySelector('.game_collection');
-    if (!gameCollection) {
-        console.log('Pas de collection/dlcs/expansions pour ce jeu.');
-        return; // Arrête l'exécution de la fonction
-    }
-
     // Définir collectionType par défaut
     let collectionType;
 
@@ -25,39 +17,27 @@ export function gameCollections() {
                     const buttonId = this.id;
                     switch (buttonId) {
                         case 'collection_button-franchises':
-                            if (collectionNavButtonFranchises) {
+                            if (collectionNavButtonFranchises && collectionNavButtonDlcs && collectionNavButtonExpansions) {
                                 collectionNavButtonFranchises.classList.add('collection_nav-link-active');
-                            }
-                            if (collectionNavButtonDlcs) {
                                 collectionNavButtonDlcs.classList.remove('collection_nav-link-active');
-                            }
-                            if (collectionNavButtonExpansions) {
                                 collectionNavButtonExpansions.classList.remove('collection_nav-link-active');
                             }
-                            collectionType = 'collection';
+                            collectionType = 'franchises';
                             currentIndexCollection = 0;
                             break;
                         case 'collection_button-dlcs':
-                            if (collectionNavButtonFranchises) {
+                            if (collectionNavButtonFranchises && collectionNavButtonDlcs && collectionNavButtonExpansions) {
                                 collectionNavButtonFranchises.classList.remove('collection_nav-link-active');
-                            }
-                            if (collectionNavButtonDlcs) {
                                 collectionNavButtonDlcs.classList.add('collection_nav-link-active');
-                            }
-                            if (collectionNavButtonExpansions) {
                                 collectionNavButtonExpansions.classList.remove('collection_nav-link-active');
                             }
                             collectionType = 'dlcs';
                             currentIndexCollection = 0;
                             break;
                         case 'collection_button-expansions':
-                            if (collectionNavButtonFranchises) {
+                            if (collectionNavButtonFranchises && collectionNavButtonDlcs && collectionNavButtonExpansions) {
                                 collectionNavButtonFranchises.classList.remove('collection_nav-link-active');
-                            }
-                            if (collectionNavButtonDlcs) {
                                 collectionNavButtonDlcs.classList.remove('collection_nav-link-active');
-                            }
-                            if (collectionNavButtonExpansions) {
                                 collectionNavButtonExpansions.classList.add('collection_nav-link-active');
                             }
                             collectionType = 'expansions';
@@ -78,9 +58,9 @@ export function gameCollections() {
     let collectionData = JSON.parse(collectionBody.getAttribute('data-collection'));
     let data;
 
-    // si collectionData contient collection/dlcs/expansions
-    if (collectionData.collection) {
-        collectionType = 'collection';
+// si collectionData contient franchises/dlcs/expansions
+    if (collectionData.franchises) {  
+        collectionType = 'franchises';
         currentIndexCollection = 0;
     } else if (collectionData.dlcs) {
         collectionType = 'dlcs';
@@ -88,24 +68,24 @@ export function gameCollections() {
     } else if (collectionData.expansions) {
         collectionType = 'expansions';
         currentIndexCollection = 0;
-    }
+    }       
 
 
     function displayCollection(collectionType) {
-        // Vérifier si collection, dlcs ou expansions sont null
-        if (collectionData.collection === null || collectionData.dlcs === null || collectionData.expansions === null) {
-            console.error('Les données de collection, dlcs ou expansions sont manquantes.');
+        // Vérifier si franchises, dlcs ou expansions sont null
+        if (collectionData.franchises === null || collectionData.dlcs === null || collectionData.expansions === null) {
+            console.error('Les données de franchises, dlcs ou expansions sont manquantes.');
             return; // Arrête l'exécution de la fonction
         }
 
         switch (collectionType) {
-            case 'collection':
-
-                collectionData.collection.games = collectionData.collection.games
+            case 'franchises':
+                
+                collectionData.franchises[0].games = collectionData.franchises[0].games
                     .filter(game => game.category === 0 && !('version_parent' in game))
                     .sort((a, b) => b.first_release_date - a.first_release_date);
 
-                data = collectionData.collection.games;
+                data = collectionData.franchises[0].games;
                 // console.log(data);
                 break;
             case 'dlcs':
@@ -123,16 +103,16 @@ export function gameCollections() {
         const index = currentIndexCollection % data.length;
 
         const collectionInformations = document.querySelector('.left_informations');
-        if (collectionType === 'collection') {
-            // Affichage du titre de la collection collection
+        if (collectionType === 'franchises') {
+            // Affichage du titre de la collection Franchises
             const collectionFranchisesTitle = document.createElement('h3');
             collectionFranchisesTitle.classList.add('collection_franchises-title');
-            collectionFranchisesTitle.textContent = 'Jeux de la Collectin';
+            collectionFranchisesTitle.textContent = 'Jeux de la Franchises';
 
             // Affichage du nom de la collection
             const collectionFranchisesName = document.createElement('h4');
             collectionFranchisesName.classList.add('collection_franchises-name');
-            collectionFranchisesName.textContent = collectionData.collection.name;
+            collectionFranchisesName.textContent = collectionData.franchises[0].name;
 
             // Affichage du nom du jeu
             const collectionTitle = document.createElement('h2');
@@ -156,7 +136,7 @@ export function gameCollections() {
 
 
         } if (collectionType === 'dlcs') {
-            // Affichage du titre de la collection 
+            // Affichage du titre de la collection Franchises
             const collectionGameTitle = document.createElement('h3');
             collectionGameTitle.classList.add('collection_franchises-title');
             collectionGameTitle.textContent = 'DLCS';
@@ -180,7 +160,7 @@ export function gameCollections() {
             collectionInformations.appendChild(collectionTitle);
             collectionInformations.appendChild(collectionSummary);
         } if (collectionType === 'expansions') {
-            // Affichage du titre de la collection 
+            // Affichage du titre de la collection Franchises
             const collectionGameTitle = document.createElement('h3');
             collectionGameTitle.classList.add('collection_franchises-title');
             collectionGameTitle.textContent = 'Extansions';
@@ -231,12 +211,15 @@ export function gameCollections() {
         let linkElement = document.createElement('a');
         linkElement.href = `/game/${currentGame.id}`;
         let imgElement = document.createElement('img');
-        imgElement.src = currentGame.cover ? currentGame.cover.url : '/build/images/placeholder.jpg';
+        imgElement.src = currentGame.cover.url;
+        imgElement.onerror = function () {
+            this.onerror = null; // Pour éviter une boucle infinie si l'image de remplacement n'existe pas non plus
+            this.src = '/build/images/placeholder.jpg';
+        };
         imgElement.alt = currentGame.name;
 
         linkElement.appendChild(imgElement);
         collectionCoverActive.appendChild(linkElement);
-
 
         // Image de fond
         collectionCoverBackground.innerHTML = '';
@@ -249,10 +232,13 @@ export function gameCollections() {
         if (data.length > 1) {
             collectionCovers.style.display = '';
             for (let i = 0; i < 2; i++) {
-                const index = (currentIndexCollection + i + 1) % data.length; // Utilisation de l'opérateur modulo pour boucler sur le tableau
+                const index = (currentIndexCollection + i + 1) % data.length;
                 const collectionCover = document.createElement('img');
-                // Si nous sommes sur la dernière image active, afficher l'image du premier jeu
-                collectionCover.src = (currentIndexCollection === data.length - 1) ? data[i].cover.url : (data[index].cover ? data[index].cover.url : '/build/images/placeholder.jpg');
+                collectionCover.src = data[index].cover.url;
+                collectionCover.onerror = function () {
+                    this.onerror = null; // Pour éviter une boucle infinie si l'image de remplacement n'existe pas non plus
+                    this.src = '/build/images/placeholder.jpg';
+                };
                 collectionCovers.appendChild(collectionCover);
             }
         } else {
@@ -261,21 +247,6 @@ export function gameCollections() {
 
 
     }
-
-    //* Permet de savoir si on est sur la page collection, dlcs ou expansions pour lui mettre la class active
-    if (collectionNavButtonFranchises) {
-        collectionNavButtonFranchises.classList.add('collection_nav-link-active');
-        collectionType = 'collection';
-    } else if (collectionNavButtonDlcs) {
-        collectionNavButtonDlcs.classList.add('collection_nav-link-active');
-        collectionType = 'dlcs';
-    } else if (collectionNavButtonExpansions) {
-        collectionNavButtonExpansions.classList.add('collection_nav-link-active');
-        collectionType = 'expansions';
-    }
-    currentIndexCollection = 0;
-    displayCollection(collectionType);
-
     // Bouttons Next/Previous
     const collectionNextButton = document.querySelector('#collection-next');
     const collectionPreviousButton = document.querySelector('#collection-previous');

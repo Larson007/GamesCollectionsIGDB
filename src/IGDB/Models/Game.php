@@ -142,7 +142,7 @@ class Game
                 }
             }
         }
-        
+
         if (isset($game['dlcs'])) {
             foreach ($game['dlcs'] as &$dlc) {
                 if (isset($dlc['cover']['url'])) {
@@ -154,16 +154,13 @@ class Game
         return $game;
     }
 
-    public function gameCollection($gameId) {
+    public function gameCollection($gameId)
+    {
 
         $game = $this->igdbService->makeRequest('games', "
         fields  
         
         name,
-
-        franchises.name, 
-        franchises.games.name, franchises.games.summary,franchises.games.category, franchises.games.cover.url, franchises.games.platforms.*,
-        franchises.games.version_parent, franchises.games.first_release_date,
 
         collection.name, 
         collection.games.name, collection.games.summary,collection.games.category, collection.games.cover.url, collection.games.platforms.*,
@@ -179,18 +176,16 @@ class Game
 
         $game =  $game[0];
 
-        if (isset($game['franchises'])) {
-            foreach ($game['franchises'] as &$franchises) {
-                if (isset($franchises['games'])) {
-                    foreach ($franchises['games'] as &$franchise) {
-                        if (isset($franchise['cover']['url'])) {
-                            $franchise['cover']['url'] = $this->getImageUrl($franchise['cover']['url'], Size::COVER_BIG, false);
-                        }
-                    }
+
+        // collection
+        if (isset($game['collection']['games'])) {
+            foreach ($game['collection']['games'] as &$gameInCollection) {
+                if (isset($gameInCollection['cover']['url'])) {
+                    $gameInCollection['cover']['url'] = $this->getImageUrl($gameInCollection['cover']['url'], Size::COVER_BIG, false);
                 }
             }
         }
-        
+
         if (isset($game['dlcs'])) {
             foreach ($game['dlcs'] as &$dlc) {
                 if (isset($dlc['cover']['url'])) {
@@ -207,23 +202,11 @@ class Game
             }
         }
 
-        // collection
-        if (isset($game['collection'])) {
-            foreach ($game['collection'] as &$collection) {
-                if (isset($collection['games'])) {
-                    foreach ($collection['games'] as &$game) {
-                        if (isset($game['cover']['url'])) {
-                            $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, false);
-                        }
-                    }
-                }
-            }
-        }
-
         return $game;
     }
 
-    public function gameMedias($gameId) {
+    public function gameMedias($gameId)
+    {
 
         $game = $this->igdbService->makeRequest('games', "
         fields  
@@ -244,6 +227,40 @@ class Game
             foreach ($game['screenshots'] as &$image) {
                 if (isset($image['url'])) {
                     $image['url'] = $this->getImageUrl($image['url'], Size::SCREENSHOT_HUGE, false);
+                }
+            }
+        }
+
+
+        return $game;
+    }
+
+    public function gameFranchises($gameId)
+    {
+
+        $game = $this->igdbService->makeRequest('games', "
+        fields  
+        
+        name,
+
+        franchises.name, 
+        franchises.games.name, franchises.games.summary,franchises.games.category, franchises.games.cover.url, franchises.games.platforms.*,
+        franchises.games.version_parent, franchises.games.first_release_date;
+
+        where id = " . $gameId . "
+        ;
+        ");
+
+        $game =  $game[0];
+
+        if (isset($game['franchises'])) {
+            foreach ($game['franchises'] as &$franchises) {
+                if (isset($franchises['games'])) {
+                    foreach ($franchises['games'] as &$franchise) {
+                        if (isset($franchise['cover']['url'])) {
+                            $franchise['cover']['url'] = $this->getImageUrl($franchise['cover']['url'], Size::COVER_BIG, false);
+                        }
+                    }
                 }
             }
         }

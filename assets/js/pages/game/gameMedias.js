@@ -12,6 +12,8 @@ export function gameMedias() {
         dots: true,
         infinite: true,
         speed: 300,
+        autoplay: true,
+        autoplaySpeed: 2000,
         slidesToShow: 1,
         centerMode: true,
         variableWidth: true
@@ -19,6 +21,7 @@ export function gameMedias() {
 
 
     // ajouter un event listener sur les boutons et gerer la class active
+    const medias = document.querySelector('.game_medias');
     let navButtonVideo = document.querySelector('#media_button-video');
     let navButtonScreenshot = document.querySelector('#media_button-screenshot');
     const gameMediasVideo = document.querySelector('.media_videos');
@@ -38,13 +41,14 @@ export function gameMedias() {
 
                 switch (this.id) {
                     case 'media_button-video':
-
+                    // medias.style.height = '690px';
                         gameMediasVideo.style.display = 'flex';
                         gameMediasThumbnail.style.display = 'block';
                         gameMediasScreenshot.style.display = 'none';
                         gameMediasVideoButtons.style.display = 'flex';
                         break;
                     case 'media_button-screenshot':
+                        
                         gameMediasScreenshot.style.display = 'block';
                         gameMediasVideo.style.display = 'none';
                         gameMediasThumbnail.style.display = 'none';

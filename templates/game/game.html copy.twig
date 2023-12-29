@@ -103,11 +103,11 @@
 			</div>
 
 
-			{% if collectionGame == true or game.dlcs is defined or game.expansions is defined  %}
+			{% if franchiseGame == true or game.dlcs is defined or game.expansions is defined  %}
 				<div class="game_collection container">
 					<nav class="collection_header">
-						{% if game.collection is defined %}
-							<button id="collection_button-franchises" class="collection_nav-link collection_nav-link-active">collection</button>
+						{% if game.franchises is defined %}
+							<button id="collection_button-franchises" class="collection_nav-link collection_nav-link-active">franchises</button>
 						{% endif %}
 						{% if game.dlcs is defined %}
 							<button id="collection_button-dlcs" class="collection_nav-link">dlcs</button>
@@ -180,9 +180,9 @@
 						{% if medias.screenshots is defined %}
 							<div class="media_screenshots">
 								{% for screenshot in game.screenshots %}
-									<div class="screenshot">
-										<img id="item-{{ loop.index0 }}" src={{ screenshot.url }} loading="lazy">
-									</div>
+								<div class="screenshot">
+									<img id="item-{{ loop.index0 }}"  src={{ screenshot.url }} loading="lazy">
+								</div>
 								{% endfor %}
 							</div>
 						{% endif %}
@@ -195,18 +195,16 @@
 							<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
 						</button>
 					</div>
+					{# <div class="screenshots_buttons">
+						<button id="screenshots-previous">
+							<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+						</button>
+						<button id="screenshots-next">
+							<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
+						</button>
+					</div> #}
 				</div>
+
 			{% endif %}
 
-			{% if franchises is defined %}
-				<div class="game_franchises container">
-					<h2>Franchises</h2>
-				</div>
-			{% endif %}
-
-
-		</div>
-
-
-	</div>
-{% endblock %}
+		{% endblock %}
