@@ -217,13 +217,13 @@
                 display: flex;
                 flex-flow: column nowrap;
                 padding: 4rem 13rem 2rem 4rem;
-                .collection_franchises-title {
+                .collection_series-title {
                     color: #888;
                     font-weight: bolder;
                     font-size: 1.25rem;
                     text-transform: uppercase;
                 }
-                .collection_franchises-name {
+                .collection_series-name {
                     font-size: 2rem;
                     font-weight: bolder;
                 }
@@ -398,7 +398,6 @@
         }
         .media_nav-link-active {
             border-bottom: 1px solid #eee;
-
         }
     }
     .medias_body {
@@ -406,7 +405,7 @@
         flex-flow: row nowrap;
         width: 100%;
         height: 100%;
-        
+
         //* voir background top
         // background-color: #eee;
         // padding-top: 100px;
@@ -424,7 +423,7 @@
                 height: 100%;
             }
         }
-        
+
         .media_thumbnails {
             width: 20%;
             height: 100%;
@@ -456,7 +455,9 @@
                 align-items: center;
                 margin-bottom: 1.125rem;
                 img {
-                    transition: opacity 0.5s ease, transform 0.5s ease;
+                    transition:
+                        opacity 0.5s ease,
+                        transform 0.5s ease;
                     opacity: 0.7;
                     transform: scale(0.9);
                     width: 50%;
@@ -484,8 +485,8 @@
         }
 
         .media_screenshots {
-            // display: block;  
-            display: none;  
+            // display: block;
+            display: none;
             height: auto;
             width: 100%;
             padding-top: 100px;
@@ -618,6 +619,254 @@
             top: 50%;
             right: -65px;
             transform: translate(-50%, 50%);
+        }
+    }
+}
+
+.game_franchises {
+    position: relative;
+    width: 100%;
+    height: 750px;
+    background-color: #3a3a3a;
+    margin-bottom: 10rem;
+    padding: 0;
+    .franchises_header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 165px;
+        width: 80%;
+        .franchises-title {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            background-color: #3a3a3a;
+            padding-left: 2rem;
+            h4 {
+                font-size: 1.125rem;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: #eee;
+            }
+        }
+        .franchises_nav {
+            width: 100%;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            background-color: #eee;
+            padding-left: 2rem;
+            button {
+                font-size: 1.125rem;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: #3a3a3a;
+                border: none;
+                background-color: transparent;
+                text-decoration: none;
+                margin-right: 2rem;
+            }
+        }
+    }
+    .franchises_body {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        .franchise_detail {
+            margin-top: 165px;
+            background-color: #3a3a3a;
+            width: 80%;
+            height: auto;
+            display: flex;
+            flex-flow: row wrap;
+            .franchise_detail-cover {
+                height: auto;
+                width: 30%;
+                border-radius: 3px;
+                display: flex;
+                flex-flow: column nowrap;
+                padding: 3rem 0 0 4rem;
+                img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 3px;
+                }
+                .add_collections {
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0 2rem;
+                    margin-top: 1rem;
+                }
+            }
+            .franchise_detail-body {
+                position: relative;
+                height: auto;
+                width: 70%;
+                padding: 3rem 4rem 0 2rem;
+                .franchise_detail-title{
+                    a {
+                        text-decoration: none;
+                        h3 {
+                            color: #eee;
+                            font-size: 1.75rem;
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            margin-bottom: 1.5rem;
+                        }
+                    }
+                }
+                .franchise_detail-summary {
+                    color: #888;
+                    font-size: 0.95rem;
+                    margin-bottom: 2rem;
+                }
+                .franchise_detail-released {
+                    position: absolute;
+                    bottom: 0;
+                    right: 4rem;
+
+                }
+            }
+            .franchise_detail-platforms {
+                width: 100%;
+                height: auto;
+                padding: 3rem 4rem;
+                .franchise-platforms {
+                    width: 100%;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    align-items: center;
+                    p {
+                        margin-right: 1rem;
+                        color: #eee;
+                        font-size: 1rem;
+                        font-weight: bolder;
+                    }
+                }
+            }
+        }
+
+        .franchises_body-list {
+            background-color: #eee;
+            width: 20%;
+            height: auto;
+            padding: 2rem;
+            overflow-y: auto;
+            z-index: 10;
+            margin-left: auto;
+
+            /* Personnalisation de la barre de défilement */
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: #eee;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: #888;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            .franchise_card {
+                position: relative;
+                display: flex;
+                margin-bottom: 2rem;
+                flex-flow: row nowrap;
+                .franchise_card-cover {
+                    width: 40%;
+                    height: 100%;
+                    border-radius: 3px;
+                    border: 2px solid transparent;
+                    opacity: 0.7;
+                    img {
+                        width: 100%;
+                        height: auto;
+                        border-radius: 3px;
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .franchise_card-body {
+                    width: 60%;
+                    height: 100%;
+                    padding-left: 1rem;
+                    h3 {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        width: 50%;
+                        font-size: 0.8rem;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        color: #888;
+                        text-decoration: none;
+                    }
+                    p {
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                        width: 50%;
+                        font-size: 0.7rem;
+                        color: #888;
+                        text-align: end;
+                    }
+                }
+            }
+            .franchise_card-active {
+                h3 {
+                    color: #3a3a3a;
+                }
+                .franchise_card-cover{
+                    opacity: 1;
+                    border: 2px solid $nintendo;
+                    
+                }
+            }
+        }
+    }
+
+    .franchises_buttons {
+        z-index: 20;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+        height: 65px;
+        width: 200px;
+        z-index: 10;
+        background-color: $yellow;
+        display: flex;
+        // display: none;
+        flex-flow: row nowrap;
+        justify-content: end;
+        align-items: center;
+        button {
+            background-color: $yellow;
+            width: 65px;
+            height: 100%;
+            border: none;
+            &:hover {
+                background-color: darken($yellow, 5%);
+                // opacity: 0.2;
+            }
+            svg {
+                width: 25%;
+                height: auto;
+            }
+        }
+        #franchise-previous {
+            border-right: 1px solid #3a3a3a;
         }
     }
 }

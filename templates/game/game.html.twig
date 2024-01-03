@@ -107,7 +107,7 @@
 				<div class="game_collection container">
 					<nav class="collection_header">
 						{% if game.collection is defined %}
-							<button id="collection_button-franchises" class="collection_nav-link collection_nav-link-active">collection</button>
+							<button id="collection_button-series" class="collection_nav-link collection_nav-link-active">collection</button>
 						{% endif %}
 						{% if game.dlcs is defined %}
 							<button id="collection_button-dlcs" class="collection_nav-link">dlcs</button>
@@ -198,9 +198,90 @@
 				</div>
 			{% endif %}
 
-			{% if franchises is defined %}
+
+			{% if franchises is defined  %}
 				<div class="game_franchises container">
-					<h2>Franchises</h2>
+					{# {% set franchiseSelected = franchises.franchises[0] %} #}
+					{# {% set franchiseGame = franchiseSelected.games[0] %} #}
+					<div class="franchises_header">
+						<div class="franchises-title">
+							<h4>Franchise(s) de
+								{{franchises.name}}</h4>
+						</div>
+						<nav class="franchises_nav">
+							{% for franchise in franchises.franchises %}
+							{% if franchise.games is defined %}
+								<button id="{{franchise.id}}" class="franchises_nav-buttons">{{franchise.name}}</button>
+							{% endif %}
+							{% endfor %}
+						</nav>
+					</div>
+					<div class="franchises_body" data-franchises="{{ franchises.franchises|json_encode|e('html_attr') }}">
+
+						<div class="franchise_detail">
+							{# <div class="franchise_detail-cover">
+								<img src="{{franchiseGame.cover.url}}" alt="cover de {{franchiseGame.name}}">
+								<div class="add_collections">
+									<button class="add_collections-collection">add</button>
+									<button class="add_collections-like">like</button>
+									<button class="add_collections-wishlist">wish</button>
+								</div>
+							</div>
+							<div class="franchise_detail-body">
+								<div class="franchise_detail-title">
+									<a href="{{ path('game', {id: franchiseGame.id}) }}">
+										<h3>{{franchiseGame.name}}</h3>
+									</a>
+								</div>
+								<div class="franchise_detail-summary">
+									<p>{{franchiseGame.summary}}</p>
+								</div>
+								<div class="franchise_detail-released">
+									<p>{{franchiseGame.first_release_date|date("d/m/Y")}}</p>
+								</div>
+							</div>
+							<div class="franchise_detail-platforms">
+								<h3>Platformes Displonibles :</h3>
+								<div class="franchise-platforms">
+									{% for platform in franchiseGame.platforms %}
+										<p>{{ platform.abbreviation|default(platform.name) }}</p>
+									{% endfor %}
+								</div>
+							</div> #}
+						</div>
+
+
+						<div class="franchises_body-list">
+							<div class="franchises_list-game">
+								{# {% for game in franchiseSelected.games %}
+										{% if game.first_release_date is defined %}
+											<div class="franchise_card">
+												<div class="franchise_card-cover">
+													<img src="{{game.cover.url}}" alt="cover de {{game.name}}">
+												</div>
+												<div class="franchise_card-body">
+													<div class="franchise_card-title">
+														<a href="{{ path('game', {id: game.id}) }}">{{game.name}}</a>
+													</div>
+													<div class="franchise_card-released">
+														<p>{{game.first_release_date|date("d/m/Y")}}</p>
+													</div>
+												</div>
+											</div>
+										{% endif %}
+								{% endfor %} #}
+							</div>
+						</div>
+
+					</div>
+					<div class="franchises_buttons">
+						<button id="franchise-previous">
+							<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+						</button>
+						<button id="franchise-next">
+							<svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M184 112l144 144-144 144"/></svg>
+						</button>
+					</div>
 				</div>
 			{% endif %}
 

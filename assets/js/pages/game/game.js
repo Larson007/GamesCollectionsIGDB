@@ -1,6 +1,7 @@
 import { gameNavInfos } from './gameNavInfos.js';
 import { gameCollections } from './gameCollections.js';
 import { gameMedias } from './gameMedias.js';
+import { gameFranchises } from './gameFranchises.js';
 
 export function initGame() {
 
@@ -14,6 +15,7 @@ export function initGame() {
         gameNavInfos();
         gameCollections();
         gameMedias();
+        gameFranchises();
         
     
     });
