@@ -17,11 +17,52 @@
 		</div>
 
 
-		<div class="fil_ariane">
-			<ul class="fil_ariane_list">
-				<li class="fil_ariane_list-item">détails du jeu</li>
-				<li class="fil_ariane_list-item">collections</li>
-				<li class="fil_ariane_list-item">médias</li>
+		<div class="scroll_menu">
+			<ul class="scroll_menu_list">
+				<li class="scroll_menu_list-item">
+					<button id="scroll-game_informations">détails du jeu</button>
+				</li>
+
+				{% if collectionGame == true and game.dlcs is defined and game.expansions is defined %}
+					<li class="scroll_menu_list-item">                    
+						<button id="scroll-game_collection">Collection / dlcs / expansions</button>
+					</li>
+				{% elseif collectionGame == true and game.dlcs is defined %}
+					<li class="scroll_menu_list-item">                    
+						<button id="scroll-game_collection">Collection / dlcs / expansions</button>
+					</li>
+				{% elseif collectionGame == true and game.expansions is defined %}
+					<li class="scroll_menu_list-item">                    
+						<button id="scroll-game_collection">Collection / expansions</button>
+					</li>
+				{% elseif game.dlcs is defined and game.expansions is defined %}
+					<li class="scroll_menu_list-item">                    
+						<button id="scroll-game_collection">dlcs / expansions</button>
+					</li>
+				{% elseif collectionGame == true %}
+					<li class="scroll_menu_list-item">                    
+						<button id="scroll-game_collection">Collection</button>
+					</li>
+				{% elseif game.dlcs is defined %}
+					<li class="scroll_menu_list-item">                    
+						<button id="scroll-game_collection">dlcs</button>
+					</li>
+				{% elseif game.expansions is defined %}
+					<li class="scroll_menu_list-item">                    
+						<button id="scroll-game_collection">expansions</button>
+					</li>
+				{% endif %}
+				
+				{% if medias.videos is defined or medias.screenshots is defined %}
+					<li class="scroll_menu_list-item">
+						<button id="scroll-game_medias">Médias</button>
+					</li>
+				{% endif %}
+				{% if franchisesGame == true and franchises is defined  %}
+					<li class="scroll_menu_list-item">
+						<button id="scroll-game_franchises">Franchises</button>
+					</li>
+				{% endif %}
 			</ul>
 		</div>
 
@@ -203,73 +244,72 @@
 				<div class="game_franchises container">
 					{# {% set franchiseSelected = franchises.franchises[0] %} #}
 					{# {% set franchiseGame = franchiseSelected.games[0] %} #}
-					<div class="franchises_header">
-						<div class="franchises-title">
+						<div class="franchises_header"> <div class="franchises-title">
 							<h4>Franchise(s) de
 								{{franchises.name}}</h4>
 						</div>
 						<nav class="franchises_nav">
 							{% for franchise in franchises.franchises %}
-							{% if franchise.games is defined %}
-								<button id="{{franchise.id}}" class="franchises_nav-buttons">{{franchise.name}}</button>
-							{% endif %}
+								{% if franchise.games is defined %}
+									<button id="{{franchise.id}}" class="franchises_nav-buttons">{{franchise.name}}</button>
+								{% endif %}
 							{% endfor %}
 						</nav>
 					</div>
 					<div class="franchises_body" data-franchises="{{ franchises.franchises|json_encode|e('html_attr') }}">
 
-						<div class="franchise_detail">
-							{# <div class="franchise_detail-cover">
-								<img src="{{franchiseGame.cover.url}}" alt="cover de {{franchiseGame.name}}">
-								<div class="add_collections">
-									<button class="add_collections-collection">add</button>
-									<button class="add_collections-like">like</button>
-									<button class="add_collections-wishlist">wish</button>
-								</div>
-							</div>
-							<div class="franchise_detail-body">
-								<div class="franchise_detail-title">
-									<a href="{{ path('game', {id: franchiseGame.id}) }}">
-										<h3>{{franchiseGame.name}}</h3>
-									</a>
-								</div>
-								<div class="franchise_detail-summary">
-									<p>{{franchiseGame.summary}}</p>
-								</div>
-								<div class="franchise_detail-released">
-									<p>{{franchiseGame.first_release_date|date("d/m/Y")}}</p>
-								</div>
-							</div>
-							<div class="franchise_detail-platforms">
-								<h3>Platformes Displonibles :</h3>
-								<div class="franchise-platforms">
-									{% for platform in franchiseGame.platforms %}
-										<p>{{ platform.abbreviation|default(platform.name) }}</p>
-									{% endfor %}
-								</div>
-							</div> #}
+						<div
+							class="franchise_detail">{# <div class="franchise_detail-cover">
+																																<img src="{{franchiseGame.cover.url}}" alt="cover de {{franchiseGame.name}}">
+																																<div class="add_collections">
+																																	<button class="add_collections-collection">add</button>
+																																	<button class="add_collections-like">like</button>
+																																	<button class="add_collections-wishlist">wish</button>
+																																</div>
+																															</div>
+																															<div class="franchise_detail-body">
+																																<div class="franchise_detail-title">
+																																	<a href="{{ path('game', {id: franchiseGame.id}) }}">
+																																		<h3>{{franchiseGame.name}}</h3>
+																																	</a>
+																																</div>
+																																<div class="franchise_detail-summary">
+																																	<p>{{franchiseGame.summary}}</p>
+																																</div>
+																																<div class="franchise_detail-released">
+																																	<p>{{franchiseGame.first_release_date|date("d/m/Y")}}</p>
+																																</div>
+																															</div>
+																															<div class="franchise_detail-platforms">
+																																<h3>Platformes Displonibles :</h3>
+																																<div class="franchise-platforms">
+																																	{% for platform in franchiseGame.platforms %}
+																																		<p>{{ platform.abbreviation|default(platform.name) }}</p>
+																																	{% endfor %}
+																																</div>
+																															</div> #}
 						</div>
 
 
 						<div class="franchises_body-list">
-							<div class="franchises_list-game">
-								{# {% for game in franchiseSelected.games %}
-										{% if game.first_release_date is defined %}
-											<div class="franchise_card">
-												<div class="franchise_card-cover">
-													<img src="{{game.cover.url}}" alt="cover de {{game.name}}">
-												</div>
-												<div class="franchise_card-body">
-													<div class="franchise_card-title">
-														<a href="{{ path('game', {id: game.id}) }}">{{game.name}}</a>
-													</div>
-													<div class="franchise_card-released">
-														<p>{{game.first_release_date|date("d/m/Y")}}</p>
-													</div>
-												</div>
-											</div>
-										{% endif %}
-								{% endfor %} #}
+							<div
+								class="franchises_list-game">{# {% for game in franchiseSelected.games %}
+																																					{% if game.first_release_date is defined %}
+																																						<div class="franchise_card">
+																																							<div class="franchise_card-cover">
+																																								<img src="{{game.cover.url}}" alt="cover de {{game.name}}">
+																																							</div>
+																																							<div class="franchise_card-body">
+																																								<div class="franchise_card-title">
+																																									<a href="{{ path('game', {id: game.id}) }}">{{game.name}}</a>
+																																								</div>
+																																								<div class="franchise_card-released">
+																																									<p>{{game.first_release_date|date("d/m/Y")}}</p>
+																																								</div>
+																																							</div>
+																																						</div>
+																																					{% endif %}
+																																			{% endfor %} #}
 							</div>
 						</div>
 

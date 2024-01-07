@@ -15,14 +15,30 @@
     }
 }
 
-.fil_ariane {
-    position: absolute;
-    top: 40%;
-    right: 10%;
-    .fil_ariane_list {
+.scroll_menu {
+    z-index: 110;
+    position: fixed;
+    top: 35%;
+    left: 86%;
+    transition: top 0.1s ease;
+    .scroll_menu_list {
         list-style: none;
         padding: 0;
-        .fil_ariane_list-item {
+        margin: 0;
+        .scroll_menu_list-item {
+            button {
+                text-transform: uppercase;
+                background-color: transparent;
+                border: none;
+                color: #888;
+            }
+        }
+        .scroll-active {
+            button {
+                font-weight: bolder;
+                color: $yellow;
+                text-shadow: $text-shadow;
+            }
         }
     }
 }

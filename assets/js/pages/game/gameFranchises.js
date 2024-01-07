@@ -17,7 +17,7 @@ export function gameFranchises() {
         let franchise = data.find(franchise => franchise.id == franchiseId);
 
         games = franchise.games
-            .filter(game => game.category === 0 && game.version_parent === undefined)
+            .filter(game => game.category === 0 && game.version_parent === undefined && game.cover !== undefined)
             .sort((a, b) => (b.first_release_date || 0) - (a.first_release_date || 0));
 
         let html = games.map((game, index) => {
@@ -25,7 +25,7 @@ export function gameFranchises() {
                 return `
                     <div class="franchise_card ${index === currentGameIndex ? 'franchise_card-active' : ''}" data-game-id="${game.id}">
                         <div class="franchise_card-cover">
-                            <img src="${game.cover.url}" alt="cover de ${game.name}" loading='lazy'>
+                            <img src="${game.cover ? game.cover.url : 'public/build/images/placeholder.jpg'}" alt="cover de ${game.name}" loading='lazy'>
                         </div>
                         <div class="franchise_card-body">
                             <div class="franchise_card-title">
@@ -49,7 +49,7 @@ export function gameFranchises() {
         let html = `
 
                 <div class="franchise_detail-cover">
-                    <img src="${game.cover.url}" alt="cover de ${game.name}">
+                <img src="${game.cover ? game.cover.url : 'public/build/images/placeholder.jpg'}" alt="cover de ${game.name}" loading='lazy'>
                     <div class="add_collections">
                         <button class="add_collections-collection">add</button>
                         <button class="add_collections-like">like</button>

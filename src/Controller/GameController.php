@@ -36,6 +36,7 @@ class GameController extends AbstractController
         $franchisesGame = false; // Initialiser la variable à false
 
 
+
         if (isset($franchises['franchises'])) {
             foreach ($franchises['franchises'] as $franchise) {
                 if (isset($franchise['games']) && count($franchise['games']) > 0) {
