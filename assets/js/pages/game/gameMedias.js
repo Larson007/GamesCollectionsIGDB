@@ -82,9 +82,6 @@ export function gameMedias() {
 
         // Ajoute la classe 'video_active' à la vignette active
         thumbnails[activeIndex].classList.add('video_active');
-
-        // Fait défiler la page pour suivre la vignette active
-        thumbnails[activeIndex].scrollIntoView({ behavior: 'smooth' });
     }
 
     prevButton.addEventListener('click', () => {

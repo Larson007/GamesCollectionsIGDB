@@ -235,6 +235,7 @@ header {
 .link-search {
     span {
         height: 100%;
+        width: 100%;
         form {
             display: flex;
             flex-flow: row nowrap;
@@ -258,6 +259,13 @@ header {
             input::placeholder {
                 color: $nav-text;
                 font-weight: bolder;
+            }
+            //* Background color input autocomplete
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover, 
+            input:-webkit-autofill:focus, 
+            input:-webkit-autofill:active  {
+                -webkit-box-shadow: 0 0 0 30px $nav-item-bg inset, 0 0 0 1px $nav-item-border !important;
             }
         }
     }

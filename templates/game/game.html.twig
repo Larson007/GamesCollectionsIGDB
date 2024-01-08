@@ -24,35 +24,35 @@
 				</li>
 
 				{% if collectionGame == true and game.dlcs is defined and game.expansions is defined %}
-					<li class="scroll_menu_list-item">                    
+					<li class="scroll_menu_list-item">
 						<button id="scroll-game_collection">Collection / dlcs / expansions</button>
 					</li>
 				{% elseif collectionGame == true and game.dlcs is defined %}
-					<li class="scroll_menu_list-item">                    
+					<li class="scroll_menu_list-item">
 						<button id="scroll-game_collection">Collection / dlcs / expansions</button>
 					</li>
 				{% elseif collectionGame == true and game.expansions is defined %}
-					<li class="scroll_menu_list-item">                    
+					<li class="scroll_menu_list-item">
 						<button id="scroll-game_collection">Collection / expansions</button>
 					</li>
 				{% elseif game.dlcs is defined and game.expansions is defined %}
-					<li class="scroll_menu_list-item">                    
+					<li class="scroll_menu_list-item">
 						<button id="scroll-game_collection">dlcs / expansions</button>
 					</li>
 				{% elseif collectionGame == true %}
-					<li class="scroll_menu_list-item">                    
+					<li class="scroll_menu_list-item">
 						<button id="scroll-game_collection">Collection</button>
 					</li>
 				{% elseif game.dlcs is defined %}
-					<li class="scroll_menu_list-item">                    
+					<li class="scroll_menu_list-item">
 						<button id="scroll-game_collection">dlcs</button>
 					</li>
 				{% elseif game.expansions is defined %}
-					<li class="scroll_menu_list-item">                    
+					<li class="scroll_menu_list-item">
 						<button id="scroll-game_collection">expansions</button>
 					</li>
 				{% endif %}
-				
+
 				{% if medias.videos is defined or medias.screenshots is defined %}
 					<li class="scroll_menu_list-item">
 						<button id="scroll-game_medias">Médias</button>
@@ -91,9 +91,23 @@
 			<div class="game_informations">
 				<div class="container p-0 game_informations-content">
 					<div class="game_rating">
-						{% if game.rating is defined %}
-							<p>{{game.rating}}</p>
-						{% endif %}
+						<h3 class="game_rating-title">Notes</h3>
+						<div class="game_rating-graph">
+							{% if game.rating is defined %}
+								<canvas id="myCanvas" data-rating="{{ game.rating|round }}" width="150" height="150"></canvas>
+								{% if game.rating|round >= 75 %}
+									<p class="rating-green">{{ game.rating|round }}%</p>
+								{% elseif game.rating|round >= 50 %}
+									<p class="rating-blue">{{ game.rating|round }}%</p>
+								{% elseif game.rating|round >= 25 %}
+									<p class="rating-yellow">{{ game.rating|round }}%</p>
+								{% else %}
+									<p class="rating-red">{{ game.rating|round }}%</p>
+								{% endif %}
+							{% else %}
+								<p class="rating-null">N/A</p>
+							{% endif %}
+						</div>
 					</div>
 					<div class="informations">
 						<div class="information_header">
@@ -113,31 +127,111 @@
 							</nav>
 						</div>
 						<div class="information_body">
+
 							<div id="infos" class="information_body-content information_body-content-active">
 								<p>Information</p>
 							</div>
-							<div id="histoire" class="information_body-content">
 
-								{% if game.summary is defined %}
-									<div class="game_summary">
-										<h3>Résumé :</h3>
-										<p>{{game.summary}}</p>
-									</div>
-								{% endif %}
-								{% if game.storyline is defined %}
-									<div class="game_storyline">
-										<h3>Histoire :</h3>
-										<p>{{game.storyline}}</p>
-									</div>
-								{% endif %}
+							{% if game.summary is defined or game.storyline is defined %}
+								<div id="histoire" class="information_body-content">
+									{% if game.summary is defined %}
+										<div class="game_summary">
+											<h3>Résumé :</h3>
+											<p>{{game.summary}}</p>
+										</div>
+									{% endif %}
+									{% if game.storyline is defined %}
+										<div class="game_storyline">
+											<h3>Histoire :</h3>
+											<p>{{game.storyline}}</p>
+										</div>
+									{% endif %}
+								</div>
+							{% endif %}
 
-							</div>
-							<div id="teams" class="information_body-content">
-								<p>éditeur(s)/développeur(s)</p>
-							</div>
-							<div id="liens-externes" class="information_body-content">
-								<p>liens externes</p>
-							</div>
+							{% if game.involved_companies is defined %}
+								<div id="teams" class="information_body-content">
+
+									{% set hasDeveloper = game.involved_companies|filter(company => company.developer == true)|length > 0 %}
+									{% set hasPublisher = game.involved_companies|filter(company => company.publisher == true)|length > 0 %}
+									{% set hasSupporting = game.involved_companies|filter(company => company.supporting == true)|length > 0 %}
+									{% set hasPorting = game.involved_companies|filter(company => company.porting == true)|length > 0 %}
+
+									{% if hasDeveloper %}
+										<div class="teams_developper">
+											<h4>Développeur</h4>
+											<div class="teams-link">
+												{% for companies in game.involved_companies %}
+													{% if companies.developer == true %}
+														{% for teamWebsite in companies.company.websites %}
+															<a href="{{teamWebsite.url}}">{{companies.company.name}}</a>
+														{% endfor %}
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+
+									{% if hasPublisher %}
+										<div class="teams_publisher">
+											<h4>publisher</h4>
+											<div class="teams-link">
+												{% for companies in game.involved_companies %}
+													{% if companies.publisher == true %}
+														{% for teamWebsite in companies.company.websites %}
+															<a href="{{teamWebsite.url}}">{{companies.company.name}}</a>
+														{% endfor %}
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+
+									{% if hasSupporting %}
+										<div class="teams_supporting">
+											<h4>supporting</h4>
+											<div class="teams-link">
+												{% for companies in game.involved_companies %}
+													{% if companies.supporting == true %}
+														{% for teamWebsite in companies.company.websites %}
+															<a href="{{teamWebsite.url}}">{{companies.company.name}}</a>
+														{% endfor %}
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+
+									{% if hasPorting %}
+										<div class="teams_porting">
+											<h4>porting</h4>
+											<div class="teams-link">
+												{% for companies in game.involved_companies %}
+													{% if companies.porting == true %}
+														{% for teamWebsite in companies.company.websites %}
+															<a href="{{teamWebsite.url}}">{{companies.company.name}}</a>
+														{% endfor %}
+													{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+								</div>
+							{% endif %}
+
+							{% if game.websites is defined %}
+								<div id="liens-externes" class="information_body-content">
+									<div class="websites">
+										{% for website in game.websites %}
+											<a class="website_item" href="{{website.url}}">
+												<img class="website_item-logo" src="{{asset(website.image)}}" alt="logo de {{website.category}}">
+												<p class="website_item-name">{{website.category}}</p>
+											</a>
+										{% endfor %}
+									</div>
+								</div>
+							{% endif %}
+							
 						</div>
 					</div>
 				</div>
@@ -260,56 +354,56 @@
 
 						<div
 							class="franchise_detail">{# <div class="franchise_detail-cover">
-																																<img src="{{franchiseGame.cover.url}}" alt="cover de {{franchiseGame.name}}">
-																																<div class="add_collections">
-																																	<button class="add_collections-collection">add</button>
-																																	<button class="add_collections-like">like</button>
-																																	<button class="add_collections-wishlist">wish</button>
-																																</div>
-																															</div>
-																															<div class="franchise_detail-body">
-																																<div class="franchise_detail-title">
-																																	<a href="{{ path('game', {id: franchiseGame.id}) }}">
-																																		<h3>{{franchiseGame.name}}</h3>
-																																	</a>
-																																</div>
-																																<div class="franchise_detail-summary">
-																																	<p>{{franchiseGame.summary}}</p>
-																																</div>
-																																<div class="franchise_detail-released">
-																																	<p>{{franchiseGame.first_release_date|date("d/m/Y")}}</p>
-																																</div>
-																															</div>
-																															<div class="franchise_detail-platforms">
-																																<h3>Platformes Displonibles :</h3>
-																																<div class="franchise-platforms">
-																																	{% for platform in franchiseGame.platforms %}
-																																		<p>{{ platform.abbreviation|default(platform.name) }}</p>
-																																	{% endfor %}
-																																</div>
-																															</div> #}
+																																																																																																																																																																																																																<img src="{{franchiseGame.cover.url}}" alt="cover de {{franchiseGame.name}}">
+																																																																																																																																																																																																																<div class="add_collections">
+																																																																																																																																																																																																																	<button class="add_collections-collection">add</button>
+																																																																																																																																																																																																																	<button class="add_collections-like">like</button>
+																																																																																																																																																																																																																	<button class="add_collections-wishlist">wish</button>
+																																																																																																																																																																																																																</div>
+																																																																																																																																																																																																															</div>
+																																																																																																																																																																																																															<div class="franchise_detail-body">
+																																																																																																																																																																																																																<div class="franchise_detail-title">
+																																																																																																																																																																																																																	<a href="{{ path('game', {id: franchiseGame.id}) }}">
+																																																																																																																																																																																																																		<h3>{{franchiseGame.name}}</h3>
+																																																																																																																																																																																																																	</a>
+																																																																																																																																																																																																																</div>
+																																																																																																																																																																																																																<div class="franchise_detail-summary">
+																																																																																																																																																																																																																	<p>{{franchiseGame.summary}}</p>
+																																																																																																																																																																																																																</div>
+																																																																																																																																																																																																																<div class="franchise_detail-released">
+																																																																																																																																																																																																																	<p>{{franchiseGame.first_release_date|date("d/m/Y")}}</p>
+																																																																																																																																																																																																																</div>
+																																																																																																																																																																																																															</div>
+																																																																																																																																																																																																															<div class="franchise_detail-platforms">
+																																																																																																																																																																																																																<h3>Platformes Displonibles :</h3>
+																																																																																																																																																																																																																<div class="franchise-platforms">
+																																																																																																																																																																																																																	{% for platform in franchiseGame.platforms %}
+																																																																																																																																																																																																																		<p>{{ platform.abbreviation|default(platform.name) }}</p>
+																																																																																																																																																																																																																	{% endfor %}
+																																																																																																																																																																																																																</div>
+																																																																																																																																																																																																															</div> #}
 						</div>
 
 
 						<div class="franchises_body-list">
 							<div
 								class="franchises_list-game">{# {% for game in franchiseSelected.games %}
-																																					{% if game.first_release_date is defined %}
-																																						<div class="franchise_card">
-																																							<div class="franchise_card-cover">
-																																								<img src="{{game.cover.url}}" alt="cover de {{game.name}}">
-																																							</div>
-																																							<div class="franchise_card-body">
-																																								<div class="franchise_card-title">
-																																									<a href="{{ path('game', {id: game.id}) }}">{{game.name}}</a>
-																																								</div>
-																																								<div class="franchise_card-released">
-																																									<p>{{game.first_release_date|date("d/m/Y")}}</p>
-																																								</div>
-																																							</div>
-																																						</div>
-																																					{% endif %}
-																																			{% endfor %} #}
+																																																																																																																																																																																																																																											{% if game.first_release_date is defined %}
+																																																																																																																																																																																																																																												<div class="franchise_card">
+																																																																																																																																																																																																																																													<div class="franchise_card-cover">
+																																																																																																																																																																																																																																														<img src="{{game.cover.url}}" alt="cover de {{game.name}}">
+																																																																																																																																																																																																																																													</div>
+																																																																																																																																																																																																																																													<div class="franchise_card-body">
+																																																																																																																																																																																																																																														<div class="franchise_card-title">
+																																																																																																																																																																																																																																															<a href="{{ path('game', {id: game.id}) }}">{{game.name}}</a>
+																																																																																																																																																																																																																																														</div>
+																																																																																																																																																																																																																																														<div class="franchise_card-released">
+																																																																																																																																																																																																																																															<p>{{game.first_release_date|date("d/m/Y")}}</p>
+																																																																																																																																																																																																																																														</div>
+																																																																																																																																																																																																																																													</div>
+																																																																																																																																																																																																																																												</div>
+																																																																																																																																																																																																																																											{% endif %}
+																																																																																																																																																																																																																																									{% endfor %} #}
 							</div>
 						</div>
 

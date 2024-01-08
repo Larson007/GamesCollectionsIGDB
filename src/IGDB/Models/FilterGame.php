@@ -23,6 +23,11 @@ class FilterGame
 
     public function filter($data)
     {
+
+        //* Definir la date pour les jeux afficher par defaut
+        $thisYear = strtotime(date('2023-01-01'));
+        $today = strtotime(date('Y-m-d'));
+
         // 1 : on va vérifier que $data contient bien les clés attendues
         $platforms = isset($data['platforms']) ? implode(",", $data['platforms']) : '';
         $genres = isset($data['genres']) ? implode(",", $data['genres']) : '';
@@ -34,9 +39,6 @@ class FilterGame
         $releasedMax = isset($data['released']['max']) ? $data['released']['max'] : null;
         $sortReleased = isset($data['sort']['released']) ? $data['sort']['released'] : null;
         $sortRating = isset($data['sort']['rating']) ? $data['sort']['rating'] : null;
-
-        $thisYear = strtotime(date('Y-01-01'));
-        $today = strtotime(date('Y-m-d'));
 
 
         // 2 : on va créer une requête en fonction des données de $data
@@ -67,7 +69,7 @@ class FilterGame
 
         if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
             // Requête de la base pour la page d'accueil
-            $query .= " where category = (0, 2, 4, 8, 9) & version_parent = null & cover != null & rating != null & first_release_date != null & rating >= 25 & first_release_date >= " . $thisYear . " & first_release_date <= " . $today . ";";
+            $query .= " where category = (0, 2, 4, 8, 9) & version_parent = null & cover != null & rating != null & first_release_date != null & rating >= 50 & first_release_date >= " . $thisYear . " & first_release_date <= " . $today . ";";
             if (!empty($sortReleased)) {
                 $query .= "sort first_release_date " . $sortReleased . "; ";
             } elseif (!empty($sortRating)) {

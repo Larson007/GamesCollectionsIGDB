@@ -3,6 +3,7 @@ import { gameCollections } from './gameCollections.js';
 import { gameMedias } from './gameMedias.js';
 import { gameFranchises } from './gameFranchises.js';
 import { scrollMenu } from './scrollMenu.js';
+import { gameRating } from './gameRating.js';
 
 export function initGame() {
 
@@ -18,6 +19,7 @@ export function initGame() {
         gameMedias();
         gameFranchises();
         scrollMenu();
+        gameRating();
         
     
     });

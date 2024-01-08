@@ -25,10 +25,14 @@ export function scrollMenu() {
 
         buttons.forEach((button) => {
             button.addEventListener('click', function() {
-                let rubriqueClass = '.' + this.id.replace('scroll-', '');
-                let rubrique = document.querySelector(rubriqueClass);
-                if (rubrique) {
-                    rubrique.scrollIntoView({behavior: 'smooth'});
+                if (this.id === 'scroll-game_informations') {
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                } else {
+                    let rubriqueClass = '.' + this.id.replace('scroll-', '');
+                    let rubrique = document.querySelector(rubriqueClass);
+                    if (rubrique) {
+                        rubrique.scrollIntoView({behavior: 'smooth'});
+                    }
                 }
             });
         });
