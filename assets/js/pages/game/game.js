@@ -15,11 +15,11 @@ export function initGame() {
     document.addEventListener('DOMContentLoaded', (event) => {
     
         gameNavInfos();
+        gameRating();
         gameCollections();
         gameMedias();
-        gameFranchises();
         scrollMenu();
-        gameRating();
+        gameFranchises();
         
     
     });

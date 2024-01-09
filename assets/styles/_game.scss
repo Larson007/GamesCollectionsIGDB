@@ -64,6 +64,31 @@
     }
     .game_titles {
         margin-left: 25%;
+        padding-left: 0.5rem;
+        text-shadow: $text-shadow;
+        .title {
+            font-size: 1.5rem;
+            font-weight: bolder;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .released {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            p {
+                background-color: #888;
+            }
+        }
+        .category {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            p {
+                background-color: $blue;
+            }
+        }
     }
 }
 
@@ -75,41 +100,82 @@
         flex-flow: row nowrap;
         width: 100%;
 
-        .game_rating {
+        .game_informations-content-side {
+            margin-top: 12rem;
             width: 25%;
-            margin-top: auto;
             display: flex;
             flex-flow: column nowrap;
-            justify-content: center;
-            align-items: center;
-            .game_rating-title {
-                font-size: 1.125rem;
-                font-weight: bold;
-                text-transform: uppercase;
-                margin-bottom: 1.5rem;
-            }
-            .game_rating-graph {
-                position: relative;
-                p {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    font-size: 1.25rem;
+            justify-content: space-between;
+            .game_age_ratings {
+                h3 {
+                    font-size: 1.125rem;
                     font-weight: bold;
-                    text-shadow: $text-shadow;
+                    text-transform: uppercase;
+                    margin-bottom: 1rem;
                 }
-                .rating-green {
-                    color: $green;
+                .game_age_ratings-icons {
+                    display: flex;
+                    flex-flow: row wrap;
+                    img {
+                        border: 1px solid #eee;
+                        margin-right: 0.4rem;
+                    }
+                    p {
+                        font-size: 0.8rem;
+                        font-style: italic;
+                        color: #eee;
+                    }
                 }
-                .rating-blue {
-                    color: $blue;
-                }
-                .rating-yellow {
-                    color: $yellow;
-                }
-                .rating-red {
-                    color: $red;
+            }
+            .game_notes {
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: center;
+                padding-right: 2rem;
+                .game_rating {
+                    margin-top: auto;
+                    display: flex;
+                    flex-flow: column nowrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    .game_rating-title {
+                        font-size: 0.8rem;
+                        font-weight: lighter;
+                        text-transform: uppercase;
+                        text-align: center;
+                        height: 2rem;
+                    }
+                    .game_rating-title-null {
+                        color: #eee;
+                        font-style: italic;
+                    }
+                    .game_rating-graph {
+                        position: relative;
+                        p {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            font-size: 1.25rem;
+                            font-weight: bold;
+                            text-shadow: $text-shadow;
+                        }
+                        .rating-green {
+                            color: $green;
+                        }
+                        .rating-blue {
+                            color: $blue;
+                        }
+                        .rating-yellow {
+                            color: $yellow;
+                        }
+                        .rating-red {
+                            color: $red;
+                        }
+                        .rating-null {
+                            color: #888;
+                        }
+                    }
                 }
             }
         }
@@ -173,6 +239,7 @@
             .information_body {
                 background-color: #eee;
                 height: 420px;
+                width: 100%;
                 padding: 1.5rem;
                 color: #3a3a3a;
                 overflow-y: auto;
@@ -195,7 +262,83 @@
                     background: #555;
                 }
 
-                .information_body-item-content {
+                #infos {
+                    .infos_body {
+                        display: flex;
+                        flex-flow: row wrap;
+                        justify-content: space-between;
+                        width: 100%;
+
+                        .infos_groupes {
+                            margin-bottom: 1rem;
+                            width: 50%;
+                            h3 {
+                                font-size: 1.5rem;
+                                font-weight: bold;
+                                margin-bottom: 0.5rem;
+                            }
+                            .infos_items {
+                                display: flex;
+                                flex-flow: row wrap;
+                                p {
+                                    padding: 0.2rem 0.3rem;
+                                    border: 1px solid $cards;
+                                    border-radius: 3px;
+                                    margin-right: 0.5rem;
+                                    margin-bottom: 0.5rem;
+                                    font-size: 0.8rem;
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+                        .infos_platforms {
+                            .platforms {
+                                p {
+                                    background-color: $blue;
+                                }
+                            }
+                        }
+                        .infos_genres {
+                            .genres {
+                                p {
+                                    background-color: $yellow;
+                                }
+                            }
+                        }
+                        .infos_modes {
+                            .modes {
+                                p {
+                                    background-color: $purple;
+                                }
+                            }
+                        }
+                        .infos_themes {
+                            .themes {
+                                p {
+                                    background-color: $green;
+                                }
+                            }
+                        }
+                        .infos_player_perspectives {
+                            .player_perspectives {
+                                p {
+                                    background-color: $red;
+                                }
+                            }
+                        }
+                        .infos_multiplayer_modes {
+                            width: 100%;
+                            .multiplayer_modes {
+                                width: 100%;
+                                .multiplayer_modes_platforms {
+                                    width: 50%;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                #histoire {
                     font-size: 1rem;
                     line-height: 1.5rem;
                     h3 {
@@ -203,9 +346,6 @@
                         font-weight: bold;
                         margin-bottom: 1rem;
                     }
-                }
-
-                #histoire {
                     .game_summary {
                         margin-bottom: 2rem;
                     }
@@ -222,8 +362,30 @@
                         display: flex;
                         flex-flow: row wrap;
                         margin-bottom: 2rem;
-                        a {
-                            margin-right: 1rem;
+                        a,
+                        p {
+                            padding: 0.2rem 0.3rem;
+                            border: 1px solid $cards;
+                            border-radius: 3px;
+                            display: flex;
+                            flex-flow: row nowrap;
+                            justify-content: center;
+                            align-items: center;
+                            margin-right: 0.5rem;
+                            text-decoration: none;
+                            color: $cards;
+                            font-size: 1rem;
+                            font-weight: lighter;
+                            .teams-link-icon {
+                                margin-left: 0.2rem;
+                                font-weight: bold;
+                                color: $cards;
+                            }
+                        }
+                        a:hover {
+                            // text-decoration: underline;
+                            font-weight: bold;
+                            background-color: $yellow;
                         }
                     }
                 }

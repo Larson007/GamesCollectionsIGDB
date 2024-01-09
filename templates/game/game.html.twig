@@ -79,10 +79,10 @@
 						<h1>{{game.name}}</h1>
 					</div>
 					<div class="released">
-						<p>{{game.first_release_date|date("d/m/Y")}}</p>
+						<p class="badge">{{game.first_release_date|date("d/m/Y")}}</p>
 					</div>
-					<div class="developer">
-						<p>Developpeur</p>
+					<div class="category">
+						<p class="badge">{{game.category}}</p>
 					</div>
 				</div>
 			</div>
@@ -90,25 +90,92 @@
 
 			<div class="game_informations">
 				<div class="container p-0 game_informations-content">
-					<div class="game_rating">
-						<h3 class="game_rating-title">Notes</h3>
-						<div class="game_rating-graph">
-							{% if game.rating is defined %}
-								<canvas id="myCanvas" data-rating="{{ game.rating|round }}" width="150" height="150"></canvas>
-								{% if game.rating|round >= 75 %}
-									<p class="rating-green">{{ game.rating|round }}%</p>
-								{% elseif game.rating|round >= 50 %}
-									<p class="rating-blue">{{ game.rating|round }}%</p>
-								{% elseif game.rating|round >= 25 %}
-									<p class="rating-yellow">{{ game.rating|round }}%</p>
-								{% else %}
-									<p class="rating-red">{{ game.rating|round }}%</p>
+
+					<div class="game_informations-content-side">
+						<div class="game_age_ratings">
+							<h3>Classification Pegi</h3>
+							<div class="game_age_ratings-icons">
+								{% if game.age_ratings is defined %}
+									{% for ageRating in game.age_ratings %}
+										{% if ageRating.category == 2 %}
+											{# <p>{{ageRating.company}}</p> #}
+											<img src="{{asset(ageRating.image)}}" alt="logo de l'age minimum de {{ageRating.name}}">
+											{% if ageRating.content_descriptions is defined %}
+												{% for ageRatingDescritpion in ageRating.content_descriptions %}
+													{# <p>{{ageRatingDescritpion.name}}</p> #}
+													<img src="{{asset(ageRatingDescritpion.image)}}" alt="logo {{ageRatingDescritpion.name}} de {{ageRating.company}}">
+												{% endfor %}
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+									{% else %}
+										<p>Pas encore de classification</p>
 								{% endif %}
-							{% else %}
-								<p class="rating-null">N/A</p>
-							{% endif %}
+							</div>
 						</div>
+
+
+						<div class="game_notes">
+
+							<div class="game_rating">
+								<div class="game_rating-graph">
+									{% if game.rating is defined %}
+										<canvas id="ratingGraph" data-rating="{{ game.rating|round }}" width="150" height="150"></canvas>
+										{% if game.rating|round >= 75 %}
+											<p class="rating-green">{{ game.rating|round }}%</p>
+										{% elseif game.rating|round >= 50 %}
+											<p class="rating-blue">{{ game.rating|round }}%</p>
+										{% elseif game.rating|round >= 25 %}
+											<p class="rating-yellow">{{ game.rating|round }}%</p>
+										{% else %}
+											<p class="rating-red">{{ game.rating|round }}%</p>
+										{% endif %}
+									{% else %}
+										<canvas id="ratingGraphNull" width="150" height="150"></canvas>
+										<p class="rating-null">N/A</p>
+									{% endif %}
+								</div>
+								{% if game.rating_count is defined %}
+									<p class="game_rating-title">Basé sur
+										{{game.rating_count}}
+										votes de la communauté IGDB</p>
+								{% else %}
+									<p class="game_rating-title-null">Pas encore de notes</p>
+								{% endif %}
+							</div>
+
+							<div class="game_rating">
+								<div class="game_rating-graph">
+									{% if game.aggregated_rating is defined %}
+										<canvas id="aggregatedRatingGraph" data-rating="{{ game.aggregated_rating|round }}" width="115" height="115"></canvas>
+										{% if game.aggregated_rating|round >= 75 %}
+											<p class="rating-green">{{ game.aggregated_rating|round }}%</p>
+										{% elseif game.aggregated_rating|round >= 50 %}
+											<p class="rating-blue">{{ game.aggregated_rating|round }}%</p>
+										{% elseif game.aggregated_rating|round >= 25 %}
+											<p class="rating-yellow">{{ game.aggregated_rating|round }}%</p>
+										{% else %}
+											<p class="rating-red">{{ game.aggregated_rating|round }}%</p>
+										{% endif %}
+									{% else %}
+										<canvas id="aggregatedRatingChartNull" width="115" height="115"></canvas>
+										<p class="rating-null">N/A</p>
+									{% endif %}
+								</div>
+								{% if game.aggregated_rating_count is defined %}
+									<p class="game_rating-title">Basé sur
+										{{game.aggregated_rating_count}}
+										tests</p>
+								{% else %}
+									<p class="game_rating-title-null">Pas encore de notes</p>
+								{% endif %}
+							</div>
+
+						</div>
+
+
 					</div>
+
 					<div class="informations">
 						<div class="information_header">
 							<nav class="information_nav">
@@ -129,7 +196,97 @@
 						<div class="information_body">
 
 							<div id="infos" class="information_body-content information_body-content-active">
-								<p>Information</p>
+								<div class="infos_body">
+									{% if game.platforms is defined %}
+										<div class="infos_platforms infos_groupes">
+											<h3>Platformes</h3>
+											<div class="platforms infos_items">
+												{% for platform in game.platforms %}
+													<p>{{ platform.name }}</p>
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+									{% if game.genres is defined %}
+										<div class="infos_genres infos_groupes">
+											<h3>Genres</h3>
+											<div class="genres infos_items">
+												{% for genre in game.genres %}
+													<p>{{ genre.name }}</p>
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+									{% if game.game_modes is defined %}
+										<div class="infos_modes infos_groupes">
+											<h3>Modes</h3>
+											<div class="modes infos_items">
+												{% for mode in game.game_modes %}
+													<p>{{ mode.name }}</p>
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+									{% if game.themes is defined %}
+										<div class="infos_themes infos_groupes">
+											<h3>Thèmes</h3>
+											<div class="themes infos_items">
+												{% for theme in game.themes %}
+													<p>{{ theme.name }}</p>
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+									{% if game.player_perspectives is defined %}
+										<div class="infos_player_perspectives infos_groupes">
+											<h3>Player Perspectives</h3>
+											<div class="player_perspectives infos_items">
+												{% for playerPerspective in game.player_perspectives %}
+													<p>{{ playerPerspective.name }}</p>
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+									{% if game.multiplayer_modes is defined %}
+										<div class="infos_multiplayer_modes infos_groupes">
+											<h3>Modes Multijoueurs</h3>
+											<div class="multiplayer_modes infos_items">
+												{% for multiplayerModes in game.multiplayer_modes %}
+													<div class="multiplayer_modes_platforms">
+														<h4>{{multiplayerModes.platform.name}}</h4>
+														<ul>
+															<li>Offline Co-op :
+																{{multiplayerModes.offlinecoop ? '&#10004;' : '&#10008;' }}</li>
+															<li>Offline Co-op max players :
+																{{multiplayerModes.offlinecoopmax}}</li>
+															<li>Offline max players :
+																{{multiplayerModes.offlinemax}}</li>
+
+
+															<li>Online Co-op :
+																{{multiplayerModes.onlinecoop ? '&#10004;' : '&#10008;'}}</li>
+															<li>Online max players :
+																{{multiplayerModes.onlinemax}}</li>
+															<li>Online Co-op max players :
+																{{multiplayerModes.onlinecoopmax}}</li>
+
+															<li>Co-op Campaign :
+																{{multiplayerModes.campaigncoop ? '&#10004;' : '&#10008;'}}</li>
+															<li>Offline Split-Screen :
+																{{multiplayerModes.splitscreen ? '&#10004;' : '&#10008;'}}</li>
+															<li>LAN Co-op :
+																{{multiplayerModes.lancoop ? '&#10004;' : '&#10008;'}}</li>
+
+															<li>Drop in/out :
+																{{multiplayerModes.dropin ? '&#10004;' : '&#10008;' }}</li>
+														</ul>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+									{% endif %}
+
+								</div>
 							</div>
 
 							{% if game.summary is defined or game.storyline is defined %}
@@ -163,9 +320,15 @@
 											<div class="teams-link">
 												{% for companies in game.involved_companies %}
 													{% if companies.developer == true %}
-														{% for teamWebsite in companies.company.websites %}
-															<a href="{{teamWebsite.url}}">{{companies.company.name}}</a>
-														{% endfor %}
+														{% if companies.company.websites is defined %}
+															{% for teamWebsite in companies.company.websites %}
+																<a href="{{teamWebsite.url}}">{{companies.company.name}}
+																	<ion-icon class="teams-link-icon" name="link-outline"></ion-icon>
+																</a>
+															{% endfor %}
+														{% else %}
+															<p>{{companies.company.name}}</p>
+														{% endif %}
 													{% endif %}
 												{% endfor %}
 											</div>
@@ -178,9 +341,15 @@
 											<div class="teams-link">
 												{% for companies in game.involved_companies %}
 													{% if companies.publisher == true %}
-														{% for teamWebsite in companies.company.websites %}
-															<a href="{{teamWebsite.url}}">{{companies.company.name}}</a>
-														{% endfor %}
+														{% if companies.company.websites is defined %}
+															{% for teamWebsite in companies.company.websites %}
+																<a href="{{teamWebsite.url}}">{{companies.company.name}}
+																	<ion-icon class="teams-link-icon" name="link-outline"></ion-icon>
+																</a>
+															{% endfor %}
+														{% else %}
+															<p>{{companies.company.name}}</p>
+														{% endif %}
 													{% endif %}
 												{% endfor %}
 											</div>
@@ -193,9 +362,15 @@
 											<div class="teams-link">
 												{% for companies in game.involved_companies %}
 													{% if companies.supporting == true %}
-														{% for teamWebsite in companies.company.websites %}
-															<a href="{{teamWebsite.url}}">{{companies.company.name}}</a>
-														{% endfor %}
+														{% if companies.company.websites is defined %}
+															{% for teamWebsite in companies.company.websites %}
+																<a href="{{teamWebsite.url}}">{{companies.company.name}}
+																	<ion-icon class="teams-link-icon" name="link-outline"></ion-icon>
+																</a>
+															{% endfor %}
+														{% else %}
+															<p>{{companies.company.name}}</p>
+														{% endif %}
 													{% endif %}
 												{% endfor %}
 											</div>
@@ -208,9 +383,15 @@
 											<div class="teams-link">
 												{% for companies in game.involved_companies %}
 													{% if companies.porting == true %}
-														{% for teamWebsite in companies.company.websites %}
-															<a href="{{teamWebsite.url}}">{{companies.company.name}}</a>
-														{% endfor %}
+														{% if companies.company.websites is defined %}
+															{% for teamWebsite in companies.company.websites %}
+																<a href="{{teamWebsite.url}}">{{companies.company.name}}
+																	<ion-icon class="teams-link-icon" name="link-outline"></ion-icon>
+																</a>
+															{% endfor %}
+														{% else %}
+															<p>{{companies.company.name}}</p>
+														{% endif %}
 													{% endif %}
 												{% endfor %}
 											</div>
@@ -231,7 +412,7 @@
 									</div>
 								</div>
 							{% endif %}
-							
+
 						</div>
 					</div>
 				</div>
@@ -351,62 +532,10 @@
 						</nav>
 					</div>
 					<div class="franchises_body" data-franchises="{{ franchises.franchises|json_encode|e('html_attr') }}">
-
-						<div
-							class="franchise_detail">{# <div class="franchise_detail-cover">
-																																																																																																																																																																																																																<img src="{{franchiseGame.cover.url}}" alt="cover de {{franchiseGame.name}}">
-																																																																																																																																																																																																																<div class="add_collections">
-																																																																																																																																																																																																																	<button class="add_collections-collection">add</button>
-																																																																																																																																																																																																																	<button class="add_collections-like">like</button>
-																																																																																																																																																																																																																	<button class="add_collections-wishlist">wish</button>
-																																																																																																																																																																																																																</div>
-																																																																																																																																																																																																															</div>
-																																																																																																																																																																																																															<div class="franchise_detail-body">
-																																																																																																																																																																																																																<div class="franchise_detail-title">
-																																																																																																																																																																																																																	<a href="{{ path('game', {id: franchiseGame.id}) }}">
-																																																																																																																																																																																																																		<h3>{{franchiseGame.name}}</h3>
-																																																																																																																																																																																																																	</a>
-																																																																																																																																																																																																																</div>
-																																																																																																																																																																																																																<div class="franchise_detail-summary">
-																																																																																																																																																																																																																	<p>{{franchiseGame.summary}}</p>
-																																																																																																																																																																																																																</div>
-																																																																																																																																																																																																																<div class="franchise_detail-released">
-																																																																																																																																																																																																																	<p>{{franchiseGame.first_release_date|date("d/m/Y")}}</p>
-																																																																																																																																																																																																																</div>
-																																																																																																																																																																																																															</div>
-																																																																																																																																																																																																															<div class="franchise_detail-platforms">
-																																																																																																																																																																																																																<h3>Platformes Displonibles :</h3>
-																																																																																																																																																																																																																<div class="franchise-platforms">
-																																																																																																																																																																																																																	{% for platform in franchiseGame.platforms %}
-																																																																																																																																																																																																																		<p>{{ platform.abbreviation|default(platform.name) }}</p>
-																																																																																																																																																																																																																	{% endfor %}
-																																																																																																																																																																																																																</div>
-																																																																																																																																																																																																															</div> #}
-						</div>
-
-
+						<div class="franchise_detail"></div>
 						<div class="franchises_body-list">
-							<div
-								class="franchises_list-game">{# {% for game in franchiseSelected.games %}
-																																																																																																																																																																																																																																											{% if game.first_release_date is defined %}
-																																																																																																																																																																																																																																												<div class="franchise_card">
-																																																																																																																																																																																																																																													<div class="franchise_card-cover">
-																																																																																																																																																																																																																																														<img src="{{game.cover.url}}" alt="cover de {{game.name}}">
-																																																																																																																																																																																																																																													</div>
-																																																																																																																																																																																																																																													<div class="franchise_card-body">
-																																																																																																																																																																																																																																														<div class="franchise_card-title">
-																																																																																																																																																																																																																																															<a href="{{ path('game', {id: game.id}) }}">{{game.name}}</a>
-																																																																																																																																																																																																																																														</div>
-																																																																																																																																																																																																																																														<div class="franchise_card-released">
-																																																																																																																																																																																																																																															<p>{{game.first_release_date|date("d/m/Y")}}</p>
-																																																																																																																																																																																																																																														</div>
-																																																																																																																																																																																																																																													</div>
-																																																																																																																																																																																																																																												</div>
-																																																																																																																																																																																																																																											{% endif %}
-																																																																																																																																																																																																																																									{% endfor %} #}
-							</div>
+							<div class="franchises_list-game"></div>
 						</div>
-
 					</div>
 					<div class="franchises_buttons">
 						<button id="franchise-previous">

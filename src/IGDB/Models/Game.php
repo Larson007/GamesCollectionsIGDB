@@ -4,6 +4,8 @@ namespace App\IGDB\Models;
 
 use App\IGDB\Enums\Image\Size;
 use App\IGDB\Service\IGDBService;
+use App\IGDB\Traits\AgeRatingTrait;
+use App\IGDB\Traits\AgeRatingContentDescriptionTrait;
 use App\IGDB\Traits\WebsiteTrait;
 use App\IGDB\Traits\CategoryTrait;
 use App\IGDB\Traits\ImageSizeTrait;
@@ -13,6 +15,8 @@ class Game
     use ImageSizeTrait;
     use CategoryTrait;
     use WebsiteTrait;
+    use AgeRatingTrait;
+    use AgeRatingContentDescriptionTrait;
 
     private $igdbService;
 
@@ -29,6 +33,11 @@ class Game
         $game = $this->igdbService->makeRequest('games', "
         fields  
         *,
+
+        age_ratings.*,
+        age_ratings.content_descriptions.*,
+
+
         name,
         slug,
         storyline,
@@ -59,6 +68,8 @@ class Game
         platforms.*,
         player_perspectives.name,
         themes.name,
+        multiplayer_modes.*,
+        multiplayer_modes.platform.*,
 
         artworks.*,
         screenshots.*,
@@ -75,7 +86,8 @@ class Game
         status,
 
         version_parent,
-        version_title;
+        version_title;        
+        
 
         where id = " . $gameId . "
         ;
@@ -86,6 +98,20 @@ class Game
 
         if (isset($game['cover']['url'])) {
             $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, false);
+        }
+
+        if (isset($game['age_ratings'])) {
+            foreach ($game['age_ratings'] as &$ageRating) {
+                $ageRating['company'] = $this->getAgeRatingCompany($ageRating['category']);
+                $ageRating['name'] = $this->getAgeRatingName($ageRating['rating']);
+                $ageRating['image'] = $this->getAgeRatingImage($ageRating['rating']);
+                if (isset($ageRating['content_descriptions'])) {
+                    foreach ($ageRating['content_descriptions'] as &$contentDescription) {
+                        $contentDescription['name'] = $this->getAgeRatingContentDescriptionName($contentDescription['category']);
+                        $contentDescription['image'] = $this->getAgeRatingContentDescriptionImage($contentDescription['category']);
+                    }
+                }
+            }
         }
 
 

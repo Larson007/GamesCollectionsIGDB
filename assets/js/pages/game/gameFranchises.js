@@ -1,10 +1,19 @@
 export function gameFranchises() {
 
+    
 
     const franchisesButtons = document.querySelectorAll('.franchises_nav-buttons');
     const franchisesData = document.querySelector('.franchises_body');
+
+    if (!franchisesData) {
+        return;
+    }
+
     let data = JSON.parse(franchisesData.dataset.franchises);
 
+    if (!data) {
+        return;
+    }
 
     const franchisesNav = document.querySelector('.franchises_nav');
     const firstButton = franchisesNav.querySelector('button');
