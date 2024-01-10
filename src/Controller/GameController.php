@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\IGDB\Models\Game;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,15 +11,39 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class GameController extends AbstractController
 {
     private $game;
+    private $security;
 
-    public function __construct(Game $game)
+    public function __construct(Game $game, Security $security)
     {
         $this->game = $game;
+        $this->security = $security;
     }
 
     #[Route('/game/{id}', name: 'game')]
     public function index(int $id): Response
     {
+        // Récupérez l'utilisateur connecté
+        $user = $this->security->getUser();
+
+        if ($user) {
+            // Récupérez des ID des jeux de l'utilisateur
+            $userGames = $user->getCollection();
+            $collection = $userGames->getGames();
+            $collectionIds = array_map(function ($game) {
+                return $game['id'];
+            }, $collection);
+        
+            // Récupérez les ID des jeux que l'utilisateur aime
+            $likes = $user->getLikes();
+        
+            // Récupérez les ID des jeux que l'utilisateur souhaite
+            $wishes = $user->getWish();
+        } else {
+            // Définissez des valeurs par défaut pour les variables relatives à l'utilisateur
+            $collectionIds = [];
+            $likes = [];
+            $wishes = [];
+        }
 
         // Get the game from the IGDB API by its ID
         $game = $this->game->game($id);
@@ -53,6 +78,9 @@ class GameController extends AbstractController
             'medias' => $medias,
             'franchises' => $franchises,
             'franchisesGame' => $franchisesGame,
+            'collectionIds' => $collectionIds,
+            'likeIds' => $likes,
+            'wishIds' => $wishes
         ]);
     }
 }

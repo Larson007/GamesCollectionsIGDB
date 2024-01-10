@@ -14,7 +14,7 @@ class FilterGameController extends AbstractController
     private $filter;
     private $security;
 
-    public function __construct(FilterGame $filter, Security $security,)
+    public function __construct(FilterGame $filter, Security $security)
     {
         $this->filter = $filter;
         $this->security = $security;

@@ -273,7 +273,7 @@ class Game
         franchises.games.name, franchises.games.summary,franchises.games.category, franchises.games.cover.url, franchises.games.platforms.*,
         franchises.games.version_parent, franchises.games.first_release_date;
 
-        where id = " . $gameId . "
+        where id = " . $gameId . " & franchises.games.version_parent = null & franchises.games.first_release_date != null
         ;
         ");
 
@@ -290,6 +290,8 @@ class Game
                 }
             }
         }
+
+        
 
 
         return $game;

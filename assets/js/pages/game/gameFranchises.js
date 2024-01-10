@@ -1,6 +1,6 @@
 export function gameFranchises() {
 
-    
+
 
     const franchisesButtons = document.querySelectorAll('.franchises_nav-buttons');
     const franchisesData = document.querySelector('.franchises_body');
@@ -16,8 +16,82 @@ export function gameFranchises() {
     }
 
     const franchisesNav = document.querySelector('.franchises_nav');
+    const franchisesNavContent = document.querySelector('.franchises_nav-content');
     const firstButton = franchisesNav.querySelector('button');
     const firstButtonId = firstButton.id;
+    const franchisesNavItems = franchisesNavContent.querySelectorAll('button');
+
+    const franchisesNavigationButtons = document.querySelector('.franchises_nav-buttons-navigation');
+    const franchisesNavNext = document.querySelector('.franchises_nav-link-next');
+    const franchisesNavPrevious = document.querySelector('.franchises_nav-link-previous');
+
+
+    // Ajouter la classe 'active' au premier bouton
+    firstButton.classList.add('franchises_nav-active');
+
+    let activeIndex = 0; // Index du bouton actif
+
+    // Ajouter un écouteur d'événements à chaque bouton
+    franchisesNavItems.forEach((button, index) => {
+        button.addEventListener('click', function () {
+            // Retirer la classe 'active' de tous les boutons
+            franchisesNavItems.forEach((btn) => {
+                btn.classList.remove('franchises_nav-active');
+            });
+
+            // Ajouter la classe 'active' au bouton cliqué
+            this.classList.add('franchises_nav-active');
+
+            // Mettre à jour l'index actif
+            activeIndex = index;
+        });
+    });
+
+    if (franchisesNavItems.length <= 1) {
+        franchisesNavigationButtons.style.display = 'none';
+        
+    } else {
+        // Scroll horizontal avec la molette de la souris du menu
+        franchisesNavContent.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            this.scrollLeft += e.deltaY;
+        }, { passive: false });
+    }
+
+
+    franchisesNavNext.addEventListener('click', function () {
+        // Passer à la franchise suivante
+        if (activeIndex < franchisesNavItems.length - 1) {
+            franchisesNavItems[activeIndex].classList.remove('franchises_nav-active');
+            franchisesNavItems[++activeIndex].classList.add('franchises_nav-active');
+
+            // Mettre à jour l'affichage
+            currentGameIndex = (currentGameIndex + 1) % games.length;
+            displayFranchisesList(franchisesNavItems[activeIndex].id);
+            displayFranchisesDetails(games[currentGameIndex]);
+
+            // Mettre à jour le défilement horizontal
+            franchisesNav.scrollLeft += franchisesNavItems[activeIndex].offsetWidth;
+        }
+    });
+
+    franchisesNavPrevious.addEventListener('click', function () {
+        // Passer à la franchise précédente
+        if (activeIndex > 0) {
+            franchisesNavItems[activeIndex].classList.remove('franchises_nav-active');
+            franchisesNavItems[--activeIndex].classList.add('franchises_nav-active');
+
+            // Mettre à jour l'affichage
+            currentGameIndex = (currentGameIndex - 1 + games.length) % games.length;
+            displayFranchisesList(franchisesNavItems[activeIndex].id);
+            displayFranchisesDetails(games[currentGameIndex]);
+
+            // Mettre à jour le défilement horizontal
+            franchisesNav.scrollLeft -= franchisesNavItems[activeIndex].offsetWidth;
+        }
+    });
+
+
 
     let currentGameIndex = 0;
     let games = [];
@@ -34,7 +108,7 @@ export function gameFranchises() {
                 return `
                     <div class="franchise_card ${index === currentGameIndex ? 'franchise_card-active' : ''}" data-game-id="${game.id}">
                         <div class="franchise_card-cover">
-                            <img src="${game.cover ? game.cover.url : 'public/build/images/placeholder.jpg'}" alt="cover de ${game.name}" loading='lazy'>
+                            <img src="${game.cover ? game.cover.url : 'build/images/placeholder.jpg'}" alt="cover de ${game.name}" loading='lazy'>
                         </div>
                         <div class="franchise_card-body">
                             <div class="franchise_card-title">
@@ -59,11 +133,6 @@ export function gameFranchises() {
 
                 <div class="franchise_detail-cover">
                 <img src="${game.cover ? game.cover.url : 'public/build/images/placeholder.jpg'}" alt="cover de ${game.name}" loading='lazy'>
-                    <div class="add_collections">
-                        <button class="add_collections-collection">add</button>
-                        <button class="add_collections-like">like</button>
-                        <button class="add_collections-wishlist">wish</button>
-                    </div>
                 </div>
                 <div class="franchise_detail-body">
                     <div class="franchise_detail-title">
@@ -75,7 +144,11 @@ export function gameFranchises() {
                         <p>${game.summary}</p>
                     </div>
                     <div class="franchise_detail-released">
-                        <p>${new Date(game.first_release_date * 1000).toLocaleDateString("fr-FR", { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
+                        <p>${
+                            game.first_release_date 
+                                ? new Date(game.first_release_date * 1000).toLocaleDateString("fr-FR", { day: '2-digit', month: '2-digit', year: 'numeric' })
+                                : 'Date de sortie non disponible'
+                        }</p>
                     </div>
                 </div>
                 <div class="franchise_detail-platforms">

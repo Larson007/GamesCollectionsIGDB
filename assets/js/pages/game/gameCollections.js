@@ -211,9 +211,16 @@ export function gameCollections() {
         // Affichage des plateformes
         const collectionPlatforms = document.querySelector('.collections_platforms');
         collectionPlatforms.innerHTML = '';
-        for (const platform of data[index].platforms) {
+
+        if (data[index].platforms && data[index].platforms.length > 0) {
+            for (const platform of data[index].platforms) {
+                const platformElement = document.createElement('p');
+                platformElement.textContent = platform.abbreviation || platform.name;
+                collectionPlatforms.appendChild(platformElement);
+            }
+        } else {
             const platformElement = document.createElement('p');
-            platformElement.textContent = platform.abbreviation || platform.name;
+            platformElement.textContent = "Pas de données";
             collectionPlatforms.appendChild(platformElement);
         }
 
@@ -240,9 +247,16 @@ export function gameCollections() {
 
         // Image de fond
         collectionCoverBackground.innerHTML = '';
-        let imgElementBackground = document.createElement('img');
-        imgElementBackground.src = currentGame.cover.url;
-        collectionCoverBackground.appendChild(imgElementBackground);
+
+        if (currentGame.cover && currentGame.cover.url) {
+            let imgElementBackground = document.createElement('img');
+            imgElementBackground.src = currentGame.cover.url;
+            collectionCoverBackground.appendChild(imgElementBackground);
+        } else {
+            let imgElementBackground = document.createElement('img');
+            imgElementBackground.src = '/build/images/placeholder.jpg';
+            collectionCoverBackground.appendChild(imgElementBackground);
+        }
 
         // Autres images
         collectionCovers.innerHTML = '';

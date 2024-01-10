@@ -140,9 +140,11 @@ header {
             border-radius: 5px;
             margin-top: auto;
             margin-bottom: 0;
+            
             &:hover {
                 border: 2px solid $nav-item-hover-border;
                 border-radius: 5px;
+                cursor: pointer;
             }
             .list_item_user-link-login {
                 height: 100%;

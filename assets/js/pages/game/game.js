@@ -4,6 +4,7 @@ import { gameMedias } from './gameMedias.js';
 import { gameFranchises } from './gameFranchises.js';
 import { scrollMenu } from './scrollMenu.js';
 import { gameRating } from './gameRating.js';
+import { gameAddCollection } from './gameAddCollection.js';
 
 export function initGame() {
 
@@ -20,6 +21,7 @@ export function initGame() {
         gameMedias();
         scrollMenu();
         gameFranchises();
+        gameAddCollection();
         
     
     });
