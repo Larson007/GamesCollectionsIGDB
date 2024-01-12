@@ -1,4 +1,5 @@
 .popular-game {
+    margin-top: 2rem;
     .popular-title {
         span {
             // font-size: 1.5rem;
@@ -19,10 +20,11 @@
     button {
         padding: 0.3rem 0.5rem;
         margin-right: 1rem;
-        border: 1px solid transparent;
+        border: 2px solid transparent;
         background-color: transparent;
+        margin-bottom: 1rem;
         img {
-            height: 20px;
+            height: 15px;
             width: auto;
         }
     }

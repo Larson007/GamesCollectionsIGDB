@@ -78,5 +78,7 @@
   "build/images/icons/nav/chevron-back-outline.svg": "/build/images/icons/nav/chevron-back-outline.svg",
   "build/images/icons/nav/chevron-forward-outline.svg": "/build/images/icons/nav/chevron-forward-outline.svg",
   "build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9fba72.css": "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9fba72.css",
-  "build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9fba72.js": "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9fba72.js"
+  "build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9fba72.js": "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9fba72.js",
+  "build/vendors-node_modules_toastr_toastr_scss-node_modules_toastr_toastr_js-node_modules_core-js_mo-52abb1.js": "/build/vendors-node_modules_toastr_toastr_scss-node_modules_toastr_toastr_js-node_modules_core-js_mo-52abb1.js",
+  "build/images/icons/dashboard/build.svg": "/build/images/icons/dashboard/build.svg"
 }

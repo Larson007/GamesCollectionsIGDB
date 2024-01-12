@@ -25,10 +25,24 @@
         max-width: 30%;
         max-height: 100%;
         border-radius: 5px 0 0 5px;
+        position: relative;
         img {
             width: 100%;
             height: 100%;
             border-radius: 5px 0 0 5px;
+        }
+        .category {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-shadow: $text-shadow;
+            padding: 0.3rem 0.5rem;
+            text-transform: uppercase;
+            border-radius: 0 0 0 3px;
+            background-color: $playsation;
         }
     }
     .game_body {
@@ -44,18 +58,11 @@
         small {
             font-size: 0.85rem;
         }
-        .category {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 1px solid transparent;
-        }
         .game_body--title {
             width: 100%;
             h2 {
                 font-weight: bolder;
-                font-size: 1.5rem;
+                font-size: 1.25rem;
                 text-shadow:
                 2px 0 black,
                 -2px 0 black,
@@ -193,6 +200,11 @@
                 .score-red {
                     border: 2px solid $red;
                     color: $red;
+                }
+                .score-null {
+                    border: 2px solid #888;
+                    color: #888;
+                    text-shadow: none !important;
                 }
             }
         }

@@ -1,0 +1,162 @@
+.game-carte {
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: $cards;
+    width: 100%;
+    border-radius: 3px;
+    .carte-image {
+        width: 40%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #888;
+        a {
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 3px 0 0 3px;
+                
+
+            }
+        }
+        .carte-category {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-shadow: $text-shadow;
+            padding: 0.3rem 0.5rem;
+            text-transform: uppercase;
+            border-radius: 0 0 0 3px;
+            background-color: $playsation;
+        }
+    }
+    .carte_body {
+        width: 60%;
+        height: 100%;
+        padding: 0.5rem;
+        display: flex;
+        flex-flow: column nowrap;
+        .carte_body-title {
+            a {
+                text-decoration: none;
+                h2 {
+                    font-size: 1.2rem;
+                    color: #eee;
+                    font-weight: bold;
+                    text-shadow: $text-shadow;
+                }
+            }
+        }
+        .carte-infos {
+            display: flex;
+            flex-flow: row wrap;
+        }
+        .carte_body-platforms {
+            .carte-platforms {
+                background-color: $blue;
+                columns: #eee;
+                text-shadow: $text-shadow;
+                margin-right: 0.3rem;
+                margin-bottom: 0.3rem;
+            }
+        }
+        .carte_body-genres {
+            .carte-genres {
+            }
+        }
+        .carte_body-themes {
+            .carte-themes {
+            }
+        }
+        .carte_body-modes {
+            .carte-modes {
+            }
+        }
+        .carte_body-footer {
+            margin-top: auto;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
+            .carte_footer-release {
+                span {
+                    text-shadow: $text-shadow;
+                }
+            }
+            .carte_footer-rating {
+                p {
+                    margin: 0;
+                    text-align: right;
+                    font-weight: bold;
+                }
+                .score {
+                    padding: 0.2rem 0.3rem;
+                    font-size: 0.75rem;
+                    font-weight: bold;
+                    border-radius: 3px;
+                    text-shadow:
+                        2px 0 black,
+                        -2px 0 black,
+                        0 2px black,
+                        0 -2px black,
+                        1px 1px black,
+                        -1px -1px black,
+                        1px -1px black,
+                        -1px 1px black;
+                }
+                .score-green {
+                    border: 2px solid $green;
+                    color: $green;
+                }
+                .score-blue {
+                    border: 2px solid $blue;
+                    color: $blue;
+                }
+                .score-yellow {
+                    border: 2px solid $yellow;
+                    color: $yellow;
+                }
+                .score-red {
+                    border: 2px solid $red;
+                    color: $red;
+                }
+                .score-null {
+                    border: 2px solid #888;
+                    color: #888;
+                    text-shadow: none !important;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .game-carte {
+        .carte-image{
+            width: 100% !important; 
+            border-radius: 3px !important;
+        }
+        .carte_body {
+            display: none !important;
+            .carte_body-title {
+                h2 {
+                    font-size: 0.8rem !important;
+                }
+            }
+            .carte-infos {
+                display: none !important;
+            }
+            .carte_body-platforms {
+                display: none !important;
+            }
+            .carte_body-footer {
+                display: none !important;
+            }
+        }
+    }
+}

@@ -1,73 +1,86 @@
-					{% for game in games %}
-						<div class="game">
-							<div class="game_image">
-								{% if game.cover is defined %}
-									<a href="{{ path('game', {id: game.id}) }}"><img src="{{ game.cover.url }}" alt="{{ game.name }} cover"></a>
-								{% else %}
-									<img src="{{ asset('build/images/placeholder.jpg') }}" alt="Cover placeholder">
+				{% for game in games %}
+					<div class="game-carte">
+						<div class="carte-image">
+							{% if game.cover is defined %}
+								<a href="{{ path('game', {id: game.id}) }}"><img src="{{ game.cover.url }}" alt="{{ game.name }} cover"></a>
+							{% else %}
+								<a href="{{ path('game', {id: game.id}) }}"><img src="{{ asset('build/images/placeholder.jpg') }}" alt="{{ game.name }} cover"></a>
+							{% endif %}
+							{% if game.category != "jeu de base" %}
+								<small class="carte-category">{{ game.category }}</small>
+							{% endif %}
+						</div>
+						<div class="carte_body">
+							<div class="carte_body-title">
+								<a href="{{ path('game', {id: game.id}) }}">
+									<h2>{{ game.name|length > 30 ? game.name|slice(0, 30) ~ '...' : game.name }}</h2>
+								</a>
+							</div>
+							<div class="carte_body-platforms carte-infos">
+								{% if game.platforms is defined %}
+									{% for platform in game.platforms|slice(0, 4) %}
+										<small class="carte-platforms badge">{{ platform.abbreviation|default(platform.name) }}</small>
+									{% endfor %}
+									{% if game.platforms|length > 4 %}
+										<small class="carte-platforms badge">+{{ game.platforms|length - 4 }}</small>
+									{% endif %}
 								{% endif %}
 							</div>
-							<div class="game_body">
-								<small class="badge text-bg-secondary category">{{ game.category }}</small>
-								<div class="game_body--title">
-									<h2>
-										<a href="{{ path('game', {id: game.id}) }}">{{ game.name }}</a>
-									</h2>
-								</div>
-								<div class="game_body--platforms">
-									{% if game.platforms is defined %}
-										{% for platform in game.platforms %}
-											<small class="badge bg-primary">{{ platform.abbreviation }}</small>
-										{% endfor %}
+
+							{# <div class="carte_body-genres carte-infos">
+								{% if game.genres is defined %}
+									{% for genre in game.genres %}
+										<small class="carte-genres badge">{{ genre.name }}</small>
+									{% endfor %}
+								{% endif %}
+							</div>
+
+							<div class="carte_body-themes carte-infos">
+								{% if game.themes is defined %}
+									{% for theme in game.themes %}
+										<small class=" carte-themes badge">{{ theme.name }}</small>
+									{% endfor %}
+								{% endif %}
+							</div>
+
+							<div class="carte_body-modes carte-infos">
+								{% if game.game_modes is defined %}
+									{% for mode in game.game_modes %}
+										<small class="carte-modes badge">{{ mode.name }}</small>
+									{% endfor %}
+								{% endif %}
+							</div> #}
+
+							<div class="carte_body-footer">
+								<div class="carte_footer-release">
+									{% if game.first_release_date is defined %}
+										<p>
+											<span class="badge bg-secondary">{{ game.first_release_date|date('d/m/Y') }}</span>
+										</p>
 									{% endif %}
 								</div>
-								<div class="game_body-filter">
-
-										{% if game.genres is defined %}
-											{% for genre in game.genres %}
-												<small class="game_body--genres badge">{{ genre.name }}</small>
-											{% endfor %}
-										{% endif %}
-
-										{% if game.themes is defined %}
-											{% for theme in game.themes %}
-												<small class=" game_body--themes badge">{{ theme.name }}</small>
-											{% endfor %}
-										{% endif %}
-
-										{% if game.game_modes is defined %}
-											{% for mode in game.game_modes %}
-												<small class="game_body--modes badge">{{ mode.name }}</small>
-											{% endfor %}
-										{% endif %}
-
-								</div>
-								<div class="game_body--footer">
-									<div class="game_body--footer--release">
-										{% if game.first_release_date is defined %}
+								<div class="carte_footer-rating">
+									{% if game.rating is defined %}
+										<p>
+											{% if game.rating|round >= 75 %}
+												<span class="score score-green">{{ game.rating|round }}%</span>
+											{% elseif game.rating|round >= 50 %}
+												<span class="score score-blue">{{ game.rating|round }}%</span>
+											{% elseif game.rating|round >= 25 %}
+												<span class="score score-yellow">{{ game.rating|round }}%</span>
+											{% elseif game.rating|round >= 0 %}
+												<span class="score score-red">{{ game.rating|round }}%</span>
+											{% else %}
+												<span class="score score-null">N/A</span>
+											{% endif %}
+										</p>
+										{% else %}
 											<p>
-												<span class="badge bg-secondary">{{ game.first_release_date|date('d/m/Y') }}</span>
+												<span class="score score-null">N/A</span>
 											</p>
-										{% endif %}
-									</div>
-									<div class="game_body--footer--rating">
-										{% if game.rating is defined %}
-											<p>
-												{% if game.rating|round >= 75 %}
-													<span class="score score-green">{{ game.rating|round }}%</span>
-												{% elseif game.rating|round >= 50 %}
-													<span class="score score-blue">{{ game.rating|round }}%</span>
-												{% elseif game.rating|round >= 25 %}
-													<span class="score score-yellow">{{ game.rating|round }}%</span>
-												{% else %}
-													<span class="score score-red">{{ game.rating|round }}%</span>
-												{% endif %}
-
-											</p>
-
-										{% endif %}
-									</div>
+									{% endif %}
 								</div>
 							</div>
 						</div>
-					{% endfor %}
+					</div>
+				{% endfor %}

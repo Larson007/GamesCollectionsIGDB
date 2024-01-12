@@ -1,4 +1,6 @@
 .filter-page {
+    margin-top: 2rem;
+    overflow-x: hidden;
     .filter {
         .filter_btn {
             display: flex;
@@ -888,10 +890,10 @@
 
 @media screen and (max-width: 780px) {
     .filter_btn {
-        flex-flow: column wrap !important;
+        flex-flow: row wrap !important;
         justify-content: space-between !important;
         button {
-            width: 100% !important;
+            width: 49% !important;
             border-radius: 3px;
             margin-bottom: 1rem;
         }
@@ -915,9 +917,38 @@
         }
     }
     .filter_show {
+        .input-platforms {
+            flex-flow: row wrap !important;
+            width: 100%;
+            margin-bottom: 1rem;
+            input {
+                width: 100% !important;
+                padding: 0.3rem 0.5rem;
+                &:focus {
+                    outline: none;
+                }
+            }
+            .popular-platforms{
+                margin-top: 1rem !important;
+                width: 100% !important;
+                display: flex !important;
+                flex-flow: row wrap !important;
+                justify-content: start !important;
+                button {
+                    width: 30% !important;
+                    margin-bottom: 0.5rem !important;
+                    padding: 0.3rem 0.5rem !important;
+                }
+            }
+        }
         .slider {
             width: 100% !important;
             // margin-bottom: 1rem;
+        }
+    }
+    .game_card_body_footer-released {
+        h6 {
+            font-size: 0.6rem !important;
         }
     }
 }

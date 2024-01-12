@@ -38,7 +38,7 @@ class SearchGame
 
         foreach ($games as &$game) {
             if (isset($game['cover']['url'])) {
-                $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_SMALL, true);
+                $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, false);
             }
             if (isset($game['category'])) {
                 $game['category'] = $this->getCategoryName($game['category']);

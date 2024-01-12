@@ -72,14 +72,22 @@
 
 			<div class="game_presentation container p-0">
 				<div class="game_cover">
+				{% if game.cover.url is defined %}
 					<img class="game_cover-image" src="{{game.cover.url}}" alt="cover de {{game.name}}">
+					{% else %}
+						<img class="game_cover-image" src="{{asset('build/images/placeholder.jpg')}}" alt="cover de {{game.name}}">
+				{% endif %}
 				</div>
 				<div class="game_titles">
 					<div class="title">
 						<h1>{{game.name}}</h1>
 					</div>
 					<div class="released">
+					{% if game.first_release_date is defined %}
 						<p class="badge">{{game.first_release_date|date("d/m/Y")}}</p>
+						{% else %}
+							<p class="badge">Pas de date de sortie</p>
+					{% endif %}
 					</div>
 					<div class="category">
 						<p class="badge">{{game.category}}</p>

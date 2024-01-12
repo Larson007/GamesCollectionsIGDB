@@ -4,11 +4,13 @@ namespace App\IGDB\Models;
 
 use App\IGDB\Enums\Image\Size;
 use App\IGDB\Service\IGDBService;
+use App\IGDB\Traits\CategoryTrait;
 use App\IGDB\Traits\ImageSizeTrait;
 
 class UserGame
 {
     use ImageSizeTrait;
+    use CategoryTrait;
 
     private $igdbService;
 
@@ -23,6 +25,7 @@ class UserGame
         $games = $this->igdbService->makeRequest('games', "
             fields 
             name,
+            category,
             genres.name, 
             cover.url, 
             first_release_date, 
@@ -36,6 +39,9 @@ class UserGame
         foreach ($games as &$game) {
             if (isset($game['cover']['url'])) {
                 $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_SMALL, true);
+            }
+            if (isset($game['category'])) {
+                $game['category'] = $this->getCategoryName($game['category']);
             }
         }
 
