@@ -93,7 +93,7 @@
     
     .game_user_collections {
         position: absolute;
-        bottom: 0;
+        bottom: 0.5rem;
         right: 0;
         display: flex;
         flex-flow: row nowrap;
@@ -163,8 +163,8 @@
         .add-collection {
             .icon-collection {
                 .icon-collection-path {
-                    fill: #ffffff4f;
-                    stroke: #ffffff4f;
+                    fill: #eee;
+                    stroke: #eee;
                 }
             }
             &:hover {
@@ -187,8 +187,8 @@
         .add-like {
             .icon-like {
                 .icon-like-path {
-                    fill: #ffffff4f;
-                    stroke: #ffffff4f;
+                    fill: #eee;
+                    stroke: #eee;
                 }
             }
             &:hover {
@@ -211,8 +211,8 @@
         .add-wishlist {
             .icon-wishlist {
                 .icon-wishlist-path {
-                    fill: #ffffff4f;
-                    stroke: #ffffff4f;
+                    fill: #eee;
+                    stroke: #eee;
                 }
             }
             &:hover {

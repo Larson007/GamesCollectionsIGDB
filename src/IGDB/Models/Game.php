@@ -94,7 +94,12 @@ class Game
         ");
 
 
-        $game = $game[0];
+        if (isset($game[0])) {
+            $game = $game[0];
+        } else {
+            $game;
+        }
+        // $game = $game[0];
 
         if (isset($game['cover']['url'])) {
             $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, false);
@@ -200,7 +205,11 @@ class Game
         ;
         ");
 
-        $game =  $game[0];
+        if (isset($game[0])) {
+            $game = $game[0];
+        } else {
+            $game;
+        }
 
 
         // collection
@@ -246,7 +255,11 @@ class Game
         ;
         ");
 
-        $game =  $game[0];
+        if (isset($game[0])) {
+            $game = $game[0];
+        } else {
+            $game;
+        }
 
         // screenshots
         if (isset($game['screenshots'])) {
@@ -277,7 +290,11 @@ class Game
         ;
         ");
 
-        $game =  $game[0];
+        if (isset($game[0])) {
+            $game = $game[0];
+        } else {
+            $game;
+        }
 
         if (isset($game['franchises'])) {
             foreach ($game['franchises'] as &$franchises) {

@@ -169,6 +169,7 @@ class UserPageController extends AbstractController
         ]);
     }
 
+    
     // Page de collection de l'utilisateur
     #[Route('/user/collection', name: 'app_user_collection')]
     public function userCollection(): Response

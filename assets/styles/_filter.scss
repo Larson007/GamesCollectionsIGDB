@@ -541,11 +541,15 @@
                 align-items: center;
                 //* Hover de la carte
                 &:hover {
-                    .add-collection, .add-like, .add-wishlist {
+                    .add-collection,
+                    .add-like,
+                    .add-wishlist {
                         z-index: 200;
                         opacity: 1;
                     }
-                    .remove-collection, .add-like, .add-wishlist {
+                    .remove-collection,
+                    .add-like,
+                    .add-wishlist {
                         z-index: 200;
                         opacity: 1;
                     }
@@ -610,23 +614,23 @@
                             border-color: transparent transparent #eee transparent;
                         }
                     }
-                    .pophover-collection{
-                        background-color: $blue;  
+                    .pophover-collection {
+                        background-color: $blue;
                         &::after {
                             border-color: transparent transparent $blue transparent;
-                        }                      
+                        }
                     }
-                    .pophover-like{
-                        background-color: $red;   
+                    .pophover-like {
+                        background-color: $red;
                         &::after {
                             border-color: transparent transparent $red transparent;
-                        }                       
+                        }
                     }
-                    .pophover-wishlist{
+                    .pophover-wishlist {
                         background-color: $yellow;
                         &::after {
                             border-color: transparent transparent $yellow transparent;
-                        }  
+                        }
                     }
                 }
                 .collection-position {
@@ -660,12 +664,12 @@
                 .remove-collection {
                     z-index: 200;
                     opacity: 1;
-                        .icon-collection {
-                            .icon-collection-path {
-                                fill: $blue;
-                                stroke: $blue;
-                            }
+                    .icon-collection {
+                        .icon-collection-path {
+                            fill: $blue;
+                            stroke: $blue;
                         }
+                    }
                 }
                 .add-like {
                     z-index: -1;
@@ -744,6 +748,17 @@
                             object-fit: cover;
                             border-radius: 5px;
                         }
+                        .card-title-placeholder {
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            text-shadow: $text-shadow;
+                            padding: 0.5rem;
+                            font-size: 1.3rem;
+                            font-weight: bold;
+                            color: #eee;
+                            margin-bottom: 0.5rem;
+                        }
                     }
                     //* Game Category
                     .game-category {
@@ -779,7 +794,12 @@
                         height: 100%;
                         border-radius: 5px;
                         .game_card_body-position {
-                            background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0));
+                            background: linear-gradient(
+                                to bottom,
+                                rgba(0, 0, 0, 1),
+                                rgba(255, 255, 255, 0) 50%,
+                                rgba(0, 0, 0, 0)
+                            );
                             position: relative;
                             height: 100%;
                             width: 100%;
@@ -866,11 +886,10 @@
     }
 }
 
-
 @media screen and (max-width: 780px) {
     .filter_btn {
         flex-flow: column wrap !important;
-        justify-content:space-between !important;
+        justify-content: space-between !important;
         button {
             width: 100% !important;
             border-radius: 3px;
@@ -904,9 +923,7 @@
 }
 
 @media screen and (min-width: 780px) and (max-width: 1200px) {
-
 }
 
 @media screen and (min-width: 1200px) {
-
 }

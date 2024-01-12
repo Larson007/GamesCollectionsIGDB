@@ -1,6 +1,7 @@
 import jsonData from '../../json/searchFilter.json';
 import { multiRangeSliders } from './multiRangeSliders';
 import {filterCollectionsToggle} from './filterCollections.js';
+import {filterImages} from './filterImages.js';
 import {overlay} from '../../overlay.js';
 
 export function initFilter() {
@@ -77,6 +78,7 @@ export function initFilter() {
 
             // Appeler sendSelectedValues après avoir mis à jour selectedValues
             sendSelectedValues();
+            filterImages();
             // Afficher selectedValues dans la console
             console.log(selectedValues);
         }
@@ -100,6 +102,7 @@ export function initFilter() {
                 success: function (response) {
                     $('#games_list').html(response);
                     filterCollectionsToggle();
+                    filterImages();
                 },
                 error: function (error) {
                     console.log(error);
@@ -567,6 +570,7 @@ export function initFilter() {
 
 
         //* APPEL DES FONCTIONS
+        filterImages();
         filterBtn();
         sortResult();
         filterCollectionsToggle();

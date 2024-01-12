@@ -29,9 +29,22 @@ export function gameMedias() {
     const gameMediasVideoButtons = document.querySelector('.videos_buttons');
     const gameMediasScreenshot = document.querySelector('.media_screenshots');
 
-    let buttonNavMedias = [navButtonVideo, navButtonScreenshot];
+    let buttonNavMedias = [];
 
-    if (buttonNavMedias) {
+    if (navButtonVideo) {
+        buttonNavMedias.push(navButtonVideo);
+    }
+
+    if (navButtonScreenshot) {
+        buttonNavMedias.push(navButtonScreenshot);
+    }
+
+    // Si navButtonVideo est null, afficher par défaut les screenshots
+    if (!navButtonVideo && gameMediasScreenshot) {
+        gameMediasScreenshot.style.display = 'block';
+    }
+
+    if (buttonNavMedias.length > 0) {
         buttonNavMedias.forEach(btn => {
             btn.addEventListener('click', function () {
                 buttonNavMedias.forEach(btn => {
@@ -41,35 +54,33 @@ export function gameMedias() {
 
                 switch (this.id) {
                     case 'media_button-video':
-                    // medias.style.height = '690px';
+                        // medias.style.height = '690px';
                         gameMediasVideo.style.display = 'flex';
                         gameMediasThumbnail.style.display = 'block';
                         gameMediasScreenshot.style.display = 'none';
                         gameMediasVideoButtons.style.display = 'flex';
                         break;
                     case 'media_button-screenshot':
-                        
+
                         gameMediasScreenshot.style.display = 'block';
                         gameMediasVideo.style.display = 'none';
                         gameMediasThumbnail.style.display = 'none';
                         gameMediasVideoButtons.style.display = 'none';
                         break;
-                    // default:
-                    //     gameMedias.style.height = '75vh';
-
-                    //     gameMediasVideo.style.display = 'flex';
-                    //     gameMediasScreenshot.style.display = 'none';
                 }
             });
         });
+    } else {
+        return;
     }
-    
+
     const thumbnails = document.querySelectorAll('.thumbnail');
     const videoIframe = document.querySelector('.media_videos iframe');
     const prevButton = document.querySelector('#video-previous');
     const nextButton = document.querySelector('#video-next');
 
     let activeIndex = 0;
+
 
     function updateVideo() {
         const videoId = thumbnails[activeIndex].getAttribute('data-video-id');
@@ -83,6 +94,7 @@ export function gameMedias() {
         // Ajoute la classe 'video_active' à la vignette active
         thumbnails[activeIndex].classList.add('video_active');
     }
+
 
     prevButton.addEventListener('click', () => {
         activeIndex = (activeIndex - 1 + thumbnails.length) % thumbnails.length;
@@ -103,7 +115,8 @@ export function gameMedias() {
     });
 
     // Initialise la première vidéo
-    updateVideo();
-
+    if (thumbnails.length > 0) {
+        updateVideo();
+    }
 
 }

@@ -28,9 +28,11 @@
 			<a class="game_card-link" href="/game/{{game.id}}">
 				<div class="game_card_img">
 					{% if game.cover is defined %}
-						<img src="{{game.cover.url}}" alt="{{game.name}}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('build/images/placeholder.jpg') }}';">
+						<img class="card-image" src="{{game.cover.url}}" alt="{{game.name}}" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('build/images/placeholder.jpg') }}';">
+						{# <h5 class="card-title-placeholder">{{ game.name|length > 40 ? game.name|slice(0, 40) ~ '...' : game.name }}</h5> #}
 					{% else %}
-						<img src="{{ asset('build/images/placeholder.jpg') }}" alt="{{game.name}}" loading="lazy">
+						<img class="card-image" src="{{ asset('build/images/placeholder.jpg') }}" alt="{{game.name}}" loading="lazy">
+						<h5 class="card-title-placeholder">{{ game.name|length > 40 ? game.name|slice(0, 40) ~ '...' : game.name }}</h5>
 					{% endif %}
 				</div>
 				<div class="game-category">
