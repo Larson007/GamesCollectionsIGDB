@@ -56,12 +56,11 @@ export function gameMedias() {
                     case 'media_button-video':
                         // medias.style.height = '690px';
                         gameMediasVideo.style.display = 'flex';
-                        gameMediasThumbnail.style.display = 'block';
+                        gameMediasThumbnail.style.display = 'flex';
                         gameMediasScreenshot.style.display = 'none';
                         gameMediasVideoButtons.style.display = 'flex';
                         break;
                     case 'media_button-screenshot':
-
                         gameMediasScreenshot.style.display = 'block';
                         gameMediasVideo.style.display = 'none';
                         gameMediasThumbnail.style.display = 'none';

@@ -11,325 +11,749 @@
         transform: translateY(-25%);
         width: 100%;
         height: auto;
-        opacity: 0.05;
+        opacity: 0.2;
     }
 }
 
-.fil_ariane {
-    position: absolute;
-    top: 40%;
-    right: 10%;
-    .fil_ariane_list {
+.scroll_menu {
+    z-index: 110;
+    position: fixed;
+    top: 35%;
+    left: 86%;
+    transition: top 0.1s ease;
+    .scroll_menu_list {
         list-style: none;
         padding: 0;
-        .fil_ariane_list-item {
+        margin: 0;
+        .scroll_menu_list-item {
+            button {
+                text-transform: uppercase;
+                background-color: transparent;
+                border: none;
+                color: #888;
+            }
+        }
+        .scroll-active {
+            button {
+                font-weight: bolder;
+                color: $yellow;
+                text-shadow: $text-shadow;
+            }
         }
     }
 }
 
 .game-details {
     padding-top: 10%;
+}
 
-    .game_presentation {
-        position: relative;
-        height: 100%;
-        // padding-top: 10rem;
-        .game_cover {
-            position: absolute;
-            top: -25%;
-            left: 0;
-            transform: translateY(-25%);
-            width: 25%;
-            .game_cover-image {
-                width: 100%;
-                height: auto;
-            }
-        }
-        .game_titles {
-            margin-left: 25%;
+.game_presentation {
+    position: relative;
+    height: 100%;
+    // padding-top: 10rem;
+    .game_cover {
+        position: absolute;
+        top: -25%;
+        left: 0;
+        transform: translateY(-25%);
+        width: 25%;
+        .game_cover-image {
+            width: 100%;
+            height: auto;
         }
     }
-
-    .game_informations {
-        background-color: #3a3a3a;
-        padding-bottom: 100px;
-        .game_informations-content {
+    .game_titles {
+        margin-left: 25%;
+        padding-left: 0.5rem;
+        text-shadow: $text-shadow;
+        .title {
+            font-size: 1.5rem;
+            font-weight: bolder;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .released {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            p {
+                background-color: #888;
+            }
+        }
+        .category {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            p {
+                background-color: $blue;
+            }
+        }
+    }
+    
+    .game_user_collections {
+        position: absolute;
+        bottom: 0.5rem;
+        right: 0;
+        display: flex;
+        flex-flow: row nowrap;
+        .user_collection-button {
+            position: relative;
             display: flex;
-            flex-flow: row nowrap;
-            width: 100%;
-
-            .game_rating {
-                width: 25%;
-                margin-top: auto;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            background-color: $cards;
+            border-radius: 50%;
+            border: none;
+            margin-left: 1rem;
+            .collection_icon {
+                width: 50%;
+                height: 50%;
             }
-
-            .informations {
-                width: 75%;
-                .information_header {
-                    .information_nav {
-                        padding: 0;
-                        list-style: none;
-                        display: flex;
-                        flex-flow: row nowrap;
-                        align-items: center;
-                        height: 100px;
-                        padding-left: 1.3rem;
-                        .information_nav-link {
-                            font-size: 1.125rem;
-                            font-weight: bold;
-                            text-transform: uppercase;
-                            padding: 0;
-                            padding-bottom: 5px;
-                            background-color: transparent;
-                            border: none;
-                            margin-right: 1rem;
-                            color: #eee;
-                        }
-                        .information_nav-link-active {
-                            border-bottom: 1px solid #eee;
-                            text-decoration: none;
-                            padding-bottom: 5px;
-                        }
-                        .information_nav-button {
-                            margin-left: auto;
-                            height: 100%;
-                            width: 30%;
-                            display: flex;
-                            flex-flow: row nowrap;
-                            justify-content: flex-end;
-                            align-items: center;
-                            background-color: $yellow;
-                            button {
-                                background-color: $yellow;
-                                width: 100px;
-                                height: 100%;
-                                border: none;
-                                &:hover {
-                                    background-color: darken($yellow, 5%);
-                                    // opacity: 0.2;
-                                }
-                                svg {
-                                    width: 25%;
-                                    height: auto;
-                                }
-                            }
-                            .information_nav-link-next {
-                                border-left: 1px solid #3a3a3a;
-                            }
-                        }
-                    }
+            &:hover {
+                cursor: pointer;
+                .pophover {
+                    display: inline-block;
                 }
-                .information_body {
-                    background-color: #eee;
-                    height: 420px;
-                    padding: 1.5rem;
-                    color: #3a3a3a;
-                    overflow-y: auto;
-
-                    /* Personnalisation de la barre de défilement */
-                    &::-webkit-scrollbar {
-                        width: 5px;
-                    }
-
-                    &::-webkit-scrollbar-track {
-                        background: #eee;
-                    }
-
-                    &::-webkit-scrollbar-thumb {
-                        background: #888;
-                    }
-
-                    &::-webkit-scrollbar-thumb:hover {
-                        background: #555;
-                    }
-
-                    .information_body-item-content {
-                        font-size: 1rem;
-                        line-height: 1.5rem;
-                        h3 {
-                            font-size: 1.5rem;
-                            font-weight: bold;
-                            margin-bottom: 1rem;
-                        }
-                    }
-
-                    #histoire {
-                        .game_summary {
-                            margin-bottom: 2rem;
-                        }
+            }
+        }
+        .pophover {
+            display: none;
+            position: absolute;
+            top: -27px; /* Positionnez la popover en dessous du bouton */
+            left: 50%; /* Centrez la popover */
+            transform: translateX(-50%); /* Décalez la popover pour la centrer correctement */
+            color: #fff;
+            text-shadow: $text-shadow;
+            padding: 0rem 0.5rem; /* Espacement à l'intérieur de la popover */
+            border-radius: 5px;
+            font-size: 0.9rem;
+            &::after {
+                content: "";
+                position: absolute;
+                top: 100%; /* Positionnez le triangle en bas de la popover */
+                left: 50%;
+                transform: translateX(-50%) rotate(-180deg);
+                border-width: 5px;
+                border-style: solid;
+                border-color: transparent transparent #eee transparent;
+            }
+        }
+        .pophover-collection{
+            background-color: $blue;  
+            &::after {
+                border-color: transparent transparent $blue transparent;
+            }                      
+        }
+        .pophover-like{
+            background-color: $red;   
+            &::after {
+                border-color: transparent transparent $red transparent;
+            }                       
+        }
+        .pophover-wishlist{
+            background-color: $yellow;
+            &::after {
+                border-color: transparent transparent $yellow transparent;
+            }  
+        }
+    
+        .add-collection {
+            .icon-collection {
+                .icon-collection-path {
+                    fill: #eee;
+                    stroke: #eee;
+                }
+            }
+            &:hover {
+                .icon-collection {
+                    .icon-collection-path {
+                        fill: $blue;
+                        stroke: $blue;
                     }
                 }
             }
         }
+        .remove-collection {
+                .icon-collection {
+                    .icon-collection-path {
+                        fill: $blue;
+                        stroke: $blue;
+                    }
+                }
+        }
+        .add-like {
+            .icon-like {
+                .icon-like-path {
+                    fill: #eee;
+                    stroke: #eee;
+                }
+            }
+            &:hover {
+                .icon-like {
+                    .icon-like-path {
+                        fill: $red;
+                        stroke: $red;
+                    }
+                }
+            }
+        }
+        .remove-like {
+            .icon-like {
+                .icon-like-path {
+                    fill: $red;
+                    stroke: $red;
+                }
+            }
+        }
+        .add-wishlist {
+            .icon-wishlist {
+                .icon-wishlist-path {
+                    fill: #eee;
+                    stroke: #eee;
+                }
+            }
+            &:hover {
+                .icon-wishlist {
+                    .icon-wishlist-path {
+                        fill: $yellow;
+                        stroke: $yellow;
+                    }
+                }
+            }
+        }
+        .remove-wishlist {
+            .icon-wishlist {
+                .icon-wishlist-path {
+                    fill: $yellow;
+                    stroke: $yellow;
+                }
+            }
+        }
     }
+}
 
-    .game_collection {
-        background-color: #eee;
+.game_informations {
+    background-color: #3a3a3a;
+    padding-bottom: 100px;
+    margin-bottom: 5rem;
+    .game_informations-content {
+        display: flex;
+        flex-flow: row nowrap;
         width: 100%;
-        padding: 0;
-        margin-bottom: 10rem;
-        .collection_header {
-            width: 100%;
-            height: 100px;
-            padding-left: 20px;
-            .collection_nav {
-                display: flex;
-                flex-flow: row nowrap;
-                align-items: center;
-                height: 100%;
-                width: 100%;
-                padding-left: 1.3rem;
-                .collection_nav-link {
+
+        .game_informations-content-side {
+            margin-top: 12rem;
+            width: 25%;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;
+            .game_age_ratings {
+                h3 {
                     font-size: 1.125rem;
                     font-weight: bold;
                     text-transform: uppercase;
-                    padding: 0;
-                    padding-bottom: 5px;
-                    background-color: transparent;
-                    border: none;
-                    margin-right: 1rem;
-                    color: #3a3a3a;
+                    margin-bottom: 1rem;
                 }
-                .collection_nav-link-active {
-                    border-bottom: 1px solid #3a3a3a;
-                    text-decoration: none;
-                    padding-bottom: 5px;
+                .game_age_ratings-icons {
+                    display: flex;
+                    flex-flow: row wrap;
+                    img {
+                        border: 1px solid #eee;
+                        margin-right: 0.4rem;
+                    }
+                    p {
+                        font-size: 0.8rem;
+                        font-style: italic;
+                        color: #eee;
+                    }
+                }
+            }
+            .game_notes {
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: center;
+                padding-right: 2rem;
+                .game_rating {
+                    margin-top: auto;
+                    display: flex;
+                    flex-flow: column nowrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    .game_rating-title {
+                        font-size: 0.8rem;
+                        font-weight: lighter;
+                        text-transform: uppercase;
+                        text-align: center;
+                        height: 2rem;
+                    }
+                    .game_rating-title-null {
+                        color: #eee;
+                        font-style: italic;
+                        font-size: 0.8rem;
+                        font-weight: lighter;
+                        text-transform: uppercase;
+                        text-align: center;
+                        height: 2rem;
+                    }
+                    .game_rating-graph {
+                        position: relative;
+                        p {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            font-size: 1.25rem;
+                            font-weight: bold;
+                            text-shadow: $text-shadow;
+                        }
+                        .rating-green {
+                            color: $green;
+                        }
+                        .rating-blue {
+                            color: $blue;
+                        }
+                        .rating-yellow {
+                            color: $yellow;
+                        }
+                        .rating-red {
+                            color: $red;
+                        }
+                        .rating-null {
+                            color: #888;
+                        }
+                    }
                 }
             }
         }
-        .collection_body, .dlcs_body, .expansions_body { 
-            position: relative;
-            overflow: hidden;
-            .collection_body-content {
-                .collection_body-collection {
+
+        .informations {
+            width: 75%;
+            .information_header {
+                .information_nav {
+                    padding: 0;
+                    list-style: none;
                     display: flex;
                     flex-flow: row nowrap;
-                    width: 100%;
-                    height: 100%;
-                    position: relative;
-                    .collection-infos {
-                        width: 55%;
+                    align-items: center;
+                    height: 100px;
+                    padding-left: 1.3rem;
+                    .information_nav-link {
+                        font-size: 1.125rem;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        padding: 0;
+                        padding-bottom: 5px;
+                        background-color: transparent;
+                        border: none;
+                        margin-right: 1rem;
+                        color: #eee;
+                    }
+                    .information_nav-link-active {
+                        border-bottom: 1px solid #eee;
+                        text-decoration: none;
+                        padding-bottom: 5px;
+                    }
+                    .information_nav-button {
+                        margin-left: auto;
+                        height: 100%;
+                        width: 30%;
+                        display: flex;
+                        flex-flow: row nowrap;
+                        justify-content: flex-end;
+                        align-items: center;
+                        background-color: $yellow;
+                        button {
+                            background-color: $yellow;
+                            width: 100px;
+                            height: 100%;
+                            border: none;
+                            &:hover {
+                                background-color: darken($yellow, 5%);
+                                // opacity: 0.2;
+                            }
+                            svg {
+                                width: 25%;
+                                height: auto;
+                            }
+                        }
+                        .information_nav-link-next {
+                            border-left: 1px solid #3a3a3a;
+                        }
+                    }
+                }
+            }
+            .information_body {
+                background-color: #eee;
+                height: 420px;
+                width: 100%;
+                padding: 1.5rem;
+                color: #3a3a3a;
+                overflow-y: auto;
+                margin: 0 auto;
+
+                /* Personnalisation de la barre de défilement */
+                &::-webkit-scrollbar {
+                    width: 5px;
+                }
+
+                &::-webkit-scrollbar-track {
+                    background: #eee;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background: #888;
+                }
+
+                &::-webkit-scrollbar-thumb:hover {
+                    background: #555;
+                }
+
+                #infos {
+                    .infos_body {
                         display: flex;
                         flex-flow: row wrap;
-                        .collection_games-cover {
-                            width: 100%;
-                            // overflow: visible;
-                            z-index: 99;
-                            position: absolute;
-                            top: 10%;
-                            left: 45%;
-                            display: flex;
-                            flex-flow: row nowrap;
-                            align-items: center;
-                            .cover_collection {
-                                position: relative;
-                                width: 15%;
-                                height: 100%;
-                                margin-right: 3rem;
-                                filter: grayscale(100%) brightness(0.58) contrast(1);
-                            }
-                            .cover_collection-active {
-                                width: 25%;
-                                height: 100%;
-                                margin-right: 3rem;
-                            }
-                        }
-                        .collection-infos-content {
-                            background-color: #eee;
-                            color: #3a3a3a;
-                            width: 100%;
-                            padding: 4rem 12rem 2rem 4rem;
-                            height: 480px;
-                            display: flex;
-                            flex-flow: column nowrap;
-                            .collection-infos-title {
-                                font-size: 0.9rem;
-                                columns: #888;
-                                text-transform: uppercase;
-                                font-weight: bold;
-                            }
-                            .collection_franchise-name {
-                                font-size: 3rem;
-                                font-weight: bolder;
-                                margin-bottom: 1.5rem;
-                                text-transform: uppercase;
-                            }
-                            .collection_title {
-                                text-transform: uppercase;
-                                font-size: 1.75rem;
-                                font-weight: bold;
-                            }
-                            .collection_summary {
-                                font-size: 1rem;
-                                color: #888;
-                            }
-                        }
-                        .collection-infos-platforms {
-                            background-color: #3a3a3a;
-                            color: #eee;
-                            width: 100%;
-                            height: auto;
-                            // padding: 2rem 4rem;
-                            padding: 2rem 0 2rem 4rem;
+                        justify-content: space-between;
+                        width: 100%;
+
+                        .infos_groupes {
+                            margin-bottom: 1rem;
+                            width: 50%;
                             h3 {
-                                font-size: 1rem;
+                                font-size: 1.5rem;
                                 font-weight: bold;
-                                margin-bottom: 1.5rem;
+                                margin-bottom: 0.5rem;
                             }
-                            .collection_platforms {
+                            .infos_items {
                                 display: flex;
-                                flex-flow: row nowrap;
+                                flex-flow: row wrap;
                                 p {
-                                    display: inline-block;
-                                    font-size: 1rem;
-                                    margin: 0 1rem 0 0;
+                                    padding: 0.2rem 0.3rem;
+                                    border: 1px solid $cards;
+                                    border-radius: 3px;
+                                    margin-right: 0.5rem;
+                                    margin-bottom: 0.5rem;
+                                    font-size: 0.8rem;
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+                        .infos_platforms {
+                            .platforms {
+                                p {
+                                    background-color: $blue;
+                                }
+                            }
+                        }
+                        .infos_genres {
+                            .genres {
+                                p {
+                                    background-color: $yellow;
+                                }
+                            }
+                        }
+                        .infos_modes {
+                            .modes {
+                                p {
+                                    background-color: $purple;
+                                }
+                            }
+                        }
+                        .infos_themes {
+                            .themes {
+                                p {
+                                    background-color: $green;
+                                }
+                            }
+                        }
+                        .infos_player_perspectives {
+                            .player_perspectives {
+                                p {
+                                    background-color: $red;
+                                }
+                            }
+                        }
+                        .infos_multiplayer_modes {
+                            width: 100%;
+                            .multiplayer_modes {
+                                width: 100%;
+                                .multiplayer_modes_platforms {
+                                    width: 50%;
                                 }
                             }
                         }
                     }
-                    .collection-images {
-                        width: 45%;
-                        min-height: 100%;
-                        position: relative;
-                        overflow: hidden;
-                        .collection_images-background {
-                            position: absolute;
-                            top: -25%;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            img {
-                                width: 100%;
-                                height: auto;
-                                filter: grayscale(100%) brightness(0.58) contrast(1);
-                            }
-                            &::after {
-                                content: "";
-                                position: absolute;
-                                top: 25%;
-                                left: 0;
-                                width: 100%;
-                                height: 100%;
-                                background-image: linear-gradient(to top right, rgba(58, 58, 58, 1) 0%, rgba(58, 58, 58, 1) 10%, rgba(58, 58, 58, 0.5) 50%, rgba(58, 58, 58, 0.3) 100%);
+                }
+
+                #histoire {
+                    font-size: 1rem;
+                    line-height: 1.5rem;
+                    h3 {
+                        font-size: 1.5rem;
+                        font-weight: bold;
+                        margin-bottom: 1rem;
+                    }
+                    .game_summary {
+                        margin-bottom: 2rem;
+                    }
+                }
+
+                #teams {
+                    h4 {
+                        font-size: 1.125rem;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        margin-bottom: 0.5rem;
+                    }
+                    .teams-link {
+                        display: flex;
+                        flex-flow: row wrap;
+                        margin-bottom: 2rem;
+                        a,
+                        p {
+                            padding: 0.2rem 0.3rem;
+                            border: 1px solid $cards;
+                            border-radius: 3px;
+                            display: flex;
+                            flex-flow: row nowrap;
+                            justify-content: center;
+                            align-items: center;
+                            margin-right: 0.5rem;
+                            text-decoration: none;
+                            color: $cards;
+                            font-size: 1rem;
+                            font-weight: lighter;
+                            .teams-link-icon {
+                                margin-left: 0.2rem;
+                                font-weight: bold;
+                                color: $cards;
                             }
                         }
+                        a:hover {
+                            // text-decoration: underline;
+                            font-weight: bold;
+                            background-color: $yellow;
+                        }
+                    }
+                }
 
-                        .collection-images-cover-next {
-                            position: absolute;
+                #liens-externes {
+                    .websites {
+                        display: flex;
+                        flex-flow: row wrap;
+                        align-items: center;
+                        .website_item {
+                            display: flex;
+                            flex-flow: column nowrap;
+                            justify-content: center;
+                            align-items: center;
+                            margin-right: 2rem;
+                            margin-bottom: 1.5rem;
+                            text-decoration: none;
+                            .website_item-logo {
+                                width: 45px;
+                                height: auto;
+                            }
+                            .website_item-name {
+                                font-size: 0.8rem;
+                                font-weight: bold;
+                                text-transform: uppercase;
+                                color: #888;
+                                margin-top: 0.5rem;
+                            }
+                            &:hover {
+                                text-decoration: underline;
+                                .website_item-name {
+                                    color: #3a3a3a;
+                                }
+                            }
                         }
                     }
                 }
             }
-            .collection_buttons {
+        }
+    }
+}
+
+.game_collection {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    padding: 0;
+    .collection_header {
+        height: 100px;
+        width: 100%;
+        background-color: #eee;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        padding: 0 0 0 2rem;
+        .collection_nav-link {
+            font-size: 1.125rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0;
+            padding-bottom: 5px;
+            background-color: transparent;
+            border: none;
+            margin-right: 1rem;
+            color: #3a3a3a;
+            border-bottom: 1px solid #eee;
+            text-decoration: none;
+            padding-bottom: 5px;
+        }
+        .collection_nav-link-active {
+            border-bottom: 1px solid #3a3a3a;
+            text-decoration: none;
+            padding-bottom: 5px;
+        }
+    }
+    .collection_body {
+        width: 100%;
+        height: 660px;
+        display: flex;
+        flex-flow: row wrap;
+        overflow: hidden;
+        .collection_body-left {
+            width: 55%;
+            height: 660px;
+            position: relative;
+            .left_informations {
+                background-color: #eee;
+                color: #3a3a3a;
+                width: 100%;
+                height: 480px;
+                display: flex;
+                flex-flow: column nowrap;
+                padding: 4rem 13rem 2rem 4rem;
+                .collection_series-title {
+                    color: #888;
+                    font-weight: bolder;
+                    font-size: 1.25rem;
+                    text-transform: uppercase;
+                }
+                .collection_series-name {
+                    font-size: 2rem;
+                    font-weight: bolder;
+                }
+                .collection_title {
+                    margin-top: 2rem;
+                }
+                .collection_summary {
+                    color: #888;
+                    font-size: 0.85rem;
+                }
+            }
+            .left_covers {
+                z-index: 99;
+                position: absolute;
+                top: 10%;
+                left: 75%;
+                height: auto;
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: space-between;
+                align-items: center;
+                .collection_cover-active {
+                    width: 340px;
+                    height: auto;
+                    img {
+                        width: 100%;
+                        height: auto;
+                        border-radius: 3px;
+                    }
+                }
+                .collection_covers {
+                    display: flex;
+                    flex-flow: row nowrap;
+                    img {
+                        width: 280px;
+                        height: auto;
+                        padding-left: 3rem;
+                        filter: brightness(0.3) contrast(0.8);
+                        border-radius: 5px;
+                    }
+                }
+            }
+            .left_platforms {
+                background-color: #3a3a3a;
+                width: 100%;
+                height: 180px;
+                padding: 3rem 4rem;
+                h3 {
+                    display: inline-block;
+                    width: 100%;
+                    font-size: 1.5rem;
+                    margin-bottom: 1rem;
+                    color: #eee;
+                }
+                .collections_platforms {
+                    display: flex;
+                    flex-flow: row nowrap;
+                    align-items: center;
+                    p {
+                        margin-right: 1rem;
+                        color: #eee;
+                        font-size: 1rem;
+                        font-weight: bolder;
+                    }
+                }
+            }
+        }
+        .collection_body-right {
+            width: 45%;
+            height: 660px;
+            position: relative;
+            .right_background {
+                max-height: 680px;
+                width: 100%;
+                .collection_cover-background {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    img {
+                        width: 100%;
+                        height: auto;
+                        filter: grayscale(100%) brightness(0.8) contrast(1);
+                    }
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-image: linear-gradient(
+                            to top right,
+                            #3a3a3a 0%,
+                            #3a3a3a 10%,
+
+                            rgba(58, 58, 58, 0.8) 50%,
+                            rgba(58, 58, 58, 0.8) 100%
+                        );
+                    }
+                }
+            }
+            .buttons_group {
                 position: absolute;
                 bottom: 0;
                 right: 0;
+                z-index: 10;
                 height: 65px;
+                width: 200px;
+                z-index: 10;
+                background-color: $yellow;
                 display: flex;
                 flex-flow: row nowrap;
-                justify-content: flex-end;
+                justify-content: end;
                 align-items: center;
-                background-color: $yellow;
                 button {
                     background-color: $yellow;
                     width: 65px;
@@ -344,23 +768,581 @@
                         height: auto;
                     }
                 }
-                .next {
-                    border-left: 1px solid #3a3a3a;
+                #collection-previous {
+                    border-right: 1px solid #3a3a3a;
                 }
             }
         }
     }
 }
 
-.collections-position {
-    position: relative; // Ajoutez cette ligne si elle n'est pas déjà présente
-
-    .franchises-content,
-    .dlcs-content,
-    .expansions-content {
+.game_medias {
+    position: relative;
+    width: 100%;
+    height: 690px;
+    // height: auto;
+    padding: 0;
+    // overflow: hidden;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    .medias_header {
         position: absolute;
         top: 0;
         left: 0;
-        display: none;
+        height: 100px;
+        width: 80%;
+        background-color: #3a3a3a;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        padding-left: 2rem;
+        z-index: 30;
+        .media_nav-link {
+            font-size: 1.125rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0;
+            padding-bottom: 5px;
+            background-color: transparent;
+            border: none;
+            margin-right: 1rem;
+            color: #eee;
+            border-bottom: 1px solid transparent;
+            text-decoration: none;
+            padding-bottom: 5px;
+        }
+        .media_nav-link-active {
+            border-bottom: 1px solid #eee;
+        }
+    }
+    .medias_body {
+        display: flex;
+        flex-flow: row nowrap;
+        width: 100%;
+        height: 100%;
+
+        //* voir background top
+        // background-color: #eee;
+        // padding-top: 100px;
+        .media_videos {
+            display: flex;
+            // display: none;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            width: 80%;
+            margin-top: 100px;
+            background-color: #3a3a3a;
+            iframe {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .media_thumbnails {
+            width: 20%;
+            height: 100%;
+            background-color: #eee;
+            padding: 1rem;
+            overflow-y: auto;
+            z-index: 10;
+
+            /* Personnalisation de la barre de défilement */
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: #eee;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: #888;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            .thumbnail {
+                width: 100%;
+                display: flex;
+                flex-flow: row nowrap;
+                align-items: center;
+                margin-bottom: 1.125rem;
+                img {
+                    transition:
+                        opacity 0.5s ease,
+                        transform 0.5s ease;
+                    opacity: 0.7;
+                    transform: scale(0.9);
+                    width: 50%;
+                    height: auto;
+                    margin-right: 1rem;
+                    // border: 3px solid transparent;
+                }
+                h4 {
+                    font-size: 1rem;
+                    color: #888;
+                    font-weight: lighter;
+                }
+            }
+            .video_active {
+                img {
+                    opacity: 1;
+                    transform: scale(1);
+                    border: 3px solid $nintendo;
+                }
+                h4 {
+                    font-weight: bold;
+                    color: #3a3a3a;
+                }
+            }
+        }
+
+        .media_screenshots {
+            // display: block;
+            display: none;
+            height: auto;
+            width: 100%;
+            padding-top: 100px;
+            background-color: #3a3a3a;
+            margin: 0;
+            .screenshot {
+                padding: 0 1rem;
+            }
+            .slick-prev {
+                background-color: $yellow;
+                width: 65px;
+                height: 65px;
+                border: none;
+                z-index: 20;
+                &::before {
+                    content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpb25pY29uIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI0OCIgZD0iTTMyOCAxMTJMMTg0IDI1NmwxNDQgMTQ0Ii8+PC9zdmc+");
+                    display: inline-block;
+                    width: 20px; // Modifiez cette valeur en fonction de vos besoins
+                    height: 20px; // Modifiez cette valeur en fonction de vos besoins
+                    color: #3a3a3a;
+                }
+            }
+            .slick-next {
+                background-color: $yellow;
+                width: 65px;
+                height: 65px;
+                border: none;
+                z-index: 20;
+                &::before {
+                    content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpb25pY29uIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSI0OCIgZD0iTTE4NCAxMTJsMTQ0IDE0NC0xNDQgMTQ0Ii8+PC9zdmc+");
+                    display: inline-block;
+                    width: 20px; // Modifiez cette valeur en fonction de vos besoins
+                    height: 20px; // Modifiez cette valeur en fonction de vos besoins
+                    color: #3a3a3a;
+                }
+            }
+            .slick-dots {
+                background-color: #3a3a3a;
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: center;
+                align-items: center;
+                bottom: 0;
+                padding: 1rem;
+                li {
+                    width: 10px;
+                    height: 10px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    button {
+                        background: #888;
+                        width: 5px;
+                        height: 5px;
+                        border-radius: 50%;
+                        &::before {
+                            content: "";
+                            width: 5px;
+                            height: 5px;
+                        }
+                    }
+                }
+                .slick-active {
+                    button {
+                        background-color: $yellow;
+                    }
+                }
+            }
+        }
+    }
+
+    .videos_buttons {
+        z-index: 20;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+        height: 65px;
+        width: 200px;
+        z-index: 10;
+        background-color: $yellow;
+        display: flex;
+        // display: none;
+        flex-flow: row nowrap;
+        justify-content: end;
+        align-items: center;
+        button {
+            background-color: $yellow;
+            width: 65px;
+            height: 100%;
+            border: none;
+            &:hover {
+                background-color: darken($yellow, 5%);
+                // opacity: 0.2;
+            }
+            svg {
+                width: 25%;
+                height: auto;
+            }
+        }
+        #video-previous {
+            border-right: 1px solid #3a3a3a;
+        }
+    }
+
+    .screenshots_buttons {
+        z-index: 20;
+        display: block;
+        button {
+            position: absolute;
+            background-color: $yellow;
+            width: 65px;
+            height: 65px;
+            border: none;
+            &:hover {
+                background-color: darken($yellow, 5%);
+                // opacity: 0.2;
+            }
+            svg {
+                width: 25%;
+                height: auto;
+            }
+        }
+        #screenshots-previous {
+            top: 50%;
+            left: -65px;
+            transform: translate(50%, 50%);
+        }
+        #screenshots-next {
+            top: 50%;
+            right: -65px;
+            transform: translate(-50%, 50%);
+        }
     }
 }
+
+.game_franchises {
+    position: relative;
+    width: 100%;
+    height: 750px;
+    background-color: #3a3a3a;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    padding: 0;
+    .franchises_header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 165px;
+        width: 80%;
+        .franchises-title {
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            background-color: #3a3a3a;
+            padding-left: 2rem;
+            h4 {
+                font-size: 1.125rem;
+                font-weight: bold;
+                text-transform: uppercase;
+                color: #eee;
+            }
+        }
+        .franchises_nav {
+            width: 100%;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            background-color: #eee;
+            .franchises_nav-content {
+                padding-left: 2rem;
+                width: 85%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                flex-flow: row nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+                /* Personnalisation de la barre de défilement */
+                &::-webkit-scrollbar {
+                    height: 5px;
+                }
+
+                &::-webkit-scrollbar-track {
+                    background: #eee;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background: #888;
+                }
+
+                &::-webkit-scrollbar-thumb:hover {
+                    background: #555;
+                }
+                button {
+                    white-space: nowrap;
+                    font-size: 1.125rem;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    color: #3a3a3a;
+                    border: none;
+                    background-color: transparent;
+                    text-decoration: none;
+                    margin-right: 2rem;
+                }
+                .franchises_nav-active {
+                    border-bottom: 1px solid #3a3a3a;
+                }
+            }
+            .franchises_nav-buttons-navigation {
+                display: flex;
+                flex-flow: row nowrap;
+                height: 65px;
+                background-color: $blue;
+                width: 15%;
+                button {
+                    background-color: $blue;
+                    width: 50%;
+                    height: 100%;
+                    border: none;
+                    &:hover {
+                        background-color: darken($blue, 5%);
+                        // opacity: 0.2;
+                    }
+                    svg {
+                        width: 25%;
+                        height: auto;
+                    }
+                }
+                .franchises_nav-link-next {
+                    border-left: 1px solid #3a3a3a;
+                }
+            }
+
+        }
+    }
+    .franchises_body {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        .franchise_detail {
+            margin-top: 165px;
+            background-color: #3a3a3a;
+            width: 80%;
+            height: auto;
+            display: flex;
+            flex-flow: row wrap;
+            .franchise_detail-cover {
+                height: auto;
+                width: 30%;
+                border-radius: 3px;
+                display: flex;
+                flex-flow: column nowrap;
+                padding: 3rem 0 0 4rem;
+                img {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 3px;
+                }
+                .add_collections {
+                    width: 100%;
+                    height: auto;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0 2rem;
+                    margin-top: 1rem;
+                }
+            }
+            .franchise_detail-body {
+                position: relative;
+                height: auto;
+                width: 70%;
+                padding: 3rem 4rem 0 2rem;
+                .franchise_detail-title {
+                    a {
+                        text-decoration: none;
+                        h3 {
+                            color: #eee;
+                            font-size: 1.75rem;
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            margin-bottom: 1.5rem;
+                        }
+                    }
+                }
+                .franchise_detail-summary {
+                    color: #888;
+                    font-size: 0.95rem;
+                    margin-bottom: 2rem;
+                }
+                .franchise_detail-released {
+                    position: absolute;
+                    bottom: 0;
+                    right: 4rem;
+                }
+            }
+            .franchise_detail-platforms {
+                width: 100%;
+                height: auto;
+                padding: 3rem 4rem;
+                .franchise-platforms {
+                    width: 100%;
+                    display: flex;
+                    flex-flow: row nowrap;
+                    align-items: center;
+                    p {
+                        margin-right: 1rem;
+                        color: #eee;
+                        font-size: 1rem;
+                        font-weight: bolder;
+                    }
+                }
+            }
+        }
+
+        .franchises_body-list {
+            background-color: #eee;
+            width: 20%;
+            height: auto;
+            padding: 2rem;
+            overflow-y: auto;
+            z-index: 10;
+            margin-left: auto;
+
+            /* Personnalisation de la barre de défilement */
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: #eee;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: #888;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            .franchise_card {
+                position: relative;
+                display: flex;
+                margin-bottom: 2rem;
+                flex-flow: row nowrap;
+                .franchise_card-cover {
+                    width: 40%;
+                    height: 100%;
+                    border-radius: 3px;
+                    border: 2px solid transparent;
+                    opacity: 0.7;
+                    img {
+                        width: 100%;
+                        height: auto;
+                        border-radius: 3px;
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .franchise_card-body {
+                    width: 60%;
+                    height: 100%;
+                    padding-left: 1rem;
+                    h3 {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        width: 50%;
+                        font-size: 0.8rem;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        color: #888;
+                        text-decoration: none;
+                    }
+                    p {
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                        width: 50%;
+                        font-size: 0.7rem;
+                        color: #888;
+                        text-align: end;
+                    }
+                }
+            }
+            .franchise_card-active {
+                h3 {
+                    color: #3a3a3a;
+                }
+                .franchise_card-cover {
+                    opacity: 1;
+                    border: 2px solid $nintendo;
+                }
+            }
+        }
+    }
+
+    .franchises_buttons {
+        z-index: 20;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+        height: 65px;
+        width: 200px;
+        z-index: 10;
+        background-color: $yellow;
+        display: flex;
+        // display: none;
+        flex-flow: row nowrap;
+        justify-content: end;
+        align-items: center;
+        button {
+            background-color: $yellow;
+            width: 65px;
+            height: 100%;
+            border: none;
+            &:hover {
+                background-color: darken($yellow, 5%);
+                // opacity: 0.2;
+            }
+            svg {
+                width: 25%;
+                height: auto;
+            }
+        }
+        #franchise-previous {
+            border-right: 1px solid #3a3a3a;
+        }
+    }
+}
+
+/********************************************************/
+/********************************************************/
+/********************************************************/
+
+// @media screen and (max-width: 780px) {
+    
+// }
