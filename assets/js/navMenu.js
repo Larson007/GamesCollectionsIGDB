@@ -1,17 +1,19 @@
-const navMenu = () => {
+function navMenu(){
     document.querySelector('.menu-button').addEventListener('click', toggleMenu);
     let searchButton = document.querySelector('.link-search');
     let searchInput = document.querySelector('#search-input'); // Assurez-vous que c'est le bon sélecteur pour votre champ de recherche
     let searchForm = document.querySelector('#search-form'); // Assurez-vous que c'est le bon sélecteur pour votre formulaire de recherche
 
-    searchButton.addEventListener('click', function(event) {
-        var menu = document.querySelector('.menu');
-        if (menu.classList.contains('menu-hidden')) {
-            openMenu();
-        } else if (searchInput.value.trim() !== '') {
-            searchForm.submit();
-        }
-    });
+
+searchButton.addEventListener('click', function(event) {
+    var menu = document.querySelector('.menu');
+    if (menu.classList.contains('menu-hidden')) {
+        openMenu();
+    }
+    else if (searchInput.value.trim() !== '' && document.activeElement !== searchInput) {
+        searchForm.submit();
+    }
+});
 
     let userLink = document.querySelector('.list_item_user-link');
     if (userLink) {

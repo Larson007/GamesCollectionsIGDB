@@ -208,9 +208,12 @@
 }
 
 @media screen and (max-width: 780px) {
+    .auth-container {
+        margin: 3rem 0;
+    }
     // Login
     .formulaire_compte {
-        height: 90vh;
+        height: 80vh;
         display: flex;
         flex-flow: column wrap;
         justify-content: end;

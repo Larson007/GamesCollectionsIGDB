@@ -132,7 +132,9 @@ export function gameFranchises() {
         let html = `
 
                 <div class="franchise_detail-cover">
+                <a href="/game/${game.id}">
                 <img src="${game.cover ? game.cover.url : 'public/build/images/placeholder.jpg'}" alt="cover de ${game.name}" loading='lazy'>
+                </a>
                 </div>
                 <div class="franchise_detail-body">
                     <div class="franchise_detail-title">

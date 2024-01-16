@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-<div class="body-content">
+<div class="body-content auth-container">
 	<div class="container">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

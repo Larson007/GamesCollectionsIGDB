@@ -2,13 +2,12 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/build/runtime.js",
-        "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9e704d.js",
-        "/build/app.js"
+        "/build/runtime.0a5e6942.js",
+        "/build/676.d05263e4.js",
+        "/build/app.30cf5620.js"
       ],
       "css": [
-        "/build/vendors-node_modules_nouislider_dist_nouislider_css-node_modules_toastr_toastr_scss-node_modu-9e704d.css",
-        "/build/app.css"
+        "/build/app.69f8e48c.css"
       ]
     }
   }
