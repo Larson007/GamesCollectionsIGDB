@@ -4,6 +4,180 @@
     background-color: $cards;
     width: 100%;
     border-radius: 3px;
+    .carte_collection {
+        z-index: 10;
+        width: 10%;
+        height: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+
+        .collection_button {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 28px !important;
+            height: 33px !important;
+            background-color: $cards;
+                    padding: 5px 0;
+            border: none;
+            .collection_icon {
+                width: 50%;
+                height: 50%;
+            }
+            &:hover {
+                cursor: pointer;
+                .pophover {
+                    display: inline-block;
+                }
+            }
+        }
+        .pophover {
+            display: none;
+            position: absolute;
+            top: 50%; /* Positionnez la popover en dessous du bouton */
+            right: 100%; /* Centrez la popover */
+            transform: translateY(-50%); /* Décalez la popover pour la centrer correctement */
+            color: #fff;
+            text-shadow: $text-shadow;
+            padding: 0rem 0.5rem; /* Espacement à l'intérieur de la popover */
+            border-radius: 5px;
+            font-size: 0.9rem;
+            &::after {
+                content: "";
+                position: absolute;
+                top: 50%; /* Centrez le triangle verticalement */
+                right: -10px; /* Positionnez le triangle à droite de la popover */
+                transform: translateY(-50%) rotate(90deg); /* Décalez le triangle pour le centrer correctement */
+                border-width: 5px;
+                border-style: solid;
+                border-color: transparent #eee transparent transparent; /* Ajustez les couleurs des bordures pour que le triangle pointe vers la gauche */
+            }
+        }
+        .pophover-collection {
+            background-color: $blue;
+            &::after {
+                border-color: transparent transparent $blue transparent;
+            }
+        }
+        .pophover-like {
+            background-color: $red;
+            &::after {
+                border-color: transparent transparent $red transparent;
+            }
+        }
+        .pophover-wishlist {
+            background-color: $yellow;
+            &::after {
+                border-color: transparent transparent $yellow transparent;
+            }
+        }
+
+        .add-collection {
+            border-radius: 3px 0 0 0;
+            .icon-collection {
+                .icon-collection-path {
+                    fill: #eee;
+                    stroke: #eee;
+                }
+            }
+            &:hover {
+                .icon-collection {
+                    .icon-collection-path {
+                        fill: $blue;
+                        stroke: $blue;
+                    }
+                }
+            }
+        }
+        .remove-collection {
+            background-color: $blue;
+            .icon-collection {
+                .icon-collection-path {
+                    fill: #eee;
+                    stroke: #eee;
+                }
+            }
+            &:hover {
+                background-color: $nintendo;
+                .icon-collection {
+                    .icon-collection-path {
+                        fill: #eee;
+                        stroke: #eee;
+                    }
+                }
+            }
+        }
+        .add-like {
+            .icon-like {
+                .icon-like-path {
+                    fill: #eee;
+                    stroke: #eee;
+                }
+            }
+            &:hover {
+                .icon-like {
+                    .icon-like-path {
+                        fill: $red;
+                        stroke: $red;
+                    }
+                }
+            }
+        }
+        .remove-like {
+            background-color: $red;
+            .icon-like {
+                .icon-like-path {
+                    fill: #eee;
+                    stroke: #eee;
+                }
+            }
+            &:hover {
+                background-color: $nintendo;
+                .icon-like {
+                    .icon-like-path {
+                        fill: #eee;
+                        stroke: #eee;
+                    }
+                }
+            }
+        }
+        .add-wishlist {
+            .icon-wishlist {
+                .icon-wishlist-path {
+                    fill: #eee;
+                    stroke: #eee;
+                }
+            }
+            &:hover {
+                .icon-wishlist {
+                    .icon-wishlist-path {
+                        fill: $yellow;
+                        stroke: $yellow;
+                    }
+                }
+            }
+        }
+        .remove-wishlist {
+            background-color: $yellow;
+            .icon-wishlist {
+                .icon-wishlist-path {
+                    fill: #eee;
+                    stroke: #eee;
+                }
+            }
+            &:hover {
+                background-color: $nintendo;
+                .icon-wishlist {
+                    .icon-wishlist-path {
+                        fill: #eee;
+                        stroke: #eee;
+                    }
+                }
+            }
+        }
+    }
     .carte-image {
         width: 40%;
         position: relative;
@@ -11,14 +185,13 @@
         justify-content: center;
         align-items: center;
         background-color: #888;
+        // border-radius: 0 0 0 3px;
         a {
             img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                border-radius: 3px 0 0 3px;
-                
-
+                // border-radius: 0 0 0 3px;
             }
         }
         .carte-category {
@@ -31,12 +204,12 @@
             text-shadow: $text-shadow;
             padding: 0.3rem 0.5rem;
             text-transform: uppercase;
-            border-radius: 0 0 0 3px;
+            // border-radius: 0 0 0 3px;
             background-color: $playsation;
         }
     }
     .carte_body {
-        width: 60%;
+        width: 50%;
         height: 100%;
         padding: 0.5rem;
         display: flex;
@@ -45,7 +218,7 @@
             a {
                 text-decoration: none;
                 h2 {
-                    font-size: 1.2rem;
+                    font-size: 1.1rem;
                     color: #eee;
                     font-weight: bold;
                     text-shadow: $text-shadow;
@@ -58,6 +231,7 @@
         }
         .carte_body-platforms {
             .carte-platforms {
+                font-size: 0.7rem;
                 background-color: $blue;
                 columns: #eee;
                 text-shadow: $text-shadow;
@@ -137,8 +311,11 @@
 
 @media screen and (max-width: 768px) {
     .game-carte {
-        .carte-image{
-            width: 100% !important; 
+        .carte_collection {
+            display: none !important;
+        }
+        .carte-image {
+            width: 100% !important;
             border-radius: 3px !important;
         }
         .carte_body {

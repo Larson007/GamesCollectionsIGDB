@@ -4,42 +4,45 @@
 {% endblock %}
 
 {% block body %}
-<div class="body-content auth-container">
-	<div class="container">
-		{% if error %}
-			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-		{% endif %}
+	<div class="body-content auth-container">
+		<div class="container">
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 
-		{% if app.user %}
-			<div class="mb-3">
-				You are logged in as
-				{{ app.user.userIdentifier }},
-				<a href="{{ path('app_logout') }}">Logout</a>
-			</div>
-		{% endif %}
+			{% if app.user %}
+				<div class="login-message my-3">
+					<p>
+						Vous êtes connecté en tant que
+						<span>{{ app.user.userIdentifier }}</span>. Veuillez vous connecter à nouveau pour accéder à votre compte. 
+					</p>
+					{# <p>Sinon vous pouvez vous <a href="{{ path('app_logout') }}">déconnecter</a></p> #}
+					
+				</div>
+			{% endif %}
 
-		<div class="formulaire_compte">
-			<div class="login_register-link">
-				<h3>Pas encore de compte ?</h3>
-				<p>Créez un compte gratuitement et rejoigné la communauté</p>
-				<a href="{{ path('app_register') }}" class="btn btn-lg">Register</a>
+			<div class="formulaire_compte">
+				<div class="login_register-link">
+					<h3>Pas encore de compte ?</h3>
+					<p>Créez un compte gratuitement et rejoigné la communauté</p>
+					<a href="{{ path('app_register') }}" class="btn btn-lg">Register</a>
 
 
-				<div class="login">
-					<form method="post">
-						<h2>Login</h2>
-						<div class="login-input">
-							<input type="email" value="{{ last_username }}" name="email" class="input-email" autocomplete="none" placeholder="Email" required autofocus>
-							<input type="password" name="password" class="input-password" autocomplete="current-password" placeholder="Password" required>
-							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-							<button class="btn btn-lg" type="submit">
-								log in
-							</button>
-						</div>
-					</form>
+					<div class="login">
+						<form method="post">
+							<h2>Login</h2>
+							<div class="login-input">
+								<input type="email" value="{{ last_username }}" name="email" class="input-email" autocomplete="none" placeholder="Email" required autofocus>
+								<input type="password" name="password" class="input-password" autocomplete="current-password" placeholder="Password" required>
+								<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+								<button class="btn btn-lg" type="submit">
+									log in
+								</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 {% endblock %}

@@ -26,6 +26,7 @@ class SearchGameController extends AbstractController
         return $this->render('game/search_games.html.twig', [
             'controller_name' => 'GameNewController',
             'games' => $games,
+            'query' => $query
         ]);
     }
 }

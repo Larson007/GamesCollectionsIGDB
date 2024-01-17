@@ -16,7 +16,7 @@ enum Image: string {
     case ANDROID = 'build/images/icons/websites/android.svg';
     case STEAM = 'build/images/icons/websites/steam.svg';
     case REDDIT = 'build/images/icons/websites/reddit.svg';
-    case ITCH = 'build/images/icons/websites/itch.svg';
+    case ITCH = 'build/images/icons/websites/itchio.svg';
     case EPICGAMES = 'build/images/icons/websites/epicgames.svg';
     case GOG = 'build/images/icons/websites/gog.svg';
     case DISCORD = 'build/images/icons/websites/discord.svg';

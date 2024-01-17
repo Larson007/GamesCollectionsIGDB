@@ -52,7 +52,7 @@
 						<span class="link-title">Populaires</span>
 					</a>
 				</li>
-				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 					<li class="list_item">
 						<a class="list_item-link menu-link {{ path('app_user_collection') == app.request.pathinfo ? 'active' : '' }}" href="{{path('app_user_collection')}}">
 							<img src="{{ asset('build/images/icons/nav/collections.png') }}" alt="icon acceuil">

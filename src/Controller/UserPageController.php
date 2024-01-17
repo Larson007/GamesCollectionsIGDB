@@ -171,53 +171,53 @@ class UserPageController extends AbstractController
 
     
     // Page de collection de l'utilisateur
-    #[Route('/user/collection', name: 'app_user_collection')]
-    public function userCollection(): Response
-    {
-        // recuperer l'utilisateur connecté
-        $user = $this->getUser();
+    // #[Route('/user/collection', name: 'app_user_collection')]
+    // public function userCollection(): Response
+    // {
+    //     // recuperer l'utilisateur connecté
+    //     $user = $this->getUser();
 
-        // recuprer les id de chaque jeux dans la collection de l'utilisateur au format : 12457, 45741, 14567
-        $collection = $user->getCollection();
+    //     // recuprer les id de chaque jeux dans la collection de l'utilisateur au format : 12457, 45741, 14567
+    //     $collection = $user->getCollection();
 
-        $collection = $collection->getGames();
+    //     $collection = $collection->getGames();
 
-        if (!empty($collection)) {
-            $gameIds = array_map(function ($game) {
-                return $game['id'];
-            }, $collection);
+    //     if (!empty($collection)) {
+    //         $gameIds = array_map(function ($game) {
+    //             return $game['id'];
+    //         }, $collection);
 
-            $gameIdsString = join(',', $gameIds); // Convertit le tableau en une chaîne de caractères
+    //         $gameIdsString = join(',', $gameIds); // Convertit le tableau en une chaîne de caractères
 
-            // Recupérer les infos de chaque jeux dans la collection de l'utilisateur
-            $gameStatus = array_map(function ($game) {
-                return [
-                    'id' => $game['id'],
-                    'achieved' => $game['achieved'],
-                    'platined' => $game['platined']
-                ];
-            }, $collection);
+    //         // Recupérer les infos de chaque jeux dans la collection de l'utilisateur
+    //         $gameStatus = array_map(function ($game) {
+    //             return [
+    //                 'id' => $game['id'],
+    //                 'achieved' => $game['achieved'],
+    //                 'platined' => $game['platined']
+    //             ];
+    //         }, $collection);
 
-            $games = $this->userGame->userCollection($gameIdsString);
+    //         $games = $this->userGame->userCollection($gameIdsString);
 
-            foreach ($games as &$game) {
-                foreach ($gameStatus as $status) {
-                    if ($game['id'] == $status['id']) {
-                        $game['gameStatus'] = $status;
-                        break;
-                    }
-                }
-            }
-            return $this->render('user/collection.html.twig', [
-                'controller_name' => 'UserPageController',
-                'games' => $games,
-            ]);
-        } else {
-            return $this->render('user/collection.html.twig', [
-                'controller_name' => 'UserPageController',
-                'games' => [],
-                'gameStatus' => []
-            ]);
-        }
-    }
+    //         foreach ($games as &$game) {
+    //             foreach ($gameStatus as $status) {
+    //                 if ($game['id'] == $status['id']) {
+    //                     $game['gameStatus'] = $status;
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //         return $this->render('user/collection.html.twig', [
+    //             'controller_name' => 'UserPageController',
+    //             'games' => $games,
+    //         ]);
+    //     } else {
+    //         return $this->render('user/collection.html.twig', [
+    //             'controller_name' => 'UserPageController',
+    //             'games' => [],
+    //             'gameStatus' => []
+    //         ]);
+    //     }
+    // }
 }

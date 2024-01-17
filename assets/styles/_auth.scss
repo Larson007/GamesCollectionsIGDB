@@ -1,4 +1,14 @@
 // Login
+.login-message {
+    background-color: $red;
+    padding: 1rem;
+    border-radius: 5px;
+    span {
+        font-weight: bold;
+        text-shadow: $text-shadow;
+        color: $blue;
+    }
+}
 .formulaire_compte {
     height: 80vh;
     display: flex;
