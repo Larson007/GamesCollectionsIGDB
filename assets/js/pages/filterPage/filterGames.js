@@ -3,6 +3,7 @@ import { multiRangeSliders } from './multiRangeSliders';
 import {filterCollectionsToggle} from './filterCollections.js';
 import {filterImages} from './filterImages.js';
 import {overlay} from '../../overlay.js';
+import { gameCard } from '../../gameCard.js';
 
 export function initFilter() {
     $(document).ready(function () {
@@ -79,6 +80,8 @@ export function initFilter() {
             // Appeler sendSelectedValues après avoir mis à jour selectedValues
             sendSelectedValues();
             filterImages();
+            gameCard();
+
             // Afficher selectedValues dans la console
             console.log(selectedValues);
         }
@@ -103,6 +106,7 @@ export function initFilter() {
                     $('#games_list').html(response);
                     filterCollectionsToggle();
                     filterImages();
+                    gameCard();
                 },
                 error: function (error) {
                     console.log(error);
