@@ -1,3 +1,5 @@
+import { gameCard } from "../gameCard";
+
 export function initGamesPopular() {
         console.log('gamesPopular.js');
 
@@ -35,6 +37,7 @@ export function initGamesPopular() {
                         // Par exemple, si 'response' est un morceau de HTML, vous pouvez l'insérer dans un élément de votre page :
                         $('.popular-game-template').html(response);
                         // console.log(response);
+                        gameCard();
                     },
                     error: function(error) {
                         console.log(error);

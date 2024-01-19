@@ -12,7 +12,7 @@
     .new-game-template {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-gap: 1rem;
+        grid-gap: 0.5rem;
         margin-bottom: 2rem;
     }
 
@@ -20,6 +20,14 @@
     .popular-game-template {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
+        grid-gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    // User Game Games Template
+    .user-game-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
         grid-gap: 1rem;
         margin-bottom: 2rem;
     }
@@ -119,15 +127,22 @@
     // New Games Template
     .new-game-template {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 2em;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 1em;
     }
 
     // Popular Games Template
     .popular-game-template {
         display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 1em;
+    }
+
+    // User Game Games Template
+    .user-game-template {
+        display: grid;
         grid-template-columns: repeat(4, 1fr);
-        grid-gap: 2em;
+        grid-gap: 1em;
     }
 
     // Friends Template

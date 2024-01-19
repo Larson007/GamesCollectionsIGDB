@@ -17,7 +17,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 28px !important;
+            width: 100% !important;
             height: 33px !important;
             background-color: $cards;
                     padding: 5px 0;
@@ -309,31 +309,34 @@
     }
 }
 
+// @media screen and (max-width: 768px) {
+//     .game-carte {
+//         .carte_collection {
+//             display: none !important;
+//         }
+//         .carte-image {
+//             width: 100% !important;
+//             border-radius: 3px !important;
+//         }
+//         .carte_body {
+//             display: none !important;
+//             .carte_body-title {
+//                 h2 {
+//                     font-size: 0.8rem !important;
+//                 }
+//             }
+//             .carte-infos {
+//                 display: none !important;
+//             }
+//             .carte_body-platforms {
+//                 display: none !important;
+//             }
+//             .carte_body-footer {
+//                 display: none !important;
+//             }
+//         }
+//     }
+// }
 @media screen and (max-width: 768px) {
-    .game-carte {
-        .carte_collection {
-            display: none !important;
-        }
-        .carte-image {
-            width: 100% !important;
-            border-radius: 3px !important;
-        }
-        .carte_body {
-            display: none !important;
-            .carte_body-title {
-                h2 {
-                    font-size: 0.8rem !important;
-                }
-            }
-            .carte-infos {
-                display: none !important;
-            }
-            .carte_body-platforms {
-                display: none !important;
-            }
-            .carte_body-footer {
-                display: none !important;
-            }
-        }
-    }
+    
 }

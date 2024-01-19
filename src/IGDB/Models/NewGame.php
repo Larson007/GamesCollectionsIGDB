@@ -22,7 +22,10 @@ class NewGame
     public function newGame()
     {
         $today = date('Y-m-d');
-        $threeMonthsAgo = date('Y-m-d', strtotime('-3 months'));
+        $threeMonthsAgo = date('Y-m-d', strtotime('-1 months'));
+        // premier jour du mois actuel
+        $firstDayOfCurrentMonth = date('Y-m-01');
+
 
         $games = $this->igdbService->makeRequest('games', '
         fields 
@@ -36,12 +39,11 @@ class NewGame
         platforms.name, 
         first_release_date, 
         rating; 
-        where category = (0, 2, 4, 8, 9) 
-        & first_release_date >= ' . strtotime($threeMonthsAgo) . ' 
-        & rating >= 0 
+        where 
+        first_release_date >= ' . strtotime($firstDayOfCurrentMonth) . ' 
         & first_release_date < ' . strtotime($today) . '; 
         sort first_release_date desc;
-        limit 100;');
+        limit 500;');
 
         foreach ($games as &$game) {
             if (isset($game['cover']['url'])) {

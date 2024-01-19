@@ -1,17 +1,3 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Games released this month
-{% endblock %}
-
-{% block body %}
-	<div class="body-content">
-		<div class="new-games">
-			<div class="containers">
-				<div class="page-title">
-					<h1 class="new-game-title">Nouvelles sorties</h1>
-				</div>
-
-				<div class="new-game-template">
 					{% for game in games %}
 						<div class="game-carte">
 							<div class="carte_collection">
@@ -29,7 +15,6 @@
 																														c98.1-77.3,232.1-163.7,232.1-325.8C733.3,142.5,550,27.5,400,183.4C250,27.5,66.7,142.5,66.7,304.6z"/>
 									</svg>
 								</button>
-
 								<button class="collection_button wishlist-position {{ game.id in wishIds ? 'remove-wishlist' : 'add-wishlist' }}" data-gameid={{game.id}}>
 									<div class="pophover pophover-wishlist">Suivre</div>
 									<svg height="800px" width="800px" class="collection_icon icon-wishlist" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,9 +106,3 @@
 							</div>
 						</div>
 					{% endfor %}
-
-				</div>
-			</div>
-		</div>
-	</div>
-{% endblock %}

@@ -34,6 +34,7 @@ class UserGame
             themes.name,
             game_modes.name;
             where id = ($gamesCollection);
+            limit 500;
         ");
 
         foreach ($games as &$game) {

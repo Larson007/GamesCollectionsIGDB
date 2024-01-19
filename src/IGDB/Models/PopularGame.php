@@ -42,7 +42,7 @@ class PopularGame
 
         $threeMonthsAgo = strtotime(date('Y-m-d', strtotime('-3 months')));
         $today = strtotime(date('Y-m-d'));
-        $limit = 100;
+        $limit = 500;
 
         $games = $this->igdbService->makeRequest('games', '
         fields 
@@ -62,7 +62,7 @@ class PopularGame
         where 
         category = (0, 2, 4, 8, 9)
         & platforms = (' . $platformId . ')
-        & rating >= 75
+        & rating >= 60
         & first_release_date >= ' . $threeMonthsAgo . '
         & first_release_date < ' . $today . ';
 

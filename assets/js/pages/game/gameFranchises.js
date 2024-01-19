@@ -49,10 +49,10 @@ export function gameFranchises() {
 
     if (franchisesNavItems.length <= 1) {
         franchisesNavigationButtons.style.display = 'none';
-        
+
     } else {
         // Scroll horizontal avec la molette de la souris du menu
-        franchisesNavContent.addEventListener('wheel', function(e) {
+        franchisesNavContent.addEventListener('wheel', function (e) {
             e.preventDefault();
             this.scrollLeft += e.deltaY;
         }, { passive: false });
@@ -63,15 +63,21 @@ export function gameFranchises() {
         // Passer à la franchise suivante
         if (activeIndex < franchisesNavItems.length - 1) {
             franchisesNavItems[activeIndex].classList.remove('franchises_nav-active');
-            franchisesNavItems[++activeIndex].classList.add('franchises_nav-active');
+
+            // Mettre à jour l'index actif
+            activeIndex++;
 
             // Mettre à jour l'affichage
             currentGameIndex = (currentGameIndex + 1) % games.length;
             displayFranchisesList(franchisesNavItems[activeIndex].id);
             displayFranchisesDetails(games[currentGameIndex]);
 
-            // Mettre à jour le défilement horizontal
-            franchisesNav.scrollLeft += franchisesNavItems[activeIndex].offsetWidth;
+            // Faites défiler le conteneur pour centrer l'élément actif
+            franchisesNavContent.scrollLeft = franchisesNavItems[activeIndex].offsetLeft
+                - (franchisesNavContent.offsetWidth / 2)
+                + (franchisesNavItems[activeIndex].offsetWidth / 2);
+
+            franchisesNavItems[activeIndex].classList.add('franchises_nav-active');
         }
     });
 
@@ -79,15 +85,21 @@ export function gameFranchises() {
         // Passer à la franchise précédente
         if (activeIndex > 0) {
             franchisesNavItems[activeIndex].classList.remove('franchises_nav-active');
-            franchisesNavItems[--activeIndex].classList.add('franchises_nav-active');
+
+            // Mettre à jour l'index actif
+            activeIndex--;
 
             // Mettre à jour l'affichage
             currentGameIndex = (currentGameIndex - 1 + games.length) % games.length;
             displayFranchisesList(franchisesNavItems[activeIndex].id);
             displayFranchisesDetails(games[currentGameIndex]);
 
-            // Mettre à jour le défilement horizontal
-            franchisesNav.scrollLeft -= franchisesNavItems[activeIndex].offsetWidth;
+            // Faites défiler le conteneur pour centrer l'élément actif
+            franchisesNavContent.scrollLeft = franchisesNavItems[activeIndex].offsetLeft
+                - (franchisesNavContent.offsetWidth / 2)
+                + (franchisesNavItems[activeIndex].offsetWidth / 2);
+
+            franchisesNavItems[activeIndex].classList.add('franchises_nav-active');
         }
     });
 
@@ -146,11 +158,10 @@ export function gameFranchises() {
                         <p>${game.summary}</p>
                     </div>
                     <div class="franchise_detail-released">
-                        <p>${
-                            game.first_release_date 
-                                ? new Date(game.first_release_date * 1000).toLocaleDateString("fr-FR", { day: '2-digit', month: '2-digit', year: 'numeric' })
-                                : 'Date de sortie non disponible'
-                        }</p>
+                        <p>${game.first_release_date
+                ? new Date(game.first_release_date * 1000).toLocaleDateString("fr-FR", { day: '2-digit', month: '2-digit', year: 'numeric' })
+                : 'Date de sortie non disponible'
+            }</p>
                     </div>
                 </div>
                 <div class="franchise_detail-platforms">

@@ -47,6 +47,7 @@ import navMenu from './js/navMenu.js';
 import { initHomepage } from './js/pages/homepage.js';
 import { initGame } from './js/pages/game/game.js';
 import { toggleCollections } from './js/toggleCollections.js';
+import {gameCard} from './js/gameCard.js';
 
 // Start the application
 console.log('Hello from app.js');
@@ -79,6 +80,10 @@ if (document.querySelector('.game-details')) {
     initGame();
 }
 if (document.querySelector('.game-carte')) {
+    toggleCollections();
+}
+if (document.querySelector('.game_card')) {
+    gameCard();
     toggleCollections();
 }
 

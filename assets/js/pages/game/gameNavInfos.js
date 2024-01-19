@@ -1,6 +1,7 @@
 export function gameNavInfos() {
     // Sélectionnez tous les boutons de navigation
     let navButtons = document.querySelectorAll('.information_nav-link');
+    let navButtonsContainer = document.querySelector('.information_nav');
 
     // Sélectionnez tous les divs avec la classe .information_body-content
     let infoBodyContent = Array.from(document.querySelectorAll('.information_body-content'));
@@ -43,55 +44,39 @@ export function gameNavInfos() {
         });
     });
 
-    // Ajoutez un gestionnaire d'événements click au bouton précédent
-    prevButton.addEventListener('click', function () {
+    // Fonction pour gérer le clic sur les boutons précédent et suivant
+    function handleButtonClick(direction) {
         // Trouvez l'index du div actif
         let activeIndex = infoBodyContent.findIndex(div => div.classList.contains('information_body-content-active'));
 
-        // Supprimez la classe 'information_body-content-active' du div actif
+        // Supprimez la classe 'information_body-content-active' du div actif et cachez-le
         infoBodyContent[activeIndex].classList.remove('information_body-content-active');
         infoBodyContent[activeIndex].style.display = "none";
 
-        // Calculez l'index du div précédent
-        let prevIndex = (activeIndex - 1 + infoBodyContent.length) % infoBodyContent.length;
+        // Calculez l'index du div suivant ou précédent
+        let newIndex = (activeIndex + direction + infoBodyContent.length) % infoBodyContent.length;
 
-        // Ajoutez la classe 'information_body-content-active' au div précédent
-        infoBodyContent[prevIndex].classList.add('information_body-content-active');
-        infoBodyContent[prevIndex].style.display = "block";
+        // Ajoutez la classe 'information_body-content-active' au nouveau div et affichez-le
+        infoBodyContent[newIndex].classList.add('information_body-content-active');
+        infoBodyContent[newIndex].style.display = "block";
 
         // Supprimez la classe 'information_nav-link-active' de tous les boutons
-        navButtons.forEach(function (button) {
-            button.classList.remove('information_nav-link-active');
-        });
+        navButtons.forEach(button => button.classList.remove('information_nav-link-active'));
 
-        // Ajoutez la classe 'information_nav-link-active' au bouton correspondant au div précédent
-        let prevButton = navButtons[prevIndex];
-        prevButton.classList.add('information_nav-link-active');
-    });
+        // Ajoutez la classe 'information_nav-link-active' au nouveau bouton
+        let newButton = navButtons[newIndex];
+        newButton.classList.add('information_nav-link-active');
+
+        // Calculez la distance de défilement nécessaire
+        let scrollLeft = newButton.offsetLeft - (navButtonsContainer.offsetWidth / 2) + (newButton.offsetWidth / 2);
+
+        // Faites défiler le conteneur des boutons de navigation
+        navButtonsContainer.scrollLeft = scrollLeft;
+    }
+
+    // Ajoutez un gestionnaire d'événements click au bouton précédent
+    prevButton.addEventListener('click', () => handleButtonClick(-1));
 
     // Ajoutez un gestionnaire d'événements click au bouton suivant
-    nextButton.addEventListener('click', function () {
-        // Trouvez l'index du div actif
-        let activeIndex = infoBodyContent.findIndex(div => div.classList.contains('information_body-content-active'));
-
-        // Supprimez la classe 'information_body-content-active' du div actif
-        infoBodyContent[activeIndex].classList.remove('information_body-content-active');
-        infoBodyContent[activeIndex].style.display = "none";
-
-        // Calculez l'index du div suivant
-        let nextIndex = (activeIndex + 1) % infoBodyContent.length;
-
-        // Ajoutez la classe 'information_body-content-active' au div suivant
-        infoBodyContent[nextIndex].classList.add('information_body-content-active');
-        infoBodyContent[nextIndex].style.display = "block";
-
-        // Supprimez la classe 'information_nav-link-active' de tous les boutons
-        navButtons.forEach(function (button) {
-            button.classList.remove('information_nav-link-active');
-        });
-
-        // Ajoutez la classe 'information_nav-link-active' au bouton correspondant au div suivant
-        let nextButton = navButtons[nextIndex];
-        nextButton.classList.add('information_nav-link-active');
-    });
+    nextButton.addEventListener('click', () => handleButtonClick(1));
 }
