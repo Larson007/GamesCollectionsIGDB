@@ -48,6 +48,7 @@ import { initHomepage } from './js/pages/homepage.js';
 import { initGame } from './js/pages/game/game.js';
 import { toggleCollections } from './js/toggleCollections.js';
 import {gameCard} from './js/gameCard.js';
+import { userGames } from './js/pages/userGames/userGames.js';
 
 // Start the application
 console.log('Hello from app.js');
@@ -85,6 +86,9 @@ if (document.querySelector('.game-carte')) {
 if (document.querySelector('.game_card')) {
     gameCard();
     toggleCollections();
+}
+if (document.querySelector('.user-game-template')) {
+    userGames();
 }
 
 // Vider l'input Search Game lors du chargement de la page

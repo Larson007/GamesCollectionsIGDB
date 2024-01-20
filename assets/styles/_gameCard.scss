@@ -36,14 +36,9 @@
         }
     }
     .game_card-body-active {
-.game_card-name {
-    opacity: 0 !important;
-}
-        .game_card-collections {
-            // background: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0) 100%);
+        .game_card-name {
+            opacity: 0 !important;
         }
-        // display: flex !important;
-        // opacity: 1 !important;
         z-index: 45 !important;
         .add-collection {
             z-index: 200 !important;
@@ -79,7 +74,7 @@
         align-items: center;
         width: 100%;
         height: 100%;
-        .game_card-name  {
+        .game_card-name {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -103,7 +98,7 @@
         }
         .game_card-collections {
             width: 100%;
-            height: 40%;
+            height: 30%;
             padding: 0.5rem;
             display: flex;
             flex-flow: row nowrap;
@@ -203,11 +198,11 @@
                     }
                 }
                 &:hover {
-                    background-color: $nintendo;
+                    background-color: $cards;
                     .icon-collection {
                         .icon-collection-path {
-                            fill: #eee;
-                            stroke: #eee;
+                            fill: $nintendo;
+                            stroke: $nintendo;
                         }
                     }
                 }
@@ -242,11 +237,11 @@
                     }
                 }
                 &:hover {
-                    background-color: $nintendo;
+                    background-color: $cards;
                     .icon-like {
                         .icon-like-path {
-                            fill: #eee;
-                            stroke: #eee;
+                            fill: $nintendo;
+                            stroke: $nintendo;
                         }
                     }
                 }
@@ -281,11 +276,11 @@
                     }
                 }
                 &:hover {
-                    background-color: $nintendo;
+                    background-color: $cards;
                     .icon-wishlist {
                         .icon-wishlist-path {
-                            fill: #eee;
-                            stroke: #eee;
+                            fill: $nintendo;
+                            stroke: $nintendo;
                         }
                     }
                 }
@@ -318,17 +313,38 @@
             opacity: 0;
             transition: opacity 0.3s ease-in-out;
             width: 100%;
-            height: 40%;
+            height: 50%;
             display: flex;
-            flex-flow: column nowrap;
-            justify-content: end;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: auto;
             padding: 0.5rem;
-            background: linear-gradient(to top, rgba(58, 58, 58, 1) 0%, rgba(58, 58, 58, 0.8) 50%, rgba(58, 58, 58, 0) 100%);
-            .footer-content {
-                display: flex;
-                flex-flow: row nowrap;
-                align-items: center;
-                justify-content: space-between;
+            background: linear-gradient(
+                to top,
+                rgba(58, 58, 58, 1) 0%,
+                rgba(58, 58, 58, 0.8) 50%,
+                rgba(58, 58, 58, 0) 100%
+            );
+
+                .game-platforms {
+                    width: 100%;
+                    display: flex;
+                    flex-flow: row wrap;
+                    align-items: center;
+                    small{
+                        background-color: $blue;
+                        padding: 0.2rem 0.3rem;
+                        margin-right: 0.3rem;
+                        margin-bottom: 0.3rem;
+                        text-shadow: $text-shadow;
+                    }
+                }
+                .footer_content{
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
                 .game-released {
                     background-color: #41495a;
                     border-radius: 3px;
@@ -343,6 +359,7 @@
                     }
                 }
                 .game-scores {
+
                     p {
                         margin: 0;
                         text-align: right;
@@ -390,5 +407,24 @@
                 }
             }
         }
+    }
+}
+
+
+@media screen and (max-width: 780px) {
+    .game_card-collections {
+        height: 40% !important;
+    }
+    .pophover {
+        display: none !important;
+    }
+    .game_card-link {
+        height: 20% !important;
+    }
+    .game_card-footer {
+        height: 40% !important;
+    }
+    .game-platforms {
+        display: none !important;
     }
 }

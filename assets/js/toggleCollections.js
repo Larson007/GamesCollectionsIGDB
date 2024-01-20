@@ -1,3 +1,5 @@
+import toastr from 'toastr';
+
 export function toggleCollections() {
     console.log('toggleCollections');
     // Sélectionnez tous les boutons avec la classe 'collection_button'
@@ -47,6 +49,7 @@ export function toggleCollections() {
                     }
                 })
                 .catch((error) => {
+                    toastr.error("Vous devez être connecté pour ajouter un jeu à votre collection");
                     console.error('Erreur:', error.message);
                 });
             } else if (buttonClass.includes('remove-collection')) {
@@ -93,6 +96,7 @@ export function toggleCollections() {
                     }
                 })
                 .catch((error) => {
+                    toastr.error("Vous devez être connecté pour ajouter un jeu à vos likes");
                     console.error('Erreur:', error);
                 });
             } else if (buttonClass.includes('remove-like')) {
@@ -136,6 +140,7 @@ export function toggleCollections() {
                     }
                 })
                 .catch((error) => {
+                    toastr.error("Vous devez être connecté pour ajouter un jeu à votre wishlist");
                     console.error('Erreur:', error);
                 });
             } else if (buttonClass.includes('remove-wishlist')) {

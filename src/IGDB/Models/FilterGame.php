@@ -48,7 +48,7 @@ class FilterGame
             name, 
             category,
             cover.url, 
-            platforms.id,
+            platforms.id, platforms.name, platforms.abbreviation,
             themes.id,
             genres.id,
             game_modes.id,

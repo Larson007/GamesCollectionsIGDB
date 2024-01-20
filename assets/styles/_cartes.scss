@@ -11,6 +11,10 @@
         display: flex;
         flex-flow: column nowrap;
         align-items: center;
+        background-color: #3a3a3a;
+        opacity: 0.8;
+        background-image: radial-gradient(#000000 0.55px, #3a3a3a 0.55px);
+        background-size: 11px 11px;
 
         .collection_button {
             position: relative;
@@ -20,8 +24,9 @@
             width: 100% !important;
             height: 33px !important;
             background-color: $cards;
-                    padding: 5px 0;
+            padding: 5px 0;
             border: none;
+
             .collection_icon {
                 width: 50%;
                 height: 50%;
@@ -76,6 +81,10 @@
 
         .add-collection {
             border-radius: 3px 0 0 0;
+            background-color: #3a3a3a;
+            opacity: 0.8;
+            background-image: radial-gradient(#000000 0.55px, #3a3a3a 0.55px);
+            background-size: 11px 11px;
             .icon-collection {
                 .icon-collection-path {
                     fill: #eee;
@@ -110,6 +119,10 @@
             }
         }
         .add-like {
+            background-color: #3a3a3a;
+            opacity: 0.8;
+            background-image: radial-gradient(#000000 0.55px, #3a3a3a 0.55px);
+            background-size: 11px 11px;
             .icon-like {
                 .icon-like-path {
                     fill: #eee;
@@ -144,6 +157,10 @@
             }
         }
         .add-wishlist {
+            background-color: #3a3a3a;
+            opacity: 0.8;
+            background-image: radial-gradient(#000000 0.55px, #3a3a3a 0.55px);
+            background-size: 11px 11px;
             .icon-wishlist {
                 .icon-wishlist-path {
                     fill: #eee;
@@ -214,6 +231,10 @@
         padding: 0.5rem;
         display: flex;
         flex-flow: column nowrap;
+        background-color: #3a3a3a;
+        opacity: 0.8;
+        background-image: radial-gradient(#000000 0.55px, #3a3a3a 0.55px);
+        background-size: 11px 11px;
         .carte_body-title {
             a {
                 text-decoration: none;
@@ -338,5 +359,4 @@
 //     }
 // }
 @media screen and (max-width: 768px) {
-    
 }

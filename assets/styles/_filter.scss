@@ -1,6 +1,6 @@
 .filter-page {
     margin-top: 2rem;
-    overflow-x: hidden;
+    // overflow-x: hidden;
     .filter {
         .filter_btn {
             display: flex;
@@ -529,6 +529,7 @@
     }
 
     #games_list {
+        // overflow-y: hidden;
         margin-bottom: 3rem;
         .games_cards {
             //* Grid Temaplte : _gridTemplate.scss
