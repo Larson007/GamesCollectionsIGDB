@@ -37,6 +37,10 @@ class Game
         age_ratings.*,
         age_ratings.content_descriptions.*,
 
+        hypes,
+        follows,
+        follows_count,
+        forks,
 
         name,
         slug,

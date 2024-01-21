@@ -1578,8 +1578,8 @@
                     .game_notes {
                         display: flex;
                         flex-flow: row nowrap;
-                        justify-content: center;
-                        padding-right: 2rem;
+                        justify-content: space-around;
+                        padding: 0 1rem;
                         .game_rating {
                             margin-top: auto;
                             display: flex;

@@ -28,6 +28,7 @@ class SearchGame
         genres.name, 
         cover.url, 
         first_release_date, 
+        aggregated_rating,
         rating, 
         platforms.name, 
         platforms.abbreviation; 

@@ -78,6 +78,12 @@
                 border-color: transparent transparent $yellow transparent;
             }
         }
+        .pophover-delete {
+            background-color: $nintendo;
+            &::after {
+                border-color: transparent transparent $nintendo transparent;
+            }
+        }
 
         .add-collection {
             border-radius: 3px 0 0 0;
@@ -194,6 +200,19 @@
                 }
             }
         }
+        .delete-all {
+            background-color: $nintendo;
+            margin-bottom: auto;
+            .icon-delete {
+                .icon-delete-path {
+                    fill: #eee;
+                    stroke: #eee;
+                    stroke-width: 95px;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                }
+            }
+        }
     }
     .carte-image {
         width: 40%;
@@ -231,8 +250,8 @@
         padding: 0.5rem;
         display: flex;
         flex-flow: column nowrap;
+        justify-content: space-between;
         background-color: #3a3a3a;
-        opacity: 0.8;
         background-image: radial-gradient(#000000 0.55px, #3a3a3a 0.55px);
         background-size: 11px 11px;
         .carte_body-title {
@@ -273,7 +292,7 @@
             }
         }
         .carte_body-footer {
-            margin-top: auto;
+            // margin-top: auto;
             display: flex;
             flex-flow: row nowrap;
             justify-content: space-between;

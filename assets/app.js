@@ -76,6 +76,8 @@ if (document.querySelector('.filter-page')) {
 }
 if (document.querySelector('.homepage')) {
     initHomepage();
+    gameCard();
+    toggleCollections();
 }
 if (document.querySelector('.game-details')) {
     initGame();

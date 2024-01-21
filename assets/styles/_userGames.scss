@@ -1,0 +1,44 @@
+.user-game_filter {
+    .filter_collections {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        margin-bottom: 2rem;
+        .user_filter_button {
+            border: 1px solid #fff;
+            color: #fff;
+            text-shadow: $text-shadow;
+            padding: 0.3rem 0.5rem;
+            text-align: center;
+            display: inline-block;
+            font-size: 1.2rem;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 1rem;
+            background-color: transparent;
+            white-space: nowrap;
+        }
+        #filterCollections {
+            border-color: $blue;
+        }
+        #filterLikes {
+            border-color: $red;
+        }
+        #filterWishes {
+            border-color: $yellow;
+        }
+        #filterCollections.filter-active {
+            background-color: $blue;
+            border-color: $blue;
+        }
+        #filterLikes.filter-active {
+            background-color: $red;
+            border-color: $red;
+        }
+        #filterWishes.filter-active {
+            background-color: $yellow;
+            border-color: $yellow;
+        }
+        .filter-active {}
+    }
+}

@@ -1,10 +1,11 @@
 export function gameCard() {
     addEventListenersToGameCards();
+    console.log('gameCard');
 }
 
 function addEventListenersToGameCards() {
     let gameCardButtonsAndLinks = document.querySelectorAll('.game_card-collections button, .game_card-body a');
-    const gameCard = document.querySelectorAll('.game_card');
+    const gameCard = document.querySelectorAll('.game_card, .last_tested_games');
 
     gameCard.forEach((card) => {
         card.addEventListener('mouseover', function () {

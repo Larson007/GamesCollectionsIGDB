@@ -164,6 +164,30 @@ export function toggleCollections() {
                     console.error('Erreur:', error);
                 });
             }
+            //* Si le bouton a la classe 'delete-all'
+            if (buttonClass.includes('delete-all')) {
+                fetch('/delete-all', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `gameId=${gameId}`,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        toastr.success("Le jeu a bien été supprimée");
+                        let cardGame = document.getElementById(gameId);
+                        cardGame.style.display = 'none';
+                    } else {
+                        console.error('Erreur lors de l\'a suppression du jeu');
+                    }
+                })
+                .catch((error) => {
+                    toastr.error("Vous devez être connecté pour supprimer un jeu");
+                    console.error('Erreur:', error);
+                });
+            }
 
             
         });

@@ -60,6 +60,7 @@ class UserGamesController extends AbstractController
                 $games = $this->userGame->userCollection($userGamesId);
             } else {
                 $games = [];
+                $userGamesId = [];
             }
         } else {
             // Définissez des valeurs par défaut pour les variables relatives à l'utilisateur
@@ -67,6 +68,7 @@ class UserGamesController extends AbstractController
             $collectionIds = [];
             $likes = [];
             $wishes = [];
+            $userGamesId = [];
         }
 
         if ($request->isMethod('POST')) {
@@ -91,6 +93,7 @@ class UserGamesController extends AbstractController
             'collectionIds' => $collectionIds,
             'likeIds' => $likes,
             'wishIds' => $wishes,
+            'userGamesId' => $userGamesId,
         ]);
     } else {
         return $this->render('user/games/collection.html.twig', [
@@ -99,6 +102,7 @@ class UserGamesController extends AbstractController
             'collectionIds' => $collectionIds,
             'likeIds' => $likes,
             'wishIds' => $wishes,
+            'userGamesId' => $userGamesId,
         ]);
     }
     }

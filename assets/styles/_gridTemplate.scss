@@ -1,4 +1,10 @@
 @media screen and (max-width: 768px) {
+    .last_tested_games-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
     // Filter Template
     #games_list {
         .games_cards {
@@ -109,13 +115,19 @@
 }
 
 @media screen and (min-width: 1200px) {
+    .last_tested_games-template {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 2rem;
+        margin-bottom: 5rem;
+    }
     // Filter Template
     #games_list {
         .games_cards {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
-            // grid-auto-rows: 0;
             grid-gap: 1rem;
+            margin-bottom: 5rem;
         }
     }
     // Pagination Template
@@ -123,6 +135,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 2em;
+        margin-bottom: 5rem;
     }
     // New Games Template
     .new-game-template {

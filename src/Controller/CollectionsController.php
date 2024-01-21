@@ -331,4 +331,16 @@ class CollectionsController extends AbstractController
 
         return new JsonResponse(['success' => true]);
     }
+
+    #[Route('/delete-all', name: 'delete-all', methods: ['POST'])]
+    public function deleteGame(Request $request): Response
+    {
+        
+
+        $this->removeFromCollection($request);
+        $this->removeLike($request);
+        $this->removeWish($request);
+
+        return new JsonResponse(['success' => true]);
+    }
 }

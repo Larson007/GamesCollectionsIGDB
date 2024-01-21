@@ -1,24 +1,48 @@
 export function userGames() {
 
-    const filterCollections = document.querySelector('#filterCollection');
+    const filterAllGames = document.querySelector('.filter_collections');
+
+    if (!filterAllGames) {
+        return
+    }
+
+    const filterButtons = document.querySelectorAll('.user_filter_button');
+    const filterCollections = document.querySelector('#filterCollections');
     const filterLikes = document.querySelector('#filterLikes');
     const filterWishes = document.querySelector('#filterWishes');
 
+    const allGames = filterAllGames.getAttribute('data-all');
+
+console.log(allGames);
+
     filterCollections.addEventListener('click', function () {
         const userCollections = this.getAttribute('data-collections');
+        handleFilterClick(this, filterButtons);
         sendRequest('collections', userCollections);
     });
 
     filterLikes.addEventListener('click', function () {
         const userLikes = this.getAttribute('data-likes');
+        handleFilterClick(this, filterButtons);
         sendRequest('likes', userLikes);
     });
 
     filterWishes.addEventListener('click', function () {
         const userWishes = this.getAttribute('data-wishes');
+        handleFilterClick(this, filterButtons);
         sendRequest('wishes', userWishes);
     });
 
+}
+
+function handleFilterClick(clickedButton, filterButtons) {
+    filterButtons.forEach(button => {
+        if (button === clickedButton) {
+            button.classList.toggle('filter-active');
+        } else {
+            button.classList.remove('filter-active');
+        }
+    });
 }
 
 function sendRequest(filterType, data) {

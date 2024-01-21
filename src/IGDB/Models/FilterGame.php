@@ -55,6 +55,7 @@ class FilterGame
             first_release_date, 
             release_dates.*,
             rating,
+            aggregated_rating,
             total_rating,
             total_rating_count,
             rating_count;
@@ -62,18 +63,18 @@ class FilterGame
         if (!empty($sortReleased)) {
             $query .= "sort first_release_date " . $sortReleased . "; ";
         } elseif (!empty($sortRating)) {
-            $query .= "sort rating " . $sortRating . "; ";
+            $query .= "sort aggregated_rating " . $sortRating . "; ";
         } else {
             $query .= "sort first_release_date desc; ";
         }
 
         if (empty($platforms) && empty($genres) && empty($themes) && empty($modes) && $ratingMin == null && $ratingMax == null && $releasedMin == null && $releasedMax == null) {
             // Requête de la base pour la page d'accueil
-            $query .= " where category = (0, 2, 4, 8, 9) & version_parent = null & cover != null & rating != null & first_release_date != null & rating >= 50 & first_release_date >= " . $thisYear . " & first_release_date <= " . $today . ";";
+            $query .= " where category = (0, 2, 4, 8, 9) & version_parent = null & cover != null & aggregated_rating != null & aggregated_rating != 0 & first_release_date != null & aggregated_rating >= 50 & first_release_date >= " . $thisYear . " & first_release_date <= " . $today . ";";
             if (!empty($sortReleased)) {
                 $query .= "sort first_release_date " . $sortReleased . "; ";
             } elseif (!empty($sortRating)) {
-                $query .= "sort rating " . $sortRating . "; ";
+                $query .= "sort aggregated_rating " . $sortRating . "; ";
             } else {
                 $query .= "sort first_release_date desc; ";
             }
@@ -99,16 +100,16 @@ class FilterGame
                 $conditions[] = "game_modes = [" . $modes . "]";
             }
             if (!empty($ratingMin) || !empty($ratingMax)) {
-                $conditions[] = "rating != null";
+                $conditions[] = "aggregated_rating != null";
                 if ($ratingMin == $ratingMax) {
-                    $conditions[] = "rating > " . ($ratingMax - 1);
-                    $conditions[] = "rating < " . ($ratingMax + 1);
+                    $conditions[] = "aggregated_rating > " . ($ratingMax - 1);
+                    $conditions[] = "aggregated_rating < " . ($ratingMax + 1);
                 } else {
                     if (!empty($ratingMin)) {
-                        $conditions[] = "rating >= " . $ratingMin;
+                        $conditions[] = "aggregated_rating >= " . $ratingMin;
                     }
                     if (!empty($ratingMax)) {
-                        $conditions[] = "rating <= " . $ratingMax;
+                        $conditions[] = "aggregated_rating <= " . $ratingMax;
                     }
                 }
             }
@@ -126,7 +127,7 @@ class FilterGame
             }
 
             if (!empty($conditions)) {
-                $query .= "where " . implode(" & ", $conditions) . "; ";
+                $query .= "where " . implode(" & ", $conditions) . " ; ";
             }
         }
 

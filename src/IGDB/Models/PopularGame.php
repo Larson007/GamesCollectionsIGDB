@@ -54,6 +54,7 @@ class PopularGame
         cover.url, 
         first_release_date, 
         rating, 
+        aggregated_rating,
         platforms.name, 
         platforms.abbreviation; 
         

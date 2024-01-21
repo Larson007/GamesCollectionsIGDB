@@ -213,21 +213,36 @@ export function gameRating() {
         aggregatedRatingChartNull(aggregatedRatingNull, 230, 230);
     }
 
-    //* Appel des fonctions de graphique
     let canvas = $('#ratingGraph');
-    if (canvas.length === 0) {
-        return;
-    }
     let rating = canvas.data('rating');
-    ratingChart(rating, 300, 300);
+    if (canvas.length === 0 || rating === 0 || rating === null) {
+        ratingGraphNull();
+    } else {
+        ratingChart(rating, 300, 300);
+    }
 
     let canvas2 = $('#aggregatedRatingGraph');
-    if (canvas2.length === 0) {
-        return;
+    let rating2 = canvas2.data('rating');
+    if (canvas2.length === 0 || rating2 === 0 || rating2 === null) {
+        aggregatedRatingChartNull();
     } else {
-        let rating2 = canvas2.data('rating');
         aggregatedRatingChart(rating2, 230, 230);
     }
+
+    // let canvas = $('#ratingGraph');
+    // if (canvas.length === 0) {
+    //     return;
+    // }
+    // let rating = canvas.data('rating');
+    // ratingChart(rating, 300, 300);
+
+    // let canvas2 = $('#aggregatedRatingGraph');
+    // if (canvas2.length === 0) {
+    //     return;
+    // } else {
+    //     let rating2 = canvas2.data('rating');
+    //     aggregatedRatingChart(rating2, 230, 230);
+    // }
 
 
 }

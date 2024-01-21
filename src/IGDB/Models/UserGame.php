@@ -30,10 +30,12 @@ class UserGame
             cover.url, 
             first_release_date, 
             rating, 
+            aggregated_rating,
             platforms.name, platforms.abbreviation,
             themes.name,
             game_modes.name;
             where id = ($gamesCollection);
+            sort name asc;
             limit 500;
         ");
 
