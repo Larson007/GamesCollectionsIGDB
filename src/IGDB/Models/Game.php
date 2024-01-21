@@ -106,7 +106,7 @@ class Game
         // $game = $game[0];
 
         if (isset($game['cover']['url'])) {
-            $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, false);
+            $game['cover']['url'] = $this->getImageUrl($game['cover']['url'], Size::COVER_BIG, true);
         }
 
         if (isset($game['age_ratings'])) {
