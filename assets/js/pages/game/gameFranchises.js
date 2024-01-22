@@ -165,7 +165,7 @@ export function gameFranchises() {
                     </div>
                 </div>
                 <div class="franchise_detail-platforms">
-                    <h3>Platformes Displonibles :</h3>
+                    <h3>Platformes Disponibles :</h3>
                     <div class="franchise-platforms">
                         ${game.platforms.map(platform => `<p>${platform.abbreviation || platform.name}</p>`).join('')}
                     </div>

@@ -861,6 +861,11 @@
                             height: auto;
                         }
                     }
+                    .slick-list {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
                     .slick-prev {
                         position: absolute;
                         top: 60%;
@@ -1246,12 +1251,23 @@
                         }
                     }
                     .franchise_card-active {
-                        h3 {
-                            color: #3a3a3a;
+                        .franchise_card-title {
+                            h3 {
+                                font-size: 0.9rem;
+                                color: #3a3a3a;
+                                font-weight: bolder;
+                            }
                         }
                         .franchise_card-cover {
                             opacity: 1;
                             border: 2px solid $nintendo;
+                        }
+                        .franchise_card-released {
+                            p {
+                                font-size: 0.8rem;
+                                color: #3a3a3a;
+                                font-weight: bold;
+                            }
                         }
                     }
                 }
@@ -1299,9 +1315,9 @@
 /********************************************************/
 
 @media screen and (min-width: 780px) {
-
-.scroll_menu {
-    z-index: 110;
+    .scroll_menu {
+        display: none;
+        z-index: 110;
         position: fixed;
         top: 35%;
         left: 86%;
@@ -1349,8 +1365,7 @@
                 opacity: 0.5 !important;
             }
         }
-        
-        
+
         .game_presentation {
             position: relative;
             height: 100%;
@@ -2221,7 +2236,7 @@
                     background-color: #3a3a3a;
                     margin: 0;
                     .screenshot {
-                        padding: 0 1rem;
+                        padding: 0 0.5rem;
                     }
                     .slick-prev {
                         background-color: $yellow;
@@ -2606,12 +2621,23 @@
                         }
                     }
                     .franchise_card-active {
-                        h3 {
-                            color: #3a3a3a;
+                        .franchise_card-title {
+                            h3 {
+                                font-size: 0.9rem;
+                                color: #3a3a3a;
+                                font-weight: bolder;
+                            }
                         }
                         .franchise_card-cover {
                             opacity: 1;
                             border: 2px solid $nintendo;
+                        }
+                        .franchise_card-released {
+                            p {
+                                font-size: 0.8rem;
+                                color: #3a3a3a;
+                                font-weight: bold;
+                            }
                         }
                     }
                 }

@@ -170,8 +170,8 @@ export function gameCollections() {
             const collectionSummary = document.createElement('p');
             collectionSummary.classList.add('collection_summary');
             let summaryText = data[index].summary;
-            if (summaryText.length > 100) { // Limite à 100 caractères
-                summaryText = summaryText.substring(0, 100) + '...'; // Ajoute '...' à la fin
+            if (summaryText.length > 300) { // Limite à 100 caractères
+                summaryText = summaryText.substring(0, 300) + '...'; // Ajoute '...' à la fin
             }
             collectionSummary.textContent = summaryText;
 

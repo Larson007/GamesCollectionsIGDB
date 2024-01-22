@@ -41,7 +41,7 @@ class Homepage
         & first_release_date >= ' . strtotime($threeMonthsAgo) . ' 
         & first_release_date < ' . strtotime($today) . '; 
         sort first_release_date desc;
-        limit 10;');
+        limit 5;');
 
         foreach ($games as &$game) {
             if (isset($game['cover']['url'])) {
@@ -76,7 +76,7 @@ class Homepage
         where 
         first_release_date > ' . strtotime($today) . '; 
         sort hypes desc;
-        limit 10;');
+        limit 5;');
 
         foreach ($games as &$game) {
             if (isset($game['cover']['url'])) {
@@ -111,7 +111,7 @@ class Homepage
         hypes != null
         & first_release_date > ' . strtotime($today) . '; 
         sort first_release_date asc;
-        limit 10;');
+        limit 5;');
 
         foreach ($games as &$game) {
             if (isset($game['cover']['url'])) {

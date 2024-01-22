@@ -167,7 +167,14 @@
     .friends-list {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        grid-gap: 2rem;
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+
+    }
+    .friends-games-template {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1em;
         margin-bottom: 5rem;
 
     }
