@@ -1,63 +1,153 @@
 export function userGames() {
 
-    const filterAllGames = document.querySelector('.filter_collections');
+    const gameCarte = document.querySelectorAll('.game-carte');
 
-    if (!filterAllGames) {
-        return
+    const filterCollections = document.getElementById('filterCollections');
+    const filterLikes = document.getElementById('filterLikes');
+    const filterWishes = document.getElementById('filterWishes');
+    const filterPlatforms = document.querySelectorAll('.filterPlatforms');
+
+    // Masquer les cartes de jeu automatiquement si elle est supprimée par l'utilisateur
+    function hideDeletedGameCards() {
+        gameCarte.forEach(function (cardGame) {
+            if (cardGame.classList.contains('game-deleted')) {
+                cardGame.style.display = 'none';
+            }
+        });
     }
 
-    const filterButtons = document.querySelectorAll('.user_filter_button');
-    const filterCollections = document.querySelector('#filterCollections');
-    const filterLikes = document.querySelector('#filterLikes');
-    const filterWishes = document.querySelector('#filterWishes');
 
-    const allGames = filterAllGames.getAttribute('data-all');
-
-console.log(allGames);
 
     filterCollections.addEventListener('click', function () {
-        const userCollections = this.getAttribute('data-collections');
-        handleFilterClick(this, filterButtons);
-        sendRequest('collections', userCollections);
+        // Trier les jeux par collections
+        console.log('filtre par collections');
+        this.classList.toggle('filterCollections-active');
+        filterLikes.classList.remove('filterLikes-active');
+        filterWishes.classList.remove('filterWishes-active');
+        filterPlatforms.forEach(function (button) {
+            button.classList.remove('filterPlatforms-active');
+        });
+
+        gameCarte.forEach(function (cardGame) {
+            let buttons = cardGame.querySelectorAll('.collection_button');
+            let hasRemoveCollectionClass = Array.from(buttons).some(button =>
+                button.classList.contains('remove-collection')
+            );
+
+            if (this.classList.contains('filterCollections-active')) {
+                if (!hasRemoveCollectionClass) {
+                    cardGame.style.display = 'none';
+                } else {
+                    cardGame.style.display = 'flex';
+                }
+            } else {
+                cardGame.style.display = 'flex';
+            }
+        }.bind(this));
+
+        hideDeletedGameCards();
     });
 
+
+
     filterLikes.addEventListener('click', function () {
-        const userLikes = this.getAttribute('data-likes');
-        handleFilterClick(this, filterButtons);
-        sendRequest('likes', userLikes);
+        // Trier les jeux par likes
+        console.log('filtre par likes');
+        this.classList.toggle('filterLikes-active');
+        filterCollections.classList.remove('filterCollections-active');
+        filterWishes.classList.remove('filterWishes-active');
+        filterPlatforms.forEach(function (button) {
+            button.classList.remove('filterPlatforms-active');
+        });
+
+        gameCarte.forEach(function (cardGame) {
+            let buttons = cardGame.querySelectorAll('.collection_button');
+            let hasRemoveLikeClass = Array.from(buttons).some(button =>
+                button.classList.contains('remove-like')
+            );
+
+            if (this.classList.contains('filterLikes-active')) {
+                if (!hasRemoveLikeClass) {
+                    cardGame.style.display = 'none';
+                } else {
+                    cardGame.style.display = 'flex';
+                }
+            } else {
+                cardGame.style.display = 'flex';
+            }
+        }.bind(this));
+
+        hideDeletedGameCards();
     });
 
     filterWishes.addEventListener('click', function () {
-        const userWishes = this.getAttribute('data-wishes');
-        handleFilterClick(this, filterButtons);
-        sendRequest('wishes', userWishes);
+        // Trier les jeux par liste de souhaits
+        console.log('filtre par liste de souhaits');
+        this.classList.toggle('filterWishes-active');
+        filterCollections.classList.remove('filterCollections-active');
+        filterLikes.classList.remove('filterLikes-active');
+        filterPlatforms.forEach(function (button) {
+            button.classList.remove('filterPlatforms-active');
+        });
+
+        gameCarte.forEach(function (cardGame) {
+            let buttons = cardGame.querySelectorAll('.collection_button');
+            let hasRemoveWishlistClass = Array.from(buttons).some(button =>
+                button.classList.contains('remove-wishlist')
+            );
+
+            if (this.classList.contains('filterWishes-active')) {
+                if (!hasRemoveWishlistClass) {
+                    cardGame.style.display = 'none';
+                } else {
+                    cardGame.style.display = 'flex';
+                }
+            } else {
+                cardGame.style.display = 'flex';
+            }
+        }.bind(this));
+
+        hideDeletedGameCards();
     });
 
-}
+    filterPlatforms.forEach(function (button) {
+        button.addEventListener('click', function () {
+            console.log('Button clicked: ' + this.id);
+            this.classList.toggle('filterPlatforms-active');
+            filterCollections.classList.remove('filterCollections-active');
+            filterLikes.classList.remove('filterLikes-active');
+            filterWishes.classList.remove('filterWishes-active');
+            hideDeletedGameCards();
 
-function handleFilterClick(clickedButton, filterButtons) {
-    filterButtons.forEach(button => {
-        if (button === clickedButton) {
-            button.classList.toggle('filter-active');
-        } else {
-            button.classList.remove('filter-active');
-        }
-    });
-}
+            // Retirer la classe filterPlatforms-active des autres éléments
+            filterPlatforms.forEach(function (otherButton) {
+                if (otherButton !== button) {
+                    otherButton.classList.remove('filterPlatforms-active');
+                }
+            });
 
-function sendRequest(filterType, data) {
-    $.ajax({
-        url: '/user/collection',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ filterType: filterType, data: data }),
-        success: function(response) {
-            // Faites quelque chose avec les données
-            $('.user-game-template').html(response);
-            console.log(data);
-        },
-        error: function(error) {
-            console.error('Error:', error);
-        }
+            let buttonPlatformId = 'platform_id-' + this.id; // Obtient l'ID de la plateforme à partir de l'ID du bouton
+
+            // Filtre les cartes de jeu par plateforme
+            gameCarte.forEach(function (gameCard) {
+                let gameCardPlatforms = gameCard.querySelectorAll('.carte-platforms'); // Obtient toutes les plateformes de la carte de jeu
+                let hasPlatform = Array.from(gameCardPlatforms).some(platform => platform.id === buttonPlatformId); // Vérifie si la carte de jeu a la plateforme
+
+                if (this.classList.contains('filterPlatforms-active')) {
+                    if (!hasPlatform) {
+                        gameCard.style.display = 'none';
+                    } else {
+                        gameCard.style.display = 'flex';
+                    }
+                } else {
+                    gameCard.style.display = 'flex';
+                }
+            }.bind(this));
+
+            hideDeletedGameCards();
+        });
     });
+
+
+
 }

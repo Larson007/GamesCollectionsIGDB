@@ -17,7 +17,13 @@
 						<button id="filterLikes" class="user_filter_button" data-likes="{{ likeIds|join(', ') }}">likes</button>
 						<button id="filterWishes" class="user_filter_button" data-wishes="{{ wishIds|join(', ') }}">Liste de souhaites</button>
 					</div>
-					<div class="filter_platforms"></div>
+					<div class="filter_platforms">
+
+						{% for id, name in platforms %}
+							<button id="{{id}}" class="user_filter_button filterPlatforms" data-platforms="{{id}}">{{ name }}</button>
+						{% endfor %}
+
+					</div>
 				</div>
 			{% endif %}
 			<div class="user-game-template">

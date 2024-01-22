@@ -1,5 +1,5 @@
 .user-game_filter {
-    .filter_collections {
+    .filter_collections, .filter_platforms {
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
@@ -21,24 +21,31 @@
         #filterCollections {
             border-color: $blue;
         }
+        .filterCollections-active {
+            background-color: $blue;
+            border-color: $blue;
+        }
         #filterLikes {
+            border-color: $red;
+        }
+        .filterLikes-active {
+            background-color: $red;
             border-color: $red;
         }
         #filterWishes {
             border-color: $yellow;
         }
-        #filterCollections.filter-active {
-            background-color: $blue;
-            border-color: $blue;
-        }
-        #filterLikes.filter-active {
-            background-color: $red;
-            border-color: $red;
-        }
-        #filterWishes.filter-active {
+        .filterWishes-active {
             background-color: $yellow;
             border-color: $yellow;
         }
-        .filter-active {}
+        .filterPlatforms {
+            border-color: $blue;
+        }
+        .filterPlatforms-active {
+            background-color: $blue;
+            border-color: $blue;
+        }
+
     }
 }

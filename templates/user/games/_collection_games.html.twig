@@ -48,7 +48,7 @@
 				<div class="carte_body-platforms carte-infos">
 					{% if game.platforms is defined %}
 						{% for platform in game.platforms %}
-							<small class="carte-platforms badge">{{ platform.abbreviation|default(platform.name) }}</small>
+							<small id="platform_id-{{platform.id}}" class="carte-platforms badge">{{ platform.abbreviation|default(platform.name) }}</small>
 						{% endfor %}
 					{% endif %}
 				</div>

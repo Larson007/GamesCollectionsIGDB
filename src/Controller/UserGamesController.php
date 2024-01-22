@@ -81,29 +81,55 @@ class UserGamesController extends AbstractController
             // Faites quelque chose avec $filterType et $userGamesFilter
 
             $games = $this->userGame->userCollection($userGamesFilter);
-
         }
 
 
         if ($request->isXmlHttpRequest()) {
 
-        return $this->render('user/games/_collection_games.html.twig', [
-            'controller_name' => 'UserGamesController',
-            'games' => $games,
-            'collectionIds' => $collectionIds,
-            'likeIds' => $likes,
-            'wishIds' => $wishes,
-            'userGamesId' => $userGamesId,
-        ]);
-    } else {
-        return $this->render('user/games/collection.html.twig', [
-            'controller_name' => 'UserGamesController',
-            'games' => $games,
-            'collectionIds' => $collectionIds,
-            'likeIds' => $likes,
-            'wishIds' => $wishes,
-            'userGamesId' => $userGamesId,
-        ]);
-    }
+            // Recuperer les plateformes des jeux dans la collection de l'utilisateur
+            $platforms = [];
+            foreach ($games as $game) {
+                foreach ($game['platforms'] as $platform) {
+                    if (!array_key_exists($platform['id'], $platforms)) {
+                        $platforms[$platform['id']] = $platform['name'];
+                    }
+                }
+            }
+            // Trier les plateformes par ordre alphabétique
+            asort($platforms);
+
+            return $this->render('user/games/_collection_games.html.twig', [
+                'controller_name' => 'UserGamesController',
+                'games' => $games,
+                'collectionIds' => $collectionIds,
+                'likeIds' => $likes,
+                'wishIds' => $wishes,
+                'userGamesId' => $userGamesId,
+                'platforms' => $platforms,
+            ]);
+        } else {
+
+            // Recuperer les plateformes des jeux dans la collection de l'utilisateur
+            $platforms = [];
+            foreach ($games as $game) {
+                foreach ($game['platforms'] as $platform) {
+                    if (!array_key_exists($platform['id'], $platforms)) {
+                        $platforms[$platform['id']] = $platform['name'];
+                    }
+                }
+            }
+            // Trier les plateformes par ordre alphabétique
+            asort($platforms);
+
+            return $this->render('user/games/collection.html.twig', [
+                'controller_name' => 'UserGamesController',
+                'games' => $games,
+                'collectionIds' => $collectionIds,
+                'likeIds' => $likes,
+                'wishIds' => $wishes,
+                'userGamesId' => $userGamesId,
+                'platforms' => $platforms,
+            ]);
+        }
     }
 }

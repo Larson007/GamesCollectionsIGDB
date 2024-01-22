@@ -17,6 +17,8 @@ export function toggleCollections() {
             // Récupérez l'ID du jeu à partir de l'attribut 'data-gameId' du bouton
             let gameId = this.getAttribute('data-gameId');
 
+
+
             //* Si le bouton a la classe 'add-collection'
             // Vérifiez si le bouton a la classe 'add-collection'
             if (buttonClass.includes('add-collection')) {
@@ -67,6 +69,10 @@ export function toggleCollections() {
                         // Si la suppression a réussi, changez la classe du bouton en 'add-collection'
                         this.classList.remove('remove-collection');
                         this.classList.add('add-collection');
+
+                        // Si aucun autre bouton de la carte n'a la classe 'remove-collection', masquez la carte
+                        hideCardGameIfNoRemoveClass(gameId);
+
                     } else {
                         // Si la suppression a échoué, affichez une erreur
                         console.error('Erreur lors de la suppression du jeu de la collection');
@@ -76,6 +82,8 @@ export function toggleCollections() {
                     console.error('Erreur:', error);
                 });
             }
+
+
 
             //* Si le bouton a la classe 'add-like
             if (buttonClass.includes('add-like')) {
@@ -112,6 +120,10 @@ export function toggleCollections() {
                     if (data.success) {
                         this.classList.remove('remove-like');
                         this.classList.add('add-like');
+                        
+                        // Si aucun autre bouton de la carte n'a la classe 'remove-collection', masquez la carte
+                        hideCardGameIfNoRemoveClass(gameId);
+
                     } else {
                         console.error('Erreur lors de la suppression du jeu des likes');
                     }
@@ -120,6 +132,8 @@ export function toggleCollections() {
                     console.error('Erreur:', error);
                 });
             }
+
+
 
             //* Si le bouton a la classe 'add-wishlist
             if (buttonClass.includes('add-wishlist')) {
@@ -156,6 +170,10 @@ export function toggleCollections() {
                     if (data.success) {
                         this.classList.remove('remove-wishlist');
                         this.classList.add('add-wishlist');
+                        
+                        // Si aucun autre bouton de la carte n'a la classe 'remove-collection', masquez la carte
+                        hideCardGameIfNoRemoveClass(gameId);
+
                     } else {
                         console.error('Erreur lors de la suppression du jeu de la wishlist');
                     }
@@ -178,6 +196,7 @@ export function toggleCollections() {
                     if (data.success) {
                         toastr.success("Le jeu a bien été supprimée");
                         let cardGame = document.getElementById(gameId);
+                        cardGame.classList.add('game-deleted');
                         cardGame.style.display = 'none';
                     } else {
                         console.error('Erreur lors de l\'a suppression du jeu');
@@ -192,4 +211,23 @@ export function toggleCollections() {
             
         });
     });
+}
+
+//* Fonction pour masquer la carte du jeu si aucun autre bouton de la carte n'a la classe 'remove-collection' dans userGamesCollection
+function hideCardGameIfNoRemoveClass(gameId) {
+    let cardGame = document.getElementById(gameId);
+    if (cardGame) {
+        let buttons = cardGame.querySelectorAll('.collection_button');
+        let hasRemoveClass = Array.from(buttons).some(button => 
+            button.classList.contains('remove-collection') ||
+            button.classList.contains('remove-like') ||
+            button.classList.contains('remove-wishlist')
+        );
+
+        if (!hasRemoveClass) {
+            cardGame.style.display = 'none';
+            toastr.success("Le jeu a bien été supprimée");
+            console.log(cardGame);
+        }
+    }
 }
