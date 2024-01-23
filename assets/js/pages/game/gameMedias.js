@@ -57,6 +57,10 @@ export function gameMedias() {
                         // medias.style.height = '690px';
                         gameMediasVideo.style.display = 'flex';
                         gameMediasThumbnail.style.display = 'flex';
+                        gameMediasThumbnail.style.flexDirection = 'column';
+                        if (window.matchMedia('(max-width: 768px)').matches) {
+                            gameMediasThumbnail.style.flexDirection = 'row';
+                        }
                         gameMediasScreenshot.style.display = 'none';
                         gameMediasVideoButtons.style.display = 'flex';
                         break;

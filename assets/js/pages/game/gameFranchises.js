@@ -1,7 +1,7 @@
 export function gameFranchises() {
 
 
-
+    const gameFranchises = document.querySelector('.game_franchises');
     const franchisesButtons = document.querySelectorAll('.franchises_nav-buttons');
     const franchisesData = document.querySelector('.franchises_body');
 
@@ -10,7 +10,6 @@ export function gameFranchises() {
     }
 
     let data = JSON.parse(franchisesData.dataset.franchises);
-
     if (!data) {
         return;
     }
@@ -142,7 +141,6 @@ export function gameFranchises() {
 
     function displayFranchisesDetails(game) {
         let html = `
-
                 <div class="franchise_detail-cover">
                 <a href="/game/${game.id}">
                 <img src="${game.cover ? game.cover.url : 'public/build/images/placeholder.jpg'}" alt="cover de ${game.name}" loading='lazy'>
@@ -177,7 +175,14 @@ export function gameFranchises() {
     }
 
     displayFranchisesList(firstButtonId);
-    displayFranchisesDetails(games[currentGameIndex]);
+
+    // Vérifiez si games[currentGameIndex] est défini avant de l'envoyer à displayFranchisesDetails
+    if (games[currentGameIndex]) {
+        displayFranchisesDetails(games[currentGameIndex]);
+    } else {
+        // gameFranchises.style.display = 'none';
+        gameFranchises.remove();
+    }
 
     let franchisesListGame = document.querySelector('.franchises_list-game');
     franchisesListGame.addEventListener('click', function (event) {
