@@ -19,7 +19,7 @@ function addEventListenersToGameCards() {
         });
     });
 
-    if (window.innerWidth <= 768) {
+    if ('ontouchstart' in window) {
         gameCard.forEach((card) => {
             let gameCardBody = card.querySelector('.game_card-body');
             let gameCardButtonsAndLinks = card.querySelectorAll('button, a');
@@ -45,6 +45,32 @@ function addEventListenersToGameCards() {
             });
         });
     }
+    // if (window.innerWidth <= 768) {
+    //     gameCard.forEach((card) => {
+    //         let gameCardBody = card.querySelector('.game_card-body');
+    //         let gameCardButtonsAndLinks = card.querySelectorAll('button, a');
+
+    //         let preventClick = function (event) {
+    //             event.preventDefault();
+    //         };
+
+    //         gameCardButtonsAndLinks.forEach((buttonOrLink) => {
+    //             buttonOrLink.addEventListener('click', preventClick);
+    //         });
+
+    //         card.addEventListener('touchstart', function (event) {
+    //             event.stopPropagation();
+    //             gameCardBody.classList.add('game_card-body-active');
+
+    //             setTimeout(() => {
+    //                 gameCardButtonsAndLinks.forEach((buttonOrLink) => {
+    //                     buttonOrLink.removeEventListener('click', preventClick);
+    //                     console.log('click');
+    //                 });
+    //             }, 500);
+    //         });
+    //     });
+    // }
 }
 
 // Appeler cette fonction chaque fois que vous mettez à jour le DOM

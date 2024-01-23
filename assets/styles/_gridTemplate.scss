@@ -46,6 +46,13 @@
         margin-bottom: 2rem;
     }
 
+    .friends-games-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 2rem;
+    }
+
     //Game Detail Template
     .expansions-template {
         display: grid;
@@ -70,25 +77,67 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1200px) {
+    .last_tested_games-template {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 1rem;
+        margin-bottom: 5rem;
+    }
+    // Filter Template
+    #games_list {
+        .games_cards {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-gap: 1rem;
+            margin-bottom: 5rem;
+        }
+    }
+    // Pagination Template
+    .pagination-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        margin-bottom: 5rem;
+    }
     // New Games Template
     .new-game-template {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 2em;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+
     }
 
     // Popular Games Template
     .popular-game-template {
         display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+
+    }
+
+    // User Game Games Template
+    .user-game-template {
+        display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-gap: 2em;
+        grid-gap: 1em;
+        margin-bottom: 5rem;
     }
 
     // Friends Template
     .friends-list {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 2rem;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+    }
+    .friends-games-template {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+
     }
 
     //Game Detail Template

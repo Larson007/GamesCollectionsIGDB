@@ -225,15 +225,11 @@
                         width: 60%;
                         margin-left: auto;
                         padding-left: 0.5rem;
-                        h3 {
-                        }
                         .game_age_ratings-icons {
                             display: flex;
                             flex-flow: row wrap;
                             img {
                                 width: 30px;
-                            }
-                            p {
                             }
                         }
                     }
@@ -249,8 +245,6 @@
                                 font-size: 0.7rem;
                                 text-align: center;
                                 margin-top: 1rem;
-                            }
-                            .game_rating-title-null {
                             }
                             .game_rating-graph {
                                 position: relative;
@@ -1152,15 +1146,15 @@
                     .franchise_detail-platforms {
                         width: 100%;
                         height: auto;
-                        margin-top: 2rem;
-                        padding-right: 2.5rem;
+                        margin-top: 2.5rem;
+                        padding-right: 1.5rem;
                         h3 {
                             font-size: 1rem;
                         }
                         .franchise-platforms {
                             width: 100%;
                             display: flex;
-                            flex-flow: row nowrap;
+                            flex-flow: row wrap;
                             align-items: center;
                             p {
                                 margin-right: 1rem;
@@ -1302,6 +1296,113 @@
                 }
             }
         }
+    }
+}
+
+/********************************************************/
+/********************************************************/
+/********************************************************/
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+    .information_header {
+        background-color: $cards;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        width: 100%;
+        height: 60px;
+        .information_nav {
+            width: 70%;
+            height: 100%;
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            overflow-x: auto;
+            padding-left: 1rem;
+            .information_nav-link {
+                font-size: 1rem;
+                font-weight: bold;
+                text-transform: uppercase;
+                padding: 0;
+                padding-bottom: 2.5px;
+                background-color: transparent;
+                border: none;
+                margin-right: 1rem;
+                color: #eee;
+                height: 80%;
+                white-space: nowrap;
+            }
+            .information_nav-link-active {
+                border-bottom: 1px solid #eee;
+                text-decoration: none;
+                padding-bottom: 2.5px;
+            }
+        }
+        .information_nav-button {
+            display: flex;
+            flex-flow: row nowrap;
+            width: 30%;
+            height: 60px;
+            button {
+                background-color: $yellow;
+                width: 100%;
+                height: 100%;
+                border: none;
+                &:hover {
+                    background-color: darken($yellow, 5%);
+                    // opacity: 0.2;
+                }
+                svg {
+                    width: 25%;
+                    height: auto;
+                }
+            }
+            .information_nav-link-next {
+                border-left: 1px solid #3a3a3a;
+            }
+        }
+    }
+    .game_notes {
+        scale: 0.6;
+    }
+    .game_informations-content-side {
+        margin-top: 8rem !important;
+    }
+    .collection_title {
+        font-size: 1.3rem !important;
+    }
+    .media_thumbnails {
+        padding: 0.3rem !important;
+        h4 {
+            font-size: 0.8rem !important;
+        }
+    }
+    .franchises_body-list {
+        padding: 0.3rem !important;
+        h3 {
+            font-size: 0.8rem !important;
+        
+        }
+    }
+    .franchise_detail {
+        .franchise_detail-cover {
+            padding: 1.5rem 0 0 1.5rem !important;
+            width: 40% !important;
+        }
+        .franchise_detail-body {
+            width: 60% !important;
+            padding: 1.5rem 1.5rem 0 1.5rem !important;
+        }
+        .franchise_detail-platforms {
+            padding: 3rem 1.5rem !important;
+        }
+    }
+    .left_informations {
+        padding-left: 2rem !important;
+        padding-right: 10rem !important;
+    }
+    .left_platforms {
+        padding-left: 2rem !important;
     }
 }
 
@@ -1968,6 +2069,23 @@
                         .collection_summary {
                             color: #888;
                             font-size: 0.85rem;
+                            overflow-y: scroll;
+                                                /* Personnalisation de la barre de défilement */
+                    &::-webkit-scrollbar {
+                        width: 5px;
+                    }
+
+                    &::-webkit-scrollbar-track {
+                        background: #eee;
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                        background: #888;
+                    }
+
+                    &::-webkit-scrollbar-thumb:hover {
+                        background: #555;
+                    }
                         }
                     }
                     .left_covers {
