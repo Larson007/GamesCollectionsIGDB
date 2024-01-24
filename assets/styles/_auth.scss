@@ -9,14 +9,39 @@
         color: $blue;
     }
 }
-.formulaire_compte {
-    height: 80vh;
+.login_test {
+    background-color: $purple;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 2rem 0 2rem;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-flow: row wrap;
+    p {
+        margin: 0 0 0.5rem;
+        color: $text-light;
+        text-shadow: $text-shadow;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    .login_test-text {
+        margin-left: 1rem;
+        span {
+            font-weight: bold;
+            color: $blue;
+        }
+    }
+}
+
+.formulaire_compte {
+    height: 400px;
+    position: relative;
     margin-bottom: 2rem;
     .login_register-link {
-        position: relative;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
         background-color: $cards;
         height: 300px;
         width: 100%;
@@ -48,8 +73,8 @@
     }
     .login {
         position: absolute;
-        top: -50px;
-        right: 30px;
+        top: 0;
+        right: 3rem;
         background-color: $bg-white;
         color: #333;
         padding: 3rem;
@@ -91,13 +116,14 @@
 
 // Register
 .formulaire_register {
-    height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
+    height: 550px;
     margin-bottom: 2rem;
     .login_register-link {
-        position: relative;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
         background-color: $cards;
         height: 300px;
         width: 100%;
@@ -128,10 +154,10 @@
             border: 1px solid gray;
         }
     }
-    .login {
+    .register {
         position: absolute;
-        top: -125px;
-        left: 30px;
+        top: 0;
+        left: 3rem;
         background-color: $bg-white;
         color: #333;
         padding: 3rem;
@@ -219,119 +245,72 @@
 
 @media screen and (max-width: 780px) {
     .auth-container {
-        margin: 3rem 0;
+        margin: 0;
     }
-    // Login
+
     .formulaire_compte {
-        height: 80vh;
-        display: flex;
-        flex-flow: column wrap;
-        justify-content: end;
-        align-items: center;
+        height: 550px;
+        position: relative;
+        margin-bottom: 2rem;
         .login_register-link {
-            position: relative;
+            position: absolute;
+            top: 332px;
+            left: 0;
+            transform: translate(0, 0);
+            background-color: $cards;
+            height: 215px;
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            border-radius: 5px;
+        }
+        .login {
+            position: absolute;
+            top: 0 !important;
+            left: 0;
+            background-color: $bg-white;
+            color: #333;
+            padding: 1.5rem;
+            width: 100%;
+            height: 300px;
+            border-radius: 5px;
+        }
+    }
+
+    .formulaire_register {
+        position: relative;
+        height: 684px;
+        margin-bottom: 2rem;
+        .login_register-link {
+            position: absolute;
+            top: 464px;
+            left: 0;
+            transform: translateY(0);
+            background-color: $cards;
+            height: 220px;
+            width: 100%;
+            padding: 1.5rem;
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: end;
+            border-radius: 5px;
+        }
+        .register {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: $bg-white;
+            color: #333;
             padding: 1.5rem;
             width: 100%;
             height: auto;
         }
-        .login {
-            position: absolute;
-            top: -320px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 1.5rem;
-            width:100%;
-            height: auto;
-        }
     }
-
-    // Register
-.formulaire_register {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    .login_register-link {
-        position: relative;
-        background-color: $cards;
-        height: fit-content;
-        width: 100%;
-        padding: 1.5rem;
-        display: flex;
-        flex-flow: column wrap;
-        justify-content: center;
-        align-items: center;
-        border-radius: 5px;
-    }
-    .login {
-        // display: none;
-        position: absolute;
-        top: 240px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: $bg-white;
-        color: #333;
-        padding: 1.5rem;
-        width: 100%;
-        height: fit-content;
-        border-radius: 5px;
-        h2 {
-            color: $red;
-            text-transform: uppercase;
-        }
-        .login-input {
-            display: flex;
-            flex-flow: column wrap;
-            justify-content: center;
-            .register_form-checkbox {
-                display: flex;
-                align-items: center;
-                margin: 1rem 0;
-                label {
-                    margin-right: 1rem;
-                }
-                input[type="checkbox"] {
-                    appearance: none;
-                    background-color: transparent;
-                    color: transparent;
-                    width: 20px;
-                    height: 20px;
-                    position: relative;
-                    margin: 0;
-                    border-bottom: none;
-
-                    &::before {
-                        content: "";
-                        display: block;
-                        width: 20px;
-                        height: 20px;
-                        border: 1px solid $cards;
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                    }
-
-                    &:checked::before {
-                        background-color: $blue;
-                    }
-                    &:checked::after {
-                        content: "";
-                        position: absolute;
-                        width: 5px;
-                        height: 10px;
-                        border: solid white;
-                        border-width: 0 2px 2px 0;
-                        top: 45%;
-                        left: 45%;
-                        transform: translate(-55%, -60%) rotate(45deg);
-                    }
-                }
-            }
-        }
-    }
-}
 }
 
 @media screen and (min-width: 780px) and (max-width: 1200px) {
+
 }

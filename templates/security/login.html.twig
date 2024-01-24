@@ -14,34 +14,49 @@
 				<div class="login-message my-3">
 					<p>
 						Vous êtes connecté en tant que
-						<span>{{ app.user.userIdentifier }}</span>. Veuillez vous connecter à nouveau pour accéder à votre compte. 
+						<span>{{ app.user.userIdentifier }}</span>. Veuillez vous connecter à nouveau pour accéder à votre compte.
 					</p>
 					{# <p>Sinon vous pouvez vous <a href="{{ path('app_logout') }}">déconnecter</a></p> #}
-					
+
 				</div>
 			{% endif %}
+
+			{% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+				{# L'utilisateur est authentifié, vous pouvez mettre ici le code à exécuter si l'utilisateur est authentifié #}
+			{% else %}
+				<div class="login_test">
+					<p class="login_test-text">Pour tester l'application :</p>
+					<p class="login_test-text">email :
+						<span>test@test.test</span>
+					</p>
+					<p class="login_test-text">mot de pass :
+						<span>password</span>
+					</p>
+				</div>
+			{% endif %}
+
 
 			<div class="formulaire_compte">
 				<div class="login_register-link">
 					<h3>Pas encore de compte ?</h3>
 					<p>Créez un compte gratuitement et rejoigné la communauté</p>
 					<a href="{{ path('app_register') }}" class="btn btn-lg">Register</a>
-
-
-					<div class="login">
-						<form method="post">
-							<h2>Login</h2>
-							<div class="login-input">
-								<input type="email" value="{{ last_username }}" name="email" class="input-email" autocomplete="none" placeholder="Email" required autofocus>
-								<input type="password" name="password" class="input-password" autocomplete="current-password" placeholder="Password" required>
-								<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-								<button class="btn btn-lg" type="submit">
-									log in
-								</button>
-							</div>
-						</form>
-					</div>
 				</div>
+
+				<div class="login">
+					<form method="post">
+						<h2>Login</h2>
+						<div class="login-input">
+							<input type="email" value="{{ last_username }}" name="email" class="input-email" autocomplete="none" placeholder="Email" required autofocus>
+							<input type="password" name="password" class="input-password" autocomplete="current-password" placeholder="Password" required>
+							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+							<button class="btn btn-lg" type="submit">
+								log in
+							</button>
+						</div>
+					</form>
+				</div>
+
 			</div>
 		</div>
 	</div>
