@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{controller_name}}
+	GGC - Votre collection de jeux
 {% endblock %}
 
 {% block body %}
 	<div class="body-content">
 		<div class="container">
 			<div class="page-title">
-				<h1 class="page-title">Votre Collection de jeux</h1>
+				<h1 class="user-game-title">Votre Collection de jeux</h1>
 			</div>
 			{% if userGamesId is not empty %}
 				<div class="user-game_filter">

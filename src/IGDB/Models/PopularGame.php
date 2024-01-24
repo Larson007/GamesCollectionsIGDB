@@ -41,6 +41,7 @@ class PopularGame
         }
 
         $threeMonthsAgo = strtotime(date('Y-m-d', strtotime('-3 months')));
+        $firstDayOfTheMonth = strtotime(date('Y-m-01'));
         $today = strtotime(date('Y-m-d'));
         $limit = 500;
 
@@ -61,9 +62,10 @@ class PopularGame
         sort first_release_date desc; 
         
         where 
-        category = (0, 2, 4, 8, 9)
+        cover.url != null
+        & category = (0, 2, 4, 8, 9)
         & platforms = (' . $platformId . ')
-        & rating >= 60
+        & aggregated_rating >= 80
         & first_release_date >= ' . $threeMonthsAgo . '
         & first_release_date < ' . $today . ';
 

@@ -216,6 +216,7 @@
         }
 
         .game_informations {
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3), 0 6px 40px 0 rgba(0, 0, 0, 0.29);
             // display: none !important;
             .game_informations-content {
                 .game_informations-content-side {
@@ -297,6 +298,9 @@
                             align-items: center;
                             overflow-x: auto;
                             padding-left: 1rem;
+                            &::-webkit-scrollbar {
+                                height: 5px;
+                            }
                             .information_nav-link {
                                 font-size: 1rem;
                                 font-weight: bold;
@@ -534,6 +538,7 @@
         }
 
         .game_collection {
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3), 0 6px 40px 0 rgba(0, 0, 0, 0.29);
             width: 100%;
             height: 100%;
             display: flex;
@@ -710,6 +715,7 @@
         }
 
         .game_medias {
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3), 0 6px 40px 0 rgba(0, 0, 0, 0.29);
             position: relative;
             width: 100%;
             // height: 690px;
@@ -992,6 +998,7 @@
         }
 
         .game_franchises {
+            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3), 0 6px 40px 0 rgba(0, 0, 0, 0.29);
             position: relative;
             width: 100%;
             height: 680px;
@@ -1753,6 +1760,9 @@
                         align-items: center;
                         width: 100%;
                         height: 100px;
+
+
+
                         .information_nav {
                             padding: 0;
                             list-style: none;

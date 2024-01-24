@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie récente populaire
+{% block title %}GGC - Sortie Récente Populaire
 {% endblock %}
 
 {% block body %}
@@ -8,16 +8,18 @@
 		<div class="popular-game">
 			<div class="container">
 				<div class="page-title">
-					<h1 class="popular-title">Sortie récente populaire <span>(Depuis le {{ date }})</span></h1>
+					<h1 class="popular-title">Sortie récente populaire</h1>
+					{# <span>(Depuis le {{ date }})</span> #}
 				</div>
 
 				<div class="popular-platforms">
-					<button id="popular-all" class="popular-platforms-filter"><img src="{{asset('build/images/icons/platforms/all_platforms.svg')}}" alt=""><span>Toutes les platformes</span>
+					<button id="popular-all" class="popular-platforms-filter">
+						<span>Toutes les platformes</span>
 					</button>
-					<button id="popular-pc" class="popular-platforms-filter"><img src="{{asset('build/images/icons/platforms/PC_horizontal.svg')}}" alt=""></button>
-					<button id="popular-playstation" class="popular-platforms-filter"><img src="{{asset('build/images/icons/platforms/PS5_horizontal.svg')}}" alt=""></button>
-					<button id="popular-xbox" class="popular-platforms-filter"><img src="{{asset('build/images/icons/platforms/Xbox_Series_horizontal.svg')}}" alt=""></button>
-					<button id="popular-nintendo" class="popular-platforms-filter"><img src="{{asset('build/images/icons/platforms/Nintendo_Switch_horizontal.svg')}}" alt=""></button>
+					<button id="popular-pc" class="popular-platforms-filter"><img src="{{asset('build/images/icons/platforms/PC_horizontal.svg')}}" alt="filtre logo PC"></button>
+					<button id="popular-playstation" class="popular-platforms-filter"><img src="{{asset('build/images/icons/platforms/PS5_horizontal.svg')}}" alt="filtre logo PS5"></button>
+					<button id="popular-xbox" class="popular-platforms-filter"><img src="{{asset('build/images/icons/platforms/Xbox_Series_horizontal.svg')}}" alt="filtre logo XBOX Series"></button>
+					<button id="popular-nintendo" class="popular-platforms-filter"><img src="{{asset('build/images/icons/platforms/Nintendo_Switch_horizontal.svg')}}" alt="filtre logo Nintendo Switch"></button>
 
 				</div>
 				<div class="popular-game-template">

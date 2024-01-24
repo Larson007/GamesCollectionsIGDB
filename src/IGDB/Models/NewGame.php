@@ -41,7 +41,8 @@ class NewGame
         aggregated_rating,
         rating; 
         where 
-        version_parent = null
+        themes != (42) & cover.url != null
+        & version_parent = null
         & first_release_date >= ' . strtotime($firstDayOfCurrentMonth) . ' 
         & first_release_date < ' . strtotime($today) . '; 
         sort first_release_date desc;

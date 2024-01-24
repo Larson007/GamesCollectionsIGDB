@@ -61,6 +61,10 @@ header {
             width: 100%;
             .menu-logo {
                 margin-bottom: 3rem;
+
+                img {
+                    padding: 0.1rem !important;
+                }
             }
             .menu_content-list {
                 box-sizing: border-box;

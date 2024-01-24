@@ -24,6 +24,9 @@ class Homepage
         $today = date('Y-m-d');
         $threeMonthsAgo = date('Y-m-d', strtotime('-3 months'));
 
+        $limit = 6;
+
+
         $games = $this->igdbService->makeRequest('games', '
         fields 
         name,
@@ -41,7 +44,7 @@ class Homepage
         & first_release_date >= ' . strtotime($threeMonthsAgo) . ' 
         & first_release_date < ' . strtotime($today) . '; 
         sort first_release_date desc;
-        limit 5;');
+        limit ' . $limit . ';');
 
         foreach ($games as &$game) {
             if (isset($game['cover']['url'])) {
@@ -55,10 +58,12 @@ class Homepage
         return $games;
     }
 
-    
+
     public function hypesGames()
     {
         $today = date('Y-m-d');
+
+        $limit = 6;
 
         $games = $this->igdbService->makeRequest('games', '
         fields 
@@ -76,7 +81,7 @@ class Homepage
         where 
         first_release_date > ' . strtotime($today) . '; 
         sort hypes desc;
-        limit 5;');
+        limit ' . $limit . ';');
 
         foreach ($games as &$game) {
             if (isset($game['cover']['url'])) {
@@ -89,10 +94,12 @@ class Homepage
 
         return $games;
     }
-    
+
     public function comingSoonGames()
     {
         $today = date('Y-m-d');
+
+        $limit = 6;
 
         $games = $this->igdbService->makeRequest('games', '
         fields 
@@ -111,7 +118,7 @@ class Homepage
         hypes != null
         & first_release_date > ' . strtotime($today) . '; 
         sort first_release_date asc;
-        limit 5;');
+        limit ' . $limit . ';');
 
         foreach ($games as &$game) {
             if (isset($game['cover']['url'])) {
