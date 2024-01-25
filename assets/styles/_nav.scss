@@ -12,7 +12,7 @@ header {
         top: 0;
         left: 0;
         height: 100vh;
-        width: 15%;
+        width: 280px;
         transition: width 0.3s ease-in-out;
         background-color: $nav-bg;
         position: fixed;
@@ -291,7 +291,7 @@ header {
     }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1199px) {
 
     header {
         .menu {

@@ -1,7 +1,8 @@
 .welcome {
     font-family: "Afacad", sans-serif;
     background-color: $bg-dark;
-    padding: 4rem 4rem 2rem;
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
     p {
         color: #eee;
         text-shadow: $text-shadow;
@@ -15,72 +16,141 @@
     }
     .welcome_description {
         display: flex;
-        flex-flow: row nowrap;
+        flex-flow: row wrap;
         justify-content: center;
         align-items: center;
         width: 100%;
-        .welcome_detail {
+        .welcome_position-left {
+            justify-content: flex-end;
+        }
+        .welcome_position-right {
+            justify-content: flex-start;
+        }
+        .welcome_position {
+            margin: 1rem 0;
+            width: 50%;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            border: 5px solid;
-            border-radius: 3px;
-            padding: 0.75rem;
-            margin: 1rem;
-            width: 142px;
-            .welcome-icon {
-                background-color: $cards;
-                border-radius: 50%;
-                padding: 0.75rem;
+            .welcome_detail {
+                position: relative;
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
                 align-items: center;
-                svg {
-                    width: 24px;
-                    height: 24px;
+                justify-content: center;
+                border: 5px solid;
+                border-radius: 3px;
+                padding: 0.75rem;
+                width: 125px;
+                height: 110px;
+                margin: 0 1rem;
+                &:hover {
+                    .welcome-pophover {
+                        opacity: 1;
+                        z-index: 99;
+                    }
+                    .welcome-icon {
+                        opacity: 0;
+                    }
+                    .welcome_detail-texte {
+                        opacity: 0;
+                    }
+                }
+                .welcome-icon {
+                    opacity: 1;
+                    transition: opacity 0.3s ease-in-out;
+
+                    background-color: $cards;
+                    border-radius: 50%;
+                    padding: 0.75rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    svg {
+                        width: 24px;
+                        height: 24px;
+                    }
+                }
+                .welcome_detail-texte {
+                    opacity: 1;
+                    transition: opacity 0.3s ease-in-out;
+                    margin-top: 0.5rem;
+                    text-transform: uppercase;
+                    text-shadow: $text-shadow;
+                    font-weight: bold;
+                }
+                .welcome-pophover {
+                    opacity: 0;
+                    transition: opacity 0.3s ease-in-out;
+                    display: inline-block;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    p {
+                        font-size: 0.8rem;
+                    }
+                }
+                .collection-pophover {
+                    p {
+                        color: $blue;
+                    }
+                }
+                .like-pophover {
+                    p {
+                        color: $red;
+                    }
+                }
+                .wishlist-pophover {
+                    p {
+                        color: $yellow;
+                    }
                 }
             }
-            .welcome_detail-texte {
-                margin-top: 0.5rem;
-                text-transform: uppercase;
-                text-shadow: $text-shadow;
-                font-weight: bold;
-            }
-        }
-        .welcome_collection {
-            border-color: $blue !important;
-            .welcome_detail-texte {
-                color: $blue;
-            }
-            .icon-collection {
-                .icon-collection-path {
-                    fill: $blue;
-                    stroke: $blue;
+            .welcome_collection {
+                border-color: $blue !important;
+                .welcome_detail-texte {
+                    color: $blue;
+                }
+                .icon-collection {
+                    .icon-collection-path {
+                        fill: $blue;
+                        stroke: $blue;
+                    }
                 }
             }
-        }
-        .welcome_like {
-            border-color: $red !important;
-            .welcome_detail-texte {
-                color: $red;
-            }
-            .icon-like {
-                .icon-like-path {
-                    fill: $red;
-                    stroke: $red;
+            .welcome_like {
+                border-color: $red !important;
+                .welcome_detail-texte {
+                    color: $red;
+                }
+                .icon-like {
+                    .icon-like-path {
+                        fill: $red;
+                        stroke: $red;
+                    }
                 }
             }
-        }
-        .welcome_wishlist {
-            border-color: $yellow !important;
-            .welcome_detail-texte {
-                color: $yellow;
+            .welcome_wishlist {
+                border-color: $yellow !important;
+                .welcome_detail-texte {
+                    color: $yellow;
+                }
+                .icon-wishlist {
+                    .icon-wishlist-path {
+                        fill: $yellow;
+                        stroke: $yellow;
+                    }
+                }
             }
-            .icon-wishlist {
-                .icon-wishlist-path {
-                    fill: $yellow;
-                    stroke: $yellow;
+            .welcome_friends {
+                border-color: #eee !important;
+                .welcome_detail-texte {
+                    color: #eee;
+                }
+                .icon-friends {
+                    .st0 {
+                        fill: #eee;
+                    }
                 }
             }
         }
@@ -97,7 +167,9 @@
         display: none;
     }
     .last_tested_games {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        box-shadow:
+            0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
         width: 100%;
         height: 100%;
         display: flex;
@@ -503,34 +575,48 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
     .welcome {
-        padding: 2rem;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
         p {
             font-size: 1rem;
         }
         .welcome_description {
+            display: flex;
+            flex-flow: column wrap;
             justify-content: center;
-
-            .welcome_detail {
-                border: 3px solid;
-                padding: 0.75rem;
-                margin: 1rem 0.4rem;
-                width: 92px;
-                .welcome-icon {
-                    padding: 0.5rem;
-                    svg {
-                        width: 20px;
-                        height: 20px;
+            align-items: center;
+            width: 100%;
+            .welcome_position-left {
+                justify-content: center;
+            }
+            .welcome_position-right {
+                justify-content: center;
+            }
+            .welcome_position {
+                width: 80%;
+                align-items: center;
+                .welcome_detail {
+                    border: 3px solid;
+                    padding: 0.75rem;
+                    width: 40%;
+                    .welcome-icon {
+                        padding: 0.5rem;
+                        svg {
+                            width: 20px;
+                            height: 20px;
+                        }
                     }
-                }
-                .welcome_detail-texte {
-                    font-size: 0.7rem;
+                    .welcome_detail-texte {
+                        font-size: 0.7rem;
+                    }
                 }
             }
         }
     }
     .homepage {
+        margin-top: 2rem !important;
         .last_tested_games:last-child {
             display: flex;
         }
@@ -604,10 +690,9 @@
     }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1200px) {
-
-
+@media screen and (min-width: 768px) and (max-width: 1599px) {
     .homepage {
+        margin-top: 2rem !important;
         .last_tested_games:last-child {
             display: none !important;
         }
@@ -676,6 +761,25 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 1600px) and (max-width: 1800px) {
+    .game_card-collections {
+        height: 30% !important;
+    }
+    .game_card-link {
+        height: 20% !important;
+    }
+    .game-platforms {
+        .carte-platforms {
+            small {
+                padding: 0.2rem 0.3rem !important;
+                margin-right: 0.2rem !important;
+                margin-bottom: 0.2rem !important;
+                font-size: 0.7rem !important;
             }
         }
     }

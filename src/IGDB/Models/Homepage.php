@@ -131,4 +131,5 @@ class Homepage
 
         return $games;
     }
+
 }

@@ -80,7 +80,7 @@
                 }
                 .user_form-avatar {
                     position: absolute;
-                    top: -75px;
+                    top: -80px;
                     left: 2rem;
                     max-width: 100%;
                     max-height: 100%;
@@ -161,16 +161,7 @@
 }
 
 
-@media screen and (min-width: 768px) and (max-width: 1200px){
-.user_info {
-    .user_info-title {
-        margin-top: 5rem;
-        text-align: end;
-    }
-}}
-
-
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 767px) {
     .dashboard {
         flex-flow: column nowrap;
         .forms {
@@ -210,5 +201,28 @@
     }
 }
 
-@media screen and (min-width: 780px) and (max-width: 1200px) {
-}
+
+@media screen and (min-width: 768px) and (max-width: 1199px){
+    .user_info {
+        .user_info-title {
+            margin-top: 5rem;
+            text-align: end;
+        }
+    }}
+
+
+@media screen and (min-width: 1200px) and (max-width: 1399px){
+    .user_info {
+        .user_info-title {
+            margin-top: 5rem;
+            text-align: end;
+        }
+    }}
+
+@media screen and (min-width: 1400px) and (max-width: 1600px){
+    .user_info {
+        .user_info-title {
+            margin-top: 5rem;
+            text-align: end;
+        }
+    }}

@@ -1,4 +1,7 @@
-@media screen and (max-width: 768px) {
+
+
+
+@media screen and (max-width: 575px) {
     .last_tested_games-template {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -76,7 +79,86 @@
     }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1200px) {
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    .last_tested_games-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+    // Filter Template
+    #games_list {
+        .games_cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            // grid-auto-rows: 0;
+            grid-gap: 1rem;
+        }
+    }
+    // New Games Template
+    .new-game-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    // Popular Games Template
+    .popular-game-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 0.5rem;
+        margin-bottom: 2rem;
+    }
+
+    // User Game Games Template
+    .user-game-template {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    // Friends Template
+    .friends-list {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .friends-games-template {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    //Game Detail Template
+    .expansions-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .dlcs-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .franchises-template {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1199px) {
     .last_tested_games-template {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
@@ -92,18 +174,12 @@
             margin-bottom: 5rem;
         }
     }
-    // Pagination Template
-    .pagination-template {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        grid-gap: 2em;
-        margin-bottom: 5rem;
-    }
+
     // New Games Template
     .new-game-template {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        grid-gap: 1em;
+        grid-gap: 0.5em;
         margin-bottom: 5rem;
 
     }
@@ -112,7 +188,7 @@
     .popular-game-template {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        grid-gap: 1em;
+        grid-gap: 0.5em;
         margin-bottom: 5rem;
 
     }
@@ -121,7 +197,7 @@
     .user-game-template {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-gap: 1em;
+        grid-gap: 2rem;
         margin-bottom: 5rem;
     }
 
@@ -163,7 +239,176 @@
     }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1200px) and (max-width: 1399px){
+    .last_tested_games-template {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 1rem;
+        margin-bottom: 5rem;
+    }
+    // Filter Template
+    #games_list {
+        .games_cards {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-gap: 1rem;
+            margin-bottom: 5rem;
+        }
+    }
+
+    // New Games Template
+    .new-game-template {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 0.5em;
+        margin-bottom: 5rem;
+
+    }
+
+    // Popular Games Template
+    .popular-game-template {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 0.5em;
+        margin-bottom: 5rem;
+
+    }
+
+    // User Game Games Template
+    .user-game-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2rem;
+        margin-bottom: 5rem;
+    }
+
+    // Friends Template
+    .friends-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1rem;
+        margin-bottom: 5rem;
+
+    }
+    .friends-games-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2rem;
+        margin-bottom: 5rem;
+
+    }
+
+    //Game Detail Template
+    .expansions-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .dlcs-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .franchises-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1599px) {
+    .last_tested_games-template {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 1rem;
+        margin-bottom: 5rem;
+    }
+    // Filter Template
+    #games_list {
+        .games_cards {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-gap: 1rem;
+            margin-bottom: 5rem;
+        }
+    }
+    // Pagination Template
+    .pagination-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        margin-bottom: 5rem;
+    }
+    // New Games Template
+    .new-game-template {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+
+    }
+
+    // Popular Games Template
+    .popular-game-template {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+
+    }
+
+    // User Game Games Template
+    .user-game-template {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+    }
+
+    // Friends Template
+    .friends-list {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+
+    }
+    .friends-games-template {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1em;
+        margin-bottom: 5rem;
+
+    }
+
+    //Game Detail Template
+    .expansions-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .dlcs-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+
+    .franchises-template {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2em;
+        width: 100%;
+    }
+}
+@media screen and (min-width: 1600px) {
     .last_tested_games-template {
         display: grid;
         grid-template-columns: repeat(5, 1fr);

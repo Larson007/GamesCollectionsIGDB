@@ -5,7 +5,7 @@
 
 {% block body %}
 	<div class="body-content auth-container">
-		<div class="container">
+		<div class="container-fluid desktop-margin">
 
 			{% if is_granted('IS_AUTHENTICATED_FULLY') or is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 				{# L'utilisateur est authentifié, vous pouvez mettre ici le code à exécuter si l'utilisateur est authentifié #}

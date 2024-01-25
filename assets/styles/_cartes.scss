@@ -289,6 +289,7 @@
             align-items: center;
             .carte_footer-release {
                 span {
+                    padding:0.4rem;
                     text-shadow: $text-shadow;
                 }
             }
@@ -339,7 +340,25 @@
     }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1200px) {
+
+@media screen and (max-width: 768px) {
+    .game-carte {
+        .carte_body {
+            width: 60%;
+            height: 100% !important;
+            padding: 0.5rem;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;
+            background-color: #3a3a3a;
+            background-image: radial-gradient(#000000 0.55px, #3a3a3a 0.55px);
+            background-size: 11px 11px;
+        }
+    }
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 1199px) {
     .game-carte {
         height: auto !important; //! Ici on impose la hauteur de la carte
         .carte_body {
@@ -362,18 +381,3 @@
     }
 }
 
-@media screen and (max-width: 768px) {
-    .game-carte {
-        .carte_body {
-            width: 60%;
-            height: 100% !important;
-            padding: 0.5rem;
-            display: flex;
-            flex-flow: column nowrap;
-            justify-content: space-between;
-            background-color: #3a3a3a;
-            background-image: radial-gradient(#000000 0.55px, #3a3a3a 0.55px);
-            background-size: 11px 11px;
-        }
-    }
-}

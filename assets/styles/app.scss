@@ -230,13 +230,13 @@ p {
 
 //********** Margin
 //********************************************/
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 767px) {
+    .desktop-margin {
+        padding: 0.5rem;
+    }
+
     .body-content.menu-open {
         filter: blur(5px);
-    }
-    .containers {
-        margin: 0 auto;
-        padding: 0 0.5rem;
     }
 
     #overlay-connection {
@@ -319,10 +319,9 @@ p {
     }
 }
 
-@media screen and (min-width: 780px) and (max-width: 1200px) {
-    .containers {
-        margin: 0 auto;
-        padding: 0 1rem;
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+    .desktop-margin {
+        padding: 4rem;
     }
 
     footer {
@@ -331,9 +330,23 @@ p {
     }
 }
 
-@media screen and (min-width: 1200px) {
-    .containers {
-        margin: 0 11rem;
-        padding: 0 8rem;
+@media screen and (min-width: 1200px) and (max-width: 1399px) {
+    .desktop-margin {
+        padding: 0 12rem;
+    }
+    .game-margin {
+        margin: 0 12rem;
+    }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1599px) {
+    .desktop-margin {
+        padding: 0 12rem;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .desktop-margin {
+        padding: 0 18rem;
     }
 }
